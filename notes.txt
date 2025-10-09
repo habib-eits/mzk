@@ -1,0 +1,27 @@
+Sales person
+Payment Terms
+Material Availability
+subject
+
+
+
+lpo 
+date
+do/pc#  
+
+project name
+
+payment Terms
+
+
+
+job 
+
+project detail  
+locastion   
+qtn reference
+job completion period
+
+lpo no
+lpo date
+payment Terms
