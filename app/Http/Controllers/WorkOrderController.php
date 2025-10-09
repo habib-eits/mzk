@@ -40,6 +40,9 @@ class WorkOrderController extends Controller
                    
 
                     ->addColumn('action', function ($row) {
+                        $csrf = csrf_field();
+                        $method = method_field('DELETE');
+
                         $btn = '
                             <div class="d-flex align-items-center col-actions">
                                 <div class="dropdown">
@@ -48,30 +51,31 @@ class WorkOrderController extends Controller
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li>
-                                            <a href="'.route('work-order.show', $row->id).'" class="dropdown-item">
+                                            <a href="' . route('work-order.show', $row->id) . '" class="dropdown-item">
                                                 <i class="bx bx-show font-size-16 text-primary me-1"></i> View
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="'.route('work-order.edit', $row->id).'" class="dropdown-item">
+                                            <a href="' . route('work-order.edit', $row->id) . '" class="dropdown-item">
                                                 <i class="bx bx-pencil font-size-16 text-primary me-1"></i> Edit
                                             </a>
                                         </li>
-                                         <li>
-                                            <a href="javascript:void(0)" onclick="deleteCategory(' . $row->id . ')" class="dropdown-item">
-                                                <i class="bx bx-trash font-size-16 text-danger me-1"></i> Delete
-                                            </a>
+                                      
+                                        <li>
+                                            <form action="' . route('work-order.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure you want to delete this work order?\');">
+                                                ' . $csrf . $method . '
+                                                <button type="submit" class="dropdown-item text-danger" >
+                                                    <i class="bx bx-trash font-size-16 text-danger me-1"></i> Delete
+                                                </button>
+                                            </form>
                                         </li>
-                                       
-                                       
                                     </ul>
                                 </div>
                             </div>';
-    
-                   
-                    return $btn;
-                   
+
+                        return $btn;
                     })
+
                     
                     ->rawColumns(['action']) // Mark these columns as raw HTML
                     ->make(true);
@@ -194,9 +198,6 @@ class WorkOrderController extends Controller
     public function destroy(WorkOrder $workOrder)
     {
         $workOrder->delete();
-        return response()->json([
-            'success' => true,
-            'message' => 'Record deleted successfully.',
-        ],200);
+       return redirect()->route('work-order.index')->with('success', 'Work Order deleted successfully.');
     }
 }
