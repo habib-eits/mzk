@@ -453,7 +453,7 @@
         <script id="rendered-js">
             $(document).ready(function() {
                 tinymce.init({
-                    selector: "textarea,.tinymce", // Select all textarea exluding the mceNoEditor class
+                    selector: ".tinymce", // Select all textarea exluding the mceNoEditor class
                     height: 500,
                     menubar: false,
                     plugins: [
