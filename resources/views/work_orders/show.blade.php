@@ -237,7 +237,7 @@
                 <tr>
                     <td style="width: 50%; vertical-align: top;">
                         <div class="logo">
-                            <img class="logo" src="{{ asset('custom/mzk-tech-logo.png') }}" alt="Logo">
+                            @include('components.logo')
                         </div>
                     </td>
                     <td style="width: 50%; vertical-align: top;text-align:right">
@@ -345,8 +345,7 @@
                 <tr>
                     <td style="padding:10px;width: 20%; font-weight: bold;">Signature</td>
                     <td style="padding:10px;width: 30%;border-bottom: 1px solid #000;">
-                        <img src="{{ asset('custom/mzk-sign.png') }}" alt="Authorized Signature"
-                            style="padding:10px;height: 50px;" /><br>
+                        @include('components.signature') <br>
                     </td>
 
                     <td style="padding:10px;width: 20%; font-weight: bold;">Signature</td>
@@ -357,8 +356,7 @@
                 <tr>
                     <td style="padding:10px;width: 20%; font-weight: bold;">Company Stamp</td>
                     <td style="padding:10px;width: 30%;border-bottom: 1px solid #000;">
-                        <img src="{{ asset('custom/mzk-tech-stamp.jpg') }}" alt="Company Stamp"
-                            style="padding:10px;height: 60px;" /><br>
+                        @include('components.stamp') <br>
                     </td>
 
                     <td style="padding:10px;width: 20%; font-weight: bold;">Company Stamp</td>
