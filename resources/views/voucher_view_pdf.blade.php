@@ -106,27 +106,35 @@
         </div>
         <hr>
 
-        <div class="receipt-title" style="color: cornflowerblue">{{ $voucher_master[0]->VoucherTypeName }}</div>
+        <div class="receipt-title" style="color: cornflowerblue">Receipt Voucher</div>
 
         <table class="table-payment">
             <tr>
-                <th>Account</th>
-                <th>Narration</th>
-                <th>Customer</th>
-                <th>Supplier</th>
-                <th>DR</th>
-                <th>CR</th>
+                <th>Voucher No</th>
+                <td>{{ $voucher_master[0]->Voucher }}</td>
+                <th>Date</th>
+                <td>{{ date('d-m-Y', strtotime($voucher_master[0]->Date)) }}</td>
             </tr>
-            @foreach ($voucher_details as $detail)
-                <tr>
-                    <td>{{ $detail->ChartOfAccountName }}</td>
-                    <td>{{ $detail->Narration }}</td>
-                    <td>{{ $detail->PartyName }}</td>
-                    <td>{{ $detail->SupplierName }}</td>
-                    <td class="right">{{ $detail->Debit !== null ? number_format($detail->Debit, 2) : '' }}</td>
-                    <td class="right">{{ $detail->Credit !== null ? number_format($detail->Credit, 2) : '' }}</td>
-                </tr>
-            @endforeach
+            <tr>
+                <th>Received From</th>
+                <td colspan="3">{{ $voucher_master[0]->PartyName }}</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td colspan="3">{{ number_format($voucher_master[0]->Debit, 2) }}</td>
+            </tr>
+            <tr>
+                <th>Payment Mode</th>
+                <td>{{ $voucher_master[0]->VoucherTypeName }}</td>
+                <th>Reference</th>
+                <td>{{ $voucher_details[0]->RefNo }}</td>
+            </tr>
+            <tr>
+                <th>Purpose / Remarks</th>
+                <td colspan="3">
+                    {{ ucwords($voucher_master[0]->Narration, ' ') }}
+                </td>
+            </tr>
         </table>
 
         <!-- Signature and Stamp Area -->

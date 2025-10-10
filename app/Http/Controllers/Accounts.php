@@ -729,19 +729,36 @@ class Accounts extends Controller
         ////////////////////////////END SCRIPT ////////////////////////////////////////////////
         session::put('menu', 'VoucherReport');
         $pagetitle = 'Voucher Report';
-        // dd($request->all());
-        // dd($request->VoucherTypeID);
+       
 
 
         // dd(  $voucher_type);
         $voucher_master = DB::table('v_voucher_master')
-            // ->whereBetween('Date',array($request->StartDate,$request->EndDate))
             ->where('VoucherMstID', $id)
             ->get();
 
 
+        $voucher_details =DB::table('v_voucher_detail')
+            ->where('VoucherMstID', $id)
+            ->get();
 
         $company = DB::table('company')->get();
+        
+        if(in_array($voucher_master[0]->VoucherCode, ['BR','CR']) && count($voucher_details) == 1)
+        {
+            $pdf = PDF::loadView('voucher_view_pdf', compact('voucher_master', 'company','voucher_details'));
+            return $pdf->stream();
+        }    
+        else{
+            $pdf = PDF::loadView('voucher_view', compact('voucher_master', 'company','voucher_details'));
+            return $pdf->stream();
+
+        }
+
+
+
+
+       
 
         return view('voucher_view', compact('pagetitle', 'voucher_master', 'company'));
     }
