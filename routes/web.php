@@ -48,6 +48,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\EstimateController;
 use App\Http\Controllers\OverTimeController;
+use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\SaleOrderController;
 use App\Http\Controllers\WorkOrderController;
 use App\Http\Controllers\SubServiceController;
@@ -85,6 +86,7 @@ Route::group(['middleware' => ['CheckAdmin']], function () {
 
 Route::resource('work-order', WorkOrderController::class);
 Route::resource('default-content', DefaultContentController::class);
+Route::resource('quotation', QuotationController::class);
 
 
 

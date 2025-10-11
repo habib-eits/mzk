@@ -1,5 +1,5 @@
 @extends('template.tmp')
-@section('title', 'Work Order')
+@section('title', '')
 @section('content')
 
 
@@ -15,7 +15,7 @@
                             <div class="page-title-right d-flex">
 
                                 <div class="page-btn">
-                                    <a href="{{ route('work-order.create') }}" class="btn btn-added btn-primary">
+                                    <a href="{{ route('quotation.create') }}" class="btn btn-added btn-primary">
                                         <i class="me-2 bx bx-plus"></i>Add
                                     </a>
                                 </div>
@@ -53,19 +53,18 @@
             var table = $('#table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('work-order.index') }}",
+                ajax: "{{ route('quotation.index') }}",
                 columns: [{
-                        data: 'id'
+                        data: 'InvoiceMasterID'
                     },
                     {
                         data: 'date'
                     },
                     {
-                        data: 'project_name'
-                    },
-
-                    {
                         data: 'party_name'
+                    },
+                    {
+                        data: 'ProjectName'
                     },
 
 
