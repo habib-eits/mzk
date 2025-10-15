@@ -172,6 +172,11 @@ class QuotationController extends Controller
         }
     }
 
+    public function deleteQuotationDetails($invoiceMasterId)
+    {
+        
+    }
+
     /**
      * Display the specified resource.
      *
