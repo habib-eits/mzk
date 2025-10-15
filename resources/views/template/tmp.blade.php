@@ -473,6 +473,13 @@
             });
         </script>
 
+        @if (session('error'))
+            <script script>
+                notyf.error('{{ session('error') }}');
+            </script>
+        @endif
+
+
 </body>
 
 

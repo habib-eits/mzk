@@ -16,9 +16,10 @@ class QuotationDetail extends Model
 
     protected $fillable = [
         'InvoiceMasterID',
+        'Date',
         'ItemID',
         'Description',
-        'UnitID',
+        'UnitName',
         'Rate',
     ];
 }

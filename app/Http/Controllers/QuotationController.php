@@ -23,6 +23,7 @@ class QuotationController extends Controller
     public function index(Request $request)
     {
         
+        
          try{
             if ($request->ajax()) {
                 $data = Quotation::all();
@@ -119,14 +120,14 @@ class QuotationController extends Controller
      */
     public function store(StoreQuotationRequest $request)
     {   
-        
+       
         DB::beginTransaction();
         
         try{
             
             $data = $request->validated();
-            dd(isset($data['InvoiceMasterID']));
-
+            dd($data);
+            
             $quotation = Quotation::updateOrCreate(
                 [
                     'InvoiceMasterID' => $data['InvoiceMasterID']
@@ -142,10 +143,13 @@ class QuotationController extends Controller
                     'Subject' => $data['Subject'],
                     'scope_of_work' => $data['scope_of_work'],
                     'terms_and_conditions' => $data['terms_and_conditions'],
-                ]
-            );
-
-            
+                    ]
+                );
+                
+            if(!empty($data['InvoiceMasterID'])){
+                $this->deleteQuotationDetails($quotation);
+            }
+                
 
             $this->createQuotationDetails($quotation, $data);
 
@@ -172,9 +176,12 @@ class QuotationController extends Controller
         }
     }
 
-    public function deleteQuotationDetails($invoiceMasterId)
+    public function deleteQuotationDetails($quotation)
     {
-        
+        if($quotation){
+            $quotation->details()->delete();            
+        }
+
     }
 
     /**
@@ -223,7 +230,9 @@ class QuotationController extends Controller
      */
     public function destroy(Quotation $quotation)
     {
-        //
+        $quotation->delete();
+        
+       return redirect()->route('quotation.index')->with('success', 'Work Order deleted successfully.');
     }
 
 
@@ -233,6 +242,7 @@ class QuotationController extends Controller
         {
             QuotationDetail::create([
                 'InvoiceMasterID' => $quotation->InvoiceMasterID,
+                'Date' => $quotation->Date,
                 'ItemID' => $itemID,
                 'Description' => $data['Description'][$index],
                 'UnitName' => $data['UnitName'][$index],
