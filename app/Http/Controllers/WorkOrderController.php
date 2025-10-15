@@ -97,14 +97,9 @@ class WorkOrderController extends Controller
      */
     public function create()
     {
-        $defaultScopeOfWork = DefaultContent::where('document_type', 'work_order')
-                              ->where('content_type', 'scope_of_work')
-                              ->pluck('content')
-                              ->first();
-        $defaultTermsAndConditions = DefaultContent::where('document_type', 'work_order')
-                                    ->where('content_type', 'terms_and_conditions')
-                                    ->pluck('content')
-                                    ->first();
+        $defaultScopeOfWork = DefaultContent::getContent('work_order','scope_of_work');
+        $defaultTermsAndConditions = DefaultContent::getContent('work_order', 'terms_and_conditions');
+ 
 
         $parties = DB::table('party')->get();
 

@@ -33,8 +33,11 @@ class StoreQuotationRequest extends FormRequest
             'ProjectName'=> 'nullable' ,
             'Attension'=> 'nullable' ,
             'Subject'=> 'nullable' ,
+            'scope_of_work'=> 'nullable' ,
+            'terms_and_conditions'=> 'nullable' ,
 
              // Validate details array
+            'ItemID' => 'required|array|min:1',
             'ItemID.*' => 'required|integer',
             'Description.*' => 'required|string',
             'UnitName.*' => 'required|string',
@@ -46,8 +49,9 @@ class StoreQuotationRequest extends FormRequest
     public function messages()
     {
         return [
-            'ItemID.*required' => 'Item is required for all details',
-            'Rate.*required' => 'Rate is required for all details',
+            'ItemID.required' => 'At least one item detail is required',
+            'ItemID.*.required' => 'Item is required for all details',
+            'Rate.*.required' => 'Rate is required for all details',
         ];
     }
 }

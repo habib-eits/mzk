@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('Attension')->nullable();
             $table->string('ProjectName')->nullable();
             $table->string('TenderNo')->nullable();
+            $table->text('scope_of_work')->nullable();
+            $table->text('terms_and_conditions')->nullable();
         });
     }
 
@@ -32,6 +34,8 @@ return new class extends Migration
                 'Attension', 
                 'ProjectName',
                 'TenderNo',
+                'scope_of_work',
+                'terms_and_conditions',
             ]);
         });
     }

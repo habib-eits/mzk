@@ -24,6 +24,8 @@ class Quotation extends Model
         'ProjectName',
         'Attension',
         'Subject',
+        'scope_of_work',
+        'terms_and_conditions',
     ];
 
 

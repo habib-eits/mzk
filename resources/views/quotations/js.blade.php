@@ -1,0 +1,99 @@
+ <script>
+     $(document).ready(function() {
+         let id = @json($quotation->InvoiceMasterID);
+         if (id == null) {
+             addRow();
+         }
+     });
+     $('#create-update-form').on('submit', function(e) {
+         e.preventDefault();
+         let formData = new FormData(this);
+         $.ajax({
+             type: "POST",
+             url: "{{ route('quotation.store') }}",
+             dataType: 'json',
+             contentType: false,
+             processData: false,
+             cache: false,
+             data: formData,
+
+             success: function(response) {
+
+                 $('#create-update-form')[0].reset(); // Reset all form data
+
+                 notyf.success({
+                     message: response.message,
+                     duration: 3000
+                 });
+
+                 setTimeout(function() {
+                     window.location.href = "{{ route('quotation.index') }}";
+                 }, 1500); // Redirect after 1.5 seconds
+             },
+             error: function(e) {
+                 const msg = e.responseJSON?.errors ?
+                     Object.values(e.responseJSON.errors)[0][0] :
+                     e.responseJSON?.message || 'An error occurred';
+
+                 notyf.error({
+                     message: msg,
+                     duration: 5000
+                 });
+             }
+
+         });
+     });
+
+
+     function addRow() {
+         const table = $('#table tbody');
+         const row = `
+        <tr>
+            
+            <td>
+                <select name="ItemID[]" class="form-control select2" style="width: 100%">
+                    <option value="">Select</option>
+                    @foreach ($items as $item)
+                        <option value="{{ $item->ItemID }}">{{ $item->ItemName }}</option>
+                    @endforeach
+                </select>
+
+                
+            </td>
+            <td> <textarea name="Description[]" rows="1" class="form-control"></textarea></td>
+            <td>
+                <select name="UnitName[]" class="form-select form-control-sm select2"
+                    style="width: 100%">
+                    <option value="">Select</option>
+                    @foreach ($units as $unit)
+                        <option value="{{ $unit->UnitName }}">{{ $unit->UnitName }}</option>
+                    @endforeach
+                </select>
+            </td>
+            <td>
+                <input type="number" name="Rate[]" class="form-control">
+            </td>
+            <td>
+                <button class="btn btn-danger btn-sm" onclick="removeRow(this, event)">
+                    <span class="bx bx-trash"></span> 
+                </button>
+            </td>
+           
+        </tr>`;
+
+         table.append(row);
+         $('.select2').select2();
+     }
+
+     function removeRow(row, e) {
+         e.preventDefault();
+         if (confirm('Are you sure you want to remove row')) {
+             $(row).closest('tr').remove();
+             if ($('#table tbody tr').length == 0) {
+                 addRow();
+             }
+         }
+
+
+     }
+ </script>

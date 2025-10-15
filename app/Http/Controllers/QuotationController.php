@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreQuotationDetailRequest;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\StoreQuotationRequest;
-use App\Http\Requests\UpdateQuotationRequest;
+use App\Models\DefaultContent;
 use App\Models\QuotationDetail;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreQuotationRequest;
+use App\Http\Requests\UpdateQuotationRequest;
+use App\Http\Requests\StoreQuotationDetailRequest;
 
 class QuotationController extends Controller
 {
@@ -86,9 +87,9 @@ class QuotationController extends Controller
 
         }catch (\Exception $e){
 
-            dd($e->getMessage());
+            // Log the exception and return a friendly message instead of dumping
 
-            return back()->with('flash-danger', $e->getMessage());
+            return back()->with('flash-danger', 'Something went wrong while loading quotations.');
         }
     }
 
@@ -99,12 +100,14 @@ class QuotationController extends Controller
      */
     public function create()
     {
- 
+        
         return view('quotations.create',[
             'parties' => DB::table('party')->get(),
             'items' => DB::table('item')->get(),
             'units' => DB::table('unit')->get(),
             'quotation' => new Quotation,
+            'defaultScopeOfWork' => DefaultContent::getContent('quotation','scope_of_work'),
+            'defaultTermsAndConditions' => DefaultContent::getContent('quotation','terms_and_conditions')
         ]);
     }
 
@@ -116,12 +119,13 @@ class QuotationController extends Controller
      */
     public function store(StoreQuotationRequest $request)
     {   
-       
+        
         DB::beginTransaction();
-
+        
         try{
-
+            
             $data = $request->validated();
+            dd(isset($data['InvoiceMasterID']));
 
             $quotation = Quotation::updateOrCreate(
                 [
@@ -136,20 +140,16 @@ class QuotationController extends Controller
                     'ProjectName' => $data['ProjectName'],
                     'Attension' => $data['Attension'],
                     'Subject' => $data['Subject'],
+                    'scope_of_work' => $data['scope_of_work'],
+                    'terms_and_conditions' => $data['terms_and_conditions'],
                 ]
             );
 
-            foreach($data['ItemID'] as $index => $itemID)
-            {
-                QuotationDetail::create([
-                    'InvoiceMasterID' => $quotation->InvoiceMasterID,
-                    'ItemID' => $itemID,
-                    'Description' => $data['Description'][$index],
-                    'UnitName' => $data['UnitName'][$index],
-                    'Rate' => $data['Rate'][$index],
-                ]);
+            
 
-            }
+            $this->createQuotationDetails($quotation, $data);
+
+            
 
             
             DB::commit();
@@ -203,6 +203,8 @@ class QuotationController extends Controller
             'items' => DB::table('item')->get(),
             'units' => DB::table('unit')->get(),
             'quotation' => $quotation,
+            'defaultScopeOfWork' => $quotation->scope_of_work,
+            'defaultTermsAndConditions' => $quotation->terms_and_conditions
         ]);
     }
 
@@ -217,5 +219,21 @@ class QuotationController extends Controller
     public function destroy(Quotation $quotation)
     {
         //
+    }
+
+
+    protected function createQuotationDetails(Quotation $quotation,array $data)
+    {
+        foreach($data['ItemID'] as $index => $itemID)
+        {
+            QuotationDetail::create([
+                'InvoiceMasterID' => $quotation->InvoiceMasterID,
+                'ItemID' => $itemID,
+                'Description' => $data['Description'][$index],
+                'UnitName' => $data['UnitName'][$index],
+                'Rate' => $data['Rate'][$index],
+            ]);
+
+        }
     }
 }

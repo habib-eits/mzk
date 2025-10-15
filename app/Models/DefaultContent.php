@@ -15,4 +15,13 @@ class DefaultContent extends Model
         'title',
         'content',
     ];
+
+    public static function getContent($documentType, $contentType)
+    {
+        return self::where('document_type', $documentType)
+                    ->where('content_type', $contentType)
+                    ->pluck('content')
+                    ->first();
+    }
+
 }
