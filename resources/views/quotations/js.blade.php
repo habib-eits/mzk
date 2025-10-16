@@ -7,6 +7,10 @@
      });
      $('#create-update-form').on('submit', function(e) {
          e.preventDefault();
+
+         // Disable all clickable elements
+         $('button, a').addClass('disabled').prop('disabled', true);
+         tinymce.triggerSave();
          let formData = new FormData(this);
          $.ajax({
              type: "POST",
@@ -21,14 +25,16 @@
 
                  $('#create-update-form')[0].reset(); // Reset all form data
 
+                 setTimeout(function() {
+                     window.location.href = "{{ route('quotation.index') }}";
+                 }, 1500); // Redirect after 1.5 seconds
+
                  notyf.success({
                      message: response.message,
                      duration: 3000
                  });
 
-                 setTimeout(function() {
-                     window.location.href = "{{ route('quotation.index') }}";
-                 }, 1500); // Redirect after 1.5 seconds
+
              },
              error: function(e) {
                  const msg = e.responseJSON?.errors ?
@@ -39,9 +45,31 @@
                      message: msg,
                      duration: 5000
                  });
+                 // Enable all clickable elements
+                 $('button, a').removeClass('disabled').prop('disabled', false);
              }
 
          });
+     });
+
+     $('#default_scope_of_work_btn').on('click', function() {
+
+         if (confirm(
+                 'Are you sure you want to replace the current content with the default content it cannot be undone?'
+             )) {
+             const defaultContent = @json($defaultScopeOfWork);
+             tinymce.get('scope_of_work').setContent(defaultContent);
+             tinymce.triggerSave();
+         }
+     });
+     $('#default_terms_and_conditions_btn').on('click', function() {
+         if (confirm(
+                 'Are you sure you want to replace the current content with the default content it cannot be undone?'
+                 )) {
+             const defaultContent = @json($defaultTermsAndConditions);
+             tinymce.get('terms_and_conditions').setContent(defaultContent);
+             tinymce.triggerSave();
+         }
      });
 
 

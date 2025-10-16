@@ -65,11 +65,11 @@
 
                     <div class="col-6">
                         <h4>Section 1</h4>
-                        <textarea class="form-control tinymce" name="scope_of_work" placeholder="">{!! $defaultScopeOfWork !!} </textarea>
+                        <textarea class="form-control tinymce" name="scope_of_work" placeholder="">{!! $defaultScopeOfWork !!}</textarea>
                     </div>
                     <div class="col-6">
                         <h4>Section 2</h4>
-                        <textarea class="form-control tinymce" name="terms_and_conditions" placeholder="">{!! $defaultTermsAndConditions !!} </textarea>
+                        <textarea class="form-control tinymce" name="terms_and_conditions" placeholder="">{!! $defaultTermsAndConditions !!}</textarea>
                     </div>
                 </div>
                 <br>
@@ -97,6 +97,8 @@
 
         $('#create-update-form').on('submit', function(e) {
             e.preventDefault();
+            // Force TinyMCE to update the textarea values
+            tinymce.triggerSave();
             let formData = new FormData(this);
             $.ajax({
                 type: "POST",

@@ -108,7 +108,9 @@ class QuotationController extends Controller
             'units' => DB::table('unit')->get(),
             'quotation' => new Quotation,
             'defaultScopeOfWork' => DefaultContent::getContent('quotation','scope_of_work'),
-            'defaultTermsAndConditions' => DefaultContent::getContent('quotation','terms_and_conditions')
+            'defaultTermsAndConditions' => DefaultContent::getContent('quotation','terms_and_conditions'),
+            'scopeOfWork' => DefaultContent::getContent('quotation','scope_of_work'),// setting for create
+            'termsAndConditions' => DefaultContent::getContent('quotation','terms_and_conditions'),
         ]);
     }
 
@@ -126,7 +128,6 @@ class QuotationController extends Controller
         try{
             
             $data = $request->validated();
-            dd($data);
             
             $quotation = Quotation::updateOrCreate(
                 [
@@ -192,11 +193,14 @@ class QuotationController extends Controller
      */
     public function show(Quotation $quotation)
     {
-        return view('quotations.create',[
-            'parties' => DB::table('party')->get(),
-            'items' => DB::table('item')->get(),
-            'units' => DB::table('unit')->get(),
+        $quotation->load('details');
+
+        $groupedDetails = $quotation->details->groupBy('ItemID');
+
+        return view('quotations.show',[
             'quotation' => $quotation,
+            'groupedDetails' => $groupedDetails,
+            'company' => DB::table('company')->first(),
         ]);
     }
 
@@ -215,8 +219,10 @@ class QuotationController extends Controller
             'items' => DB::table('item')->get(),
             'units' => DB::table('unit')->get(),
             'quotation' => $quotation,
-            'defaultScopeOfWork' => $quotation->scope_of_work,
-            'defaultTermsAndConditions' => $quotation->terms_and_conditions
+            'defaultScopeOfWork' => DefaultContent::getContent('quotation','scope_of_work'),
+            'defaultTermsAndConditions' => DefaultContent::getContent('quotation','terms_and_conditions'),
+            'scopeOfWork' => $quotation->scope_of_work,
+            'termsAndConditions' => $quotation->terms_and_conditions,
         ]);
     }
 

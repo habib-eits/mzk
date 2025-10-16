@@ -127,7 +127,7 @@ class Accounts extends Controller
 
 
 
-            return redirect('Dashboard')->with('error', 'Welcome to ' . session::get('CompanyName') . ' Software')->with('class', 'success');
+            return redirect('Dashboard')->with('success', 'Welcome to ' . session::get('CompanyName') . ' Software')->with('class', 'success');
                 } else {
                     //session::flash('error', 'Invalid username or Password. Try again');
                     return redirect('Login')->withinput($request->all())->with('error', 'Invalid username or Password. Try again')->with('class', 'danger');

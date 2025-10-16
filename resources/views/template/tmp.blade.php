@@ -479,6 +479,12 @@
             </script>
         @endif
 
+        @if (session('success'))
+            <script script>
+                notyf.success('{{ session('success') }}');
+            </script>
+        @endif
+
 
 </body>
 

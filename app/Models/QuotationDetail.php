@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Item;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class QuotationDetail extends Model
 {
@@ -22,4 +23,10 @@ class QuotationDetail extends Model
         'UnitName',
         'Rate',
     ];
+
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class,'ItemID');
+    }
 }

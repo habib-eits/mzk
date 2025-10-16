@@ -172,12 +172,14 @@
                     <div class="d-flex ">
 
                         <div class="col-6">
-                            <h4>Section 1</h4>
-                            <textarea class="form-control tinymce" name="scope_of_work" placeholder="">{!! $defaultScopeOfWork !!} </textarea>
+                            <h4>Section 1 <span id="default_scope_of_work_btn" class="btn btn-sm btn-primary">Default
+                                    Content</span></h4>
+                            <textarea class="form-control tinymce" id="scope_of_work" name="scope_of_work" placeholder="">{!! $scopeOfWork !!} </textarea>
                         </div>
                         <div class="col-6">
-                            <h4>Section 2</h4>
-                            <textarea class="form-control tinymce" name="terms_and_conditions" placeholder="">{!! $defaultTermsAndConditions !!} </textarea>
+                            <h4>Section 2 <span id="default_terms_and_conditions_btn"
+                                    class="btn btn-sm btn-primary">Default Content</span></h4>
+                            <textarea class="form-control tinymce" id="terms_and_conditions" name="terms_and_conditions" placeholder="">{!! $termsAndConditions !!} </textarea>
                         </div>
                     </div>
                     <br>
