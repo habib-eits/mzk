@@ -8,13 +8,16 @@
     <style>
         @page {
             size: A4;
-            margin: 10mm;
             font-family: Arial, Helvetica, sans-serif;
+            margin: 10mm 10mm 5mm 10mm;
+            /* top, right, bottom, left */
+
 
 
         }
 
-        body {
+
+        body .container {
             font-family: 'Montserrat', sans-serif;
             /*font-family: 'Raleway', sans-serif;*/
             /*font-family: 'Cormorant Garamond', serif;*/
@@ -215,6 +218,8 @@
 </head>
 
 <body>
+
+    @include('components.pdf_footer')
     <div class="container">
 
         <!-- Header -->
@@ -261,7 +266,7 @@
                 <td class="label">To:</td>
                 <td class="value fw-bold">
                     {{ $quotation->Party->PartyName }}<br>
-                    <small>ABU DHABI U.A.E</small>
+                    {{-- <small>ABU DHABI U.A.E</small> --}}
                 </td>
             </tr>
             <tr>
@@ -292,44 +297,47 @@
             Interlocking tiles & Kerb stone with Blinding Hunching.
         </p> --}}
         </div>
-
-        @foreach ($groupedDetails as $detailGroup)
-            <table class="items-table">
-                <thead>
-                    <tr>
-                        <th colspan="4">{{ $detailGroup->first()->item->ItemName }}</th>
-                    </tr>
-                    <tr>
-                        <th style="width: 10%;">S/No</th>
-                        <th style="width: 50%;">Work Description</th>
-                        <th style="width: 20%;">Unit</th>
-                        <th style="width: 20%;">Rate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($detailGroup as $index => $detail)
+        <div>
+            @foreach ($detailsGroupedByServiceType as $serviceTypeDetails)
+                <table class="items-table" style="page-break-inside: avoid">
+                    <thead>
                         <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $detail->Description }}</td>
-                            <td class="text-center">{{ $detail->UnitName }}</td>
-                            <td class="text-right">{{ number_format($detail->Rate, 2) }}</td>
+                            <th colspan="4">{{ $serviceTypeDetails->first()->serviceType->name }}</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @endforeach
+                        <tr>
+                            <th style="width: 5%;">S/No</th>
+                            <th style="width: 50%;">Item</th>
+                            <th style="width: 20%;">Unit</th>
+                            <th style="width: 20%;">Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($serviceTypeDetails as $index => $detail)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $detail->item->ItemName . ' ' . $detail->Description }}</td>
+                                <td class="text-center">{{ $detail->UnitName }}</td>
+                                <td class="text-right">{{ number_format($detail->Rate, 2) }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endforeach
+        </div>
 
         <!-- Notice -->
         <div class="notice-box">
             All The Above Prices Excluding 5% VAT
         </div>
 
-
+        <div>
+            {!! $quotation->scope_of_work !!}
+        </div>
 
         <!-- Terms and Payment -->
         <div style="page-break-inside: avoid">
 
-
+            {!! $quotation->terms_and_conditions !!}
             <!-- Signoff -->
             <h3><i>Kind Regards</i></h3>
             <h3>{{ strtoupper($company->Name) }}</h3>

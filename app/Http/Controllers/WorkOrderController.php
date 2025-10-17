@@ -97,15 +97,17 @@ class WorkOrderController extends Controller
      */
     public function create()
     {
-        $defaultScopeOfWork = DefaultContent::getContent('work_order','scope_of_work');
-        $defaultTermsAndConditions = DefaultContent::getContent('work_order', 'terms_and_conditions');
- 
 
-        $parties = DB::table('party')->get();
+        return view('work_orders.create', [
 
-        $workOrder = new WorkOrder();
+            'defaultScopeOfWork' => DefaultContent::getContent('work_order','scope_of_work'),
+            'defaultTermsAndConditions' => DefaultContent::getContent('work_order', 'terms_and_conditions'),
+            'scopeOfWork' => DefaultContent::getContent('work_order','scope_of_work'),// setting for create
+            'termsAndConditions' => DefaultContent::getContent('work_order','terms_and_conditions'),
+            'parties' => DB::table('party')->get(),
+            'workOrder' => new WorkOrder(),
 
-        return view('work_orders.create', compact('defaultScopeOfWork', 'defaultTermsAndConditions', 'parties','workOrder'));
+        ]);
     }
 
     /**
@@ -176,11 +178,16 @@ class WorkOrderController extends Controller
      */
     public function edit(WorkOrder $workOrder)
     {
-        $parties = DB::table('party')->get();
-        $defaultScopeOfWork = $workOrder->scope_of_work;
-        $defaultTermsAndConditions = $workOrder->terms_and_conditions;
+        return view('work_orders.create', [
 
-        return view('work_orders.create', compact('defaultScopeOfWork', 'defaultTermsAndConditions', 'parties','workOrder'));
+            'defaultScopeOfWork' => DefaultContent::getContent('work_order','scope_of_work'),
+            'defaultTermsAndConditions' => DefaultContent::getContent('work_order', 'terms_and_conditions'),
+            'scopeOfWork' => $workOrder->scope_of_work,
+            'termsAndConditions' => $workOrder->terms_and_conditions,
+            'parties' => DB::table('party')->get(),
+            'workOrder' => $workOrder,
+
+        ]);    
     }
 
   

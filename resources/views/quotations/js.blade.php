@@ -65,7 +65,7 @@
      $('#default_terms_and_conditions_btn').on('click', function() {
          if (confirm(
                  'Are you sure you want to replace the current content with the default content it cannot be undone?'
-                 )) {
+             )) {
              const defaultContent = @json($defaultTermsAndConditions);
              tinymce.get('terms_and_conditions').setContent(defaultContent);
              tinymce.triggerSave();
@@ -77,7 +77,14 @@
          const table = $('#table tbody');
          const row = `
         <tr>
-            
+            <td>
+                <select name="service_type_id[]" class="form-control select2" style="width: 100%">
+                    <option value="">Select</option>
+                    @foreach ($serviceTypes as $service)
+                        <option value="{{ $service->id }}">{{ $service->name }}</option>
+                    @endforeach
+                </select>
+            </td>
             <td>
                 <select name="ItemID[]" class="form-control select2" style="width: 100%">
                     <option value="">Select</option>
@@ -85,8 +92,6 @@
                         <option value="{{ $item->ItemID }}">{{ $item->ItemName }}</option>
                     @endforeach
                 </select>
-
-                
             </td>
             <td> <textarea name="Description[]" rows="1" class="form-control"></textarea></td>
             <td>

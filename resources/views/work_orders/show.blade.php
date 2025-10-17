@@ -8,7 +8,7 @@
         @page {
             size: A4;
             /* Half A4 portrait */
-            margin: 10mm;
+            margin: 10mm 10mm 5mm 10mm;
         }
 
         body {
@@ -231,6 +231,7 @@
 </head>
 
 <body>
+    @include('components.pdf_footer')
     <div class="container">
         <div class="header">
             <table width="100%" style="border-collapse: collapse;">

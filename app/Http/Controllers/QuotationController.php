@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreQuotationRequest;
 use App\Http\Requests\UpdateQuotationRequest;
 use App\Http\Requests\StoreQuotationDetailRequest;
+use App\Models\ServiceType;
 
 class QuotationController extends Controller
 {
@@ -105,6 +106,7 @@ class QuotationController extends Controller
         return view('quotations.create',[
             'parties' => DB::table('party')->get(),
             'items' => DB::table('item')->get(),
+            'serviceTypes' => ServiceType::all(),
             'units' => DB::table('unit')->get(),
             'quotation' => new Quotation,
             'defaultScopeOfWork' => DefaultContent::getContent('quotation','scope_of_work'),
@@ -195,13 +197,21 @@ class QuotationController extends Controller
     {
         $quotation->load('details');
 
-        $groupedDetails = $quotation->details->groupBy('ItemID');
+        $detailsGroupedByServiceType = $quotation->details->groupBy('service_type_id');
 
-        return view('quotations.show',[
+        $pdf = PDF::loadView('quotations.show',[
             'quotation' => $quotation,
-            'groupedDetails' => $groupedDetails,
+            'detailsGroupedByServiceType' => $detailsGroupedByServiceType,
             'company' => DB::table('company')->first(),
         ]);
+
+        return $pdf->stream($quotation->ReferenceNo.'.pdf');
+
+        // return view('quotations.show',[
+        //     'quotation' => $quotation,
+        //     'detailsGroupedByServiceType' => $detailsGroupedByServiceType,
+        //     'company' => DB::table('company')->first(),
+        // ]);
     }
 
     /**
@@ -218,6 +228,7 @@ class QuotationController extends Controller
             'parties' => DB::table('party')->get(),
             'items' => DB::table('item')->get(),
             'units' => DB::table('unit')->get(),
+            'serviceTypes' => ServiceType::all(),
             'quotation' => $quotation,
             'defaultScopeOfWork' => DefaultContent::getContent('quotation','scope_of_work'),
             'defaultTermsAndConditions' => DefaultContent::getContent('quotation','terms_and_conditions'),
@@ -250,6 +261,7 @@ class QuotationController extends Controller
                 'InvoiceMasterID' => $quotation->InvoiceMasterID,
                 'Date' => $quotation->Date,
                 'ItemID' => $itemID,
+                'service_type_id' => $data['service_type_id'][$index],
                 'Description' => $data['Description'][$index],
                 'UnitName' => $data['UnitName'][$index],
                 'Rate' => $data['Rate'][$index],

@@ -101,8 +101,9 @@
                                 <table id="table" class="table">
                                     <thead>
                                         <tr>
+                                            <th style="width: 15%">Service</th>
                                             <th style="width: 20%">Item</th>
-                                            <th style="width: 45%">Work Description</th>
+                                            <th style="width: 30%">Work Description</th>
                                             <th style="width: 15%">Unit</th>
                                             <th style="width: 15%">Rate</th>
                                             <th style="width: 5%"></th>
@@ -112,6 +113,18 @@
                                     <tbody>
                                         @foreach ($quotation->details as $detail)
                                             <tr>
+
+                                                <td>
+                                                    <select name="service_type_id[]" class="form-control select2"
+                                                        style="width: 100%">
+                                                        <option value="">Select</option>
+                                                        @foreach ($serviceTypes as $service)
+                                                            <option
+                                                                {{ $service->id == $detail->service_type_id ? 'selected' : '' }}
+                                                                value="{{ $service->id }}">{{ $service->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
                                                 <td>
                                                     <select name="ItemID[]" class="form-control select2"
                                                         style="width: 100%">
@@ -122,8 +135,6 @@
                                                                 value="{{ $item->ItemID }}">{{ $item->ItemName }}</option>
                                                         @endforeach
                                                     </select>
-
-
                                                 </td>
                                                 <td>
                                                     <textarea name="Description[]" rows="1" class="form-control">{{ $detail->Description }}</textarea>
@@ -146,7 +157,8 @@
                                                         value="{{ $detail->Rate }}">
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-danger btn-sm" onclick="removeRow(this, event)">
+                                                    <button class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(this, event)">
                                                         <span class="bx bx-trash"></span>
                                                     </button>
                                                 </td>

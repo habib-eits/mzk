@@ -142,7 +142,7 @@ $pagetitle = 'Company';
         $pagetitle = 'Company';
 
         $company = DB::table('company')->get();
-        return redirect('Company')->with('error', 'Save Successfully.')->with('class', 'success');
+        return redirect('Company')->with('success', 'Save Successfully.')->with('class', 'success');
     }
     public  function CompanyDelete($id)
     {

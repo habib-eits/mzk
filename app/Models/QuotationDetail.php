@@ -19,6 +19,7 @@ class QuotationDetail extends Model
         'InvoiceMasterID',
         'Date',
         'ItemID',
+        'service_type_id',
         'Description',
         'UnitName',
         'Rate',
@@ -28,5 +29,9 @@ class QuotationDetail extends Model
     public function item()
     {
         return $this->belongsTo(Item::class,'ItemID');
+    }
+    public function serviceType()
+    {
+        return $this->belongsTo(ServiceType::class,'service_type_id');
     }
 }

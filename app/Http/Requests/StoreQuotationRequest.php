@@ -38,6 +38,7 @@ class StoreQuotationRequest extends FormRequest
 
              // Validate details array
             'ItemID' => 'required|array|min:1',
+            'service_type_id.*' => 'required|integer',
             'ItemID.*' => 'required|integer',
             'Description.*' => 'required|string',
             'UnitName.*' => 'required|string',
@@ -50,6 +51,7 @@ class StoreQuotationRequest extends FormRequest
     {
         return [
             'ItemID.required' => 'At least one item detail is required',
+            'service_type_id.*.required' => 'Service Type is required for all details',
             'ItemID.*.required' => 'Item is required for all details',
             'Rate.*.required' => 'Rate is required for all details',
         ];
