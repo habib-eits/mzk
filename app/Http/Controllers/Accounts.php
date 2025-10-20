@@ -623,7 +623,7 @@ class Accounts extends Controller
         }
         // end for each
 
-        return redirect('Voucher')->with('error', 'Record Saved')->with('class', 'success');
+        return redirect('Voucher')->with('success', 'Record Saved');
     }
 
     public  function VoucherEdit($id)
@@ -717,7 +717,7 @@ class Accounts extends Controller
 
 
 
-        return redirect('Voucher')->with('error', 'Record Updated')->with('class', 'success');
+        return redirect('Voucher')->with('success', 'Record Updated');
     }
     public function VoucherView($id)
     {
