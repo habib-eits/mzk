@@ -83,7 +83,7 @@ Route::group(['middleware' => ['CheckAdmin']], function () {
 
 
 
-//------------------------------------------------------------
+//-------------MZK Project--------------------
 
 Route::resource('work-order', WorkOrderController::class);
 Route::resource('default-content', DefaultContentController::class);
@@ -94,6 +94,12 @@ Route::resource('service-type', ServiceTypeController::class);
 
 //------------------------------------------------------------
 
+Route::get('artisan-migrate', function () {
+
+        /* php artisan migrate */
+        Artisan::call('migrate');
+        return Artisan::output(); // shows the actual output
+    });
 
 
 
