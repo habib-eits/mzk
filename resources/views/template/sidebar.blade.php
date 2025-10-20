@@ -181,12 +181,12 @@
 
                             </ul>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="{{ URL('/Document') }}" class="waves-effect">
                                 <i class="mdi mdi-database-import-outline"></i>
                                 <span key="t-calendar">All Documents </span>
                             </a>
-                        </li>
+                        </li> --}}
 
                         <li>
                             <a href="{{ URL('/Fleet') }}" class="waves-effect">
@@ -207,8 +207,8 @@
                                 </li>
                                 <li><a href="{{ URL('/Departments') }}" key="t-products">Departments</a></li>
                                 <li><a href="{{ URL('/JobTitle') }}" key="t-products">Job Title</a></li>
-                                <li><a href="{{ URL('/Letter') }}" key="t-products">Letter Templates</a></li>
-                                <li><a href="{{ URL('/Team') }}" key="t-products">Team Structure</a></li>
+                                {{-- <li><a href="{{ URL('/Letter') }}" key="t-products">Letter Templates</a></li> --}}
+                                {{-- <li><a href="{{ URL('/Team') }}" key="t-products">Team Structure</a></li> --}}
                                 <li><a href="{{ URL('/Users') }}" key="t-products">Users</a></li>
                                 <!-- <li><a href="{{ URL('/Role') }}" key="t-products">User Rights & Control</a></li>  -->
 
@@ -216,19 +216,19 @@
                             </ul>
                         </li>
 
-                        <li>
+                        {{-- <li>
                             <a href="{{ URL('/DailyReport') }}" class="waves-effect">
                                 <i class="bx bx-file"></i>
                                 <span key="t-calendar">Daily Report</span>
                             </a>
-                        </li>
+                        </li> --}}
 
-                        <li>
+                        {{-- <li>
                             <a href="{{ URL('/NoticeBoard') }}" class="waves-effect">
                                 <i class="bx bx-file"></i>
                                 <span key="t-calendar">Notice Board</span>
                             </a>
-                        </li>
+                        </li> --}}
 
 
 
@@ -361,14 +361,14 @@
                         <li><a key="t-products" href="{{ URL('/ReconcileReport') }}">Bank Reconciliation</a>
 
                         <li><a key="t-products" href="{{ URL('/InvoiceSummary') }}">Invoice Summary list</a></li>
-                        <li><a key="t-products" href="{{ URL('/Inventory') }}">Stock Inventory</a>
-                            <!-- <li><a key="t-products" href="{{ URL('/TicketRegister') }}">Invoice Detail</a></li> -->
+                        {{-- <li><a key="t-products" href="{{ URL('/Inventory') }}">Stock Inventory</a> --}}
+                        <!-- <li><a key="t-products" href="{{ URL('/TicketRegister') }}">Invoice Detail</a></li> -->
 
 
                     </ul>
                 </li>
 
-                <li>
+                {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-folder font-size-16 text-warning me-2"></i>
                         <span key="t-ecommerce">Documents</span>
@@ -381,15 +381,15 @@
 
 
                     </ul>
-                </li>
+                </li> --}}
 
-                <li>
+                {{-- <li>
                     <a href="{{ URL('/Backup') }}" class="waves-effect">
                         <i class="mdi mdi-database-export"></i>
                         <span key="t-calendar">
                             DB Backup</span>
                     </a>
-                </li>
+                </li> --}}
 
 
                 <li>
