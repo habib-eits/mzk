@@ -32,7 +32,7 @@
                                     <thead>
                                         <tr>
                                             <th width="6%">ID</th>
-                                            <th width="84%">Package Name</th>
+                                            <th width="84%">Name</th>
                                             <th width="84%">Status</th>
 
                                             <th>Action</th>
@@ -65,7 +65,7 @@
                                         <div class="row">
                                             <div class="clearfix"></div>
                                             <div class="col-md-12 mb-1">
-                                                <label class="form-label">Package Name</label>
+                                                <label class="form-label">Name</label>
                                                 <input type="text" name="name" id="name" class="form-control">
                                             </div>
 
@@ -105,9 +105,12 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('service-type.index') }}",
-                columns: [
-                    {   data: 'id' },
-                    {   data: 'name' },
+                columns: [{
+                        data: 'id'
+                    },
+                    {
+                        data: 'name'
+                    },
                     {
                         data: 'is_active',
                         render: function(data, type, row) {

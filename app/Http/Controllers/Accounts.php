@@ -742,7 +742,7 @@ class Accounts extends Controller
             ->where('VoucherMstID', $id)
             ->get();
 
-        $company = DB::table('company')->get();
+        $company = DB::table('company')->first();
         
         if(in_array($voucher_master[0]->VoucherCode, ['BR','CR']) && count($voucher_details) == 1)
         {
