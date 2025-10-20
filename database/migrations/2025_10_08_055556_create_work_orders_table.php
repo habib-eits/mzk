@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('date')->nullable();
             $table->unsignedBigInteger('party_id')->nullable();
             $table->string('location')->nullable();
+            $table->string('TRN')->nullable();
 
             $table->text('scope_of_work')->nullable();
             $table->text('terms_and_conditions')->nullable();

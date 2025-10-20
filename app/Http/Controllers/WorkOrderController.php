@@ -134,6 +134,7 @@ class WorkOrderController extends Controller
             'scope_of_work' => $data['scope_of_work'],
             'terms_and_conditions' => $data['terms_and_conditions'],
             'location' => $data['location'],
+            'TRN' => $data['TRN'],
         ]);
 
 

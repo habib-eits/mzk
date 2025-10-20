@@ -31,6 +31,7 @@ class StoreWorkOrderRequest extends FormRequest
             'scope_of_work' => 'nullable|string',
             'terms_and_conditions' => 'nullable|string',
             'location' => 'nullable|string',
+            'TRN' => 'nullable|integer',
         ];
     }
 }

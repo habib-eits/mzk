@@ -41,7 +41,7 @@
                                     {{-- Example options, replace with dynamic data as needed --}}
                                     @foreach ($parties as $party)
                                         <option @selected($workOrder->party_id == $party->PartyID) value="{{ $party->PartyID }}"
-                                            data-address = "{{ $party->Address }} ">
+                                            data-address = "{{ $party->Address }} " data-TRN = "{{ $party->TRN }} ">
                                             {{ $party->PartyName }} </option>
                                     @endforeach
                                 </select>
@@ -54,6 +54,15 @@
                             <div class="col-sm-8">
                                 <input type="text" id="location" class="form-control" name="location"
                                     value="{{ $workOrder->location }}">
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <div class="col-sm-4">
+                                <label class="col-form-label" for="">TRN</label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="text" id="TRN" class="form-control" name="TRN"
+                                    value="{{ $workOrder->TRN }}">
                             </div>
                         </div>
                     </div>
@@ -93,6 +102,8 @@
             $('#party_id').on('change', function() {
                 var address = $(this).find('option:selected').data('address') || '';
                 $('#location').val($.trim(address));
+                var trn = $(this).find('option:selected').data('trn') || '';
+                $('#TRN').val($.trim(trn));
             });
         });
 

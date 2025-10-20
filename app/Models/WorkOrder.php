@@ -15,7 +15,8 @@ class WorkOrder extends Model
         'party_id',
         'scope_of_work',
         'terms_and_conditions',
-        'location'
+        'location',
+        'TRN',
     ];
 
 
