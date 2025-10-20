@@ -28,6 +28,13 @@
                         <span class="badge rounded-pill bg-success float-end ms-2">new</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('service-type.index') }}" class="waves-effect">
+                        <i class="bx bx bx-basket"></i>
+                        <span key="t-dashboards">Services</span>
+                        <span class="badge rounded-pill bg-success float-end ms-2">new</span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="{{ URL('/Item') }}" class="waves-effect">
