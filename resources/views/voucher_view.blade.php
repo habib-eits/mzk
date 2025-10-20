@@ -90,14 +90,14 @@
 
                     <td style="width: 50%; vertical-align: top;">
                         <div class="company-details" style="text-align: right;">
-                            <h2>{{ strtoupper($company[0]->Name) }}</h2>
+                            <h2>{{ strtoupper($company->Name) }}</h2>
                             <p style="margin: 0;">
                                 <span
-                                    style="display: inline-block; width: 300px; word-wrap: break-word;">{{ $company[0]->Address }}</span>
+                                    style="display: inline-block; width: 300px; word-wrap: break-word;">{{ $company->Address }}</span>
                                 <br>
-                                TRN: {{ $company[0]->TRN }}<br>
-                                Phone: {{ $company[0]->Contact }}<br>
-                                Email: {{ $company[0]->Email }}
+                                TRN: {{ $company->TRN }}<br>
+                                Phone: {{ $company->Contact }}<br>
+                                Email: {{ $company->Email }}
                             </p>
                         </div>
                     </td>

@@ -746,12 +746,10 @@ class Accounts extends Controller
         
         if(in_array($voucher_master[0]->VoucherCode, ['BR','CR']) && count($voucher_details) == 1)
         {
-            $company = DB::table('company')->first();
             $pdf = PDF::loadView('voucher_view_pdf', compact('voucher_master', 'company','voucher_details'));
             return $pdf->stream();
         }    
         else{
-            $company = DB::table('company')->get();
             $pdf = PDF::loadView('voucher_view', compact('voucher_master', 'company','voucher_details'));
             return $pdf->stream();
 
