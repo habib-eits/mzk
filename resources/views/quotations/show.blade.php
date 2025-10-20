@@ -9,7 +9,7 @@
         @page {
             size: A4;
             font-family: Arial, Helvetica, sans-serif;
-            margin: 10mm 10mm 5mm 10mm;
+            margin: 10mm 10mm 3mm 10mm;
             /* top, right, bottom, left */
 
 
@@ -19,6 +19,7 @@
 
         body .container {
             font-family: 'Montserrat', sans-serif;
+
             /*font-family: 'Raleway', sans-serif;*/
             /*font-family: 'Cormorant Garamond', serif;*/
 
@@ -30,6 +31,7 @@
 
         .container {
             width: 100%;
+            padding-bottom: 6mm;
         }
 
         .text-left {

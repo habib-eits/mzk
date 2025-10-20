@@ -8,7 +8,7 @@
         @page {
             size: A4;
             /* Half A4 portrait */
-            margin: 10mm 10mm 5mm 10mm;
+            margin: 10mm 10mm 3mm 10mm;
         }
 
         body {
@@ -19,6 +19,8 @@
 
         .container {
             width: 100%;
+            padding-bottom: 6mm;
+
         }
 
         .receipt-title {
