@@ -164,6 +164,7 @@
 
         .fw-bold {
             font-weight: bold;
+
         }
 
         .bank-detail-col-left {
@@ -266,8 +267,10 @@
                             <th>Main Contractor</th>
                         </tr>
                         <tr>
-
                             <td class="fw-bold">{{ strtoupper($company->Name) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">TRN: {{ strtoupper($company->TRN) }}</td>
                         </tr>
                         <tr>
                             <td> {{ $company->Address }} </td>
@@ -287,6 +290,9 @@
                         <tr>
 
                             <td class="fw-bold">{{ strtoupper($workOrder->party->PartyName ?? 'N/A') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold"> {{ $workOrder->TRN != null ? 'TRN: ' . $workOrder->TRN : '-' }} </td>
                         </tr>
                         <tr>
                             <td> {{ $workOrder->location }} </td>
