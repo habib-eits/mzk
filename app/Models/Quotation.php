@@ -10,7 +10,7 @@ class Quotation extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = "InvoiceMasterID";
+    public $primaryKey = "InvoiceMasterID";
     protected $table = "invoice_master";
 
     public $timestamps  = false;

@@ -40,7 +40,7 @@ class StoreQuotationRequest extends FormRequest
             'ItemID' => 'required|array|min:1',
             'service_type_id.*' => 'required|integer',
             'ItemID.*' => 'required|integer',
-            'Description.*' => 'required|string',
+            'Description.*' => 'nullable|string',
             'UnitName.*' => 'required|string',
             'Rate.*' => 'required|numeric|min:0',
        

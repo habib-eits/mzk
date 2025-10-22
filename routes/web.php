@@ -55,6 +55,7 @@ use App\Http\Controllers\SubServiceController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\DefaultContentController;
 use App\Http\Controllers\SupervisorFineController;
+use App\Http\Controllers\UnitController;
 
 //------------------------------------------------------------
 
@@ -89,6 +90,7 @@ Route::resource('work-order', WorkOrderController::class);
 Route::resource('default-content', DefaultContentController::class);
 Route::resource('quotation', QuotationController::class);
 Route::resource('service-type', ServiceTypeController::class);
+Route::resource('unit', UnitController::class);
 
 
 
