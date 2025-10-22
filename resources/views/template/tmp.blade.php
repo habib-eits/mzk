@@ -473,7 +473,7 @@
             });
         </script>
 
-        @if (session('error'))
+        @if (session('error') && session('error') == '')
             <script script>
                 notyf.error('{{ session('error') }}');
             </script>

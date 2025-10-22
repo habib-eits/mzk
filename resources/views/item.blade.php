@@ -98,7 +98,7 @@
                                         </div>
 
 
-                                        <div class="mb-3 row">
+                                        <div class="mb-3 row d-none">
                                             <div class="col-sm-2">
                                                 <label class="col-form-label fw-bold" for="first-name">Unit Quantity</label>
                                             </div>
@@ -165,7 +165,7 @@
                                             </div>
 
 
-                                            <div class="mb-3 row">
+                                            <div class="mb-3 row d-none">
                                                 <div class="col-sm-3">
                                                     <label class="col-form-label  " for="first-name">Account</label>
                                                 </div>
@@ -180,7 +180,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="mb-3 row">
+                                            <div class="mb-3 row d-none">
                                                 <div class="col-sm-3">
                                                     <label class="col-form-label  " for="first-name">Remarks</label>
                                                 </div>
@@ -206,7 +206,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="mb-3 row">
+                                            <div class="mb-3 row d-none">
                                                 <div class="col-sm-3">
                                                     <label class="col-form-label " for="first-name">Account</label>
                                                 </div>
@@ -222,7 +222,7 @@
                                             </div>
 
 
-                                            <div class="mb-3 row">
+                                            <div class="mb-3 row d-none">
                                                 <div class="col-sm-3">
                                                     <label class="col-form-label " for="first-name">Remarks</label>
                                                 </div>
