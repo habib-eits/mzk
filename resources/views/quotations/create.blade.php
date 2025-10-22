@@ -47,7 +47,7 @@
                                         <label class="col-md-4 col-form-label">Project Name</label>
                                         <div class="col-md-8">
                                             <input type="text" name="ProjectName" class="form-control"
-                                                value="{{ $quotation->ProjectName }}">
+                                                placeholder="Project Name - location" value="{{ $quotation->ProjectName }}">
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
