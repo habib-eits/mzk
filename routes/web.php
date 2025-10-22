@@ -96,10 +96,14 @@ Route::resource('unit', UnitController::class);
 
 //------------------------------------------------------------
 
-Route::get('artisan-migrate', function () {
-
+    Route::get('artisan-migrate', function () {
         /* php artisan migrate */
         Artisan::call('migrate');
+        return Artisan::output(); // shows the actual output
+    });
+    Route::get('artisan-optimize-clear', function () {
+        /* php artisan migrate */
+        Artisan::call('optimize:clear');
         return Artisan::output(); // shows the actual output
     });
 
