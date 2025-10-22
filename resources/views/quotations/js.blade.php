@@ -72,6 +72,21 @@
          }
      });
 
+     $(document).on('change', '.row-item-select', function() {
+
+         const selectedOption = $(this).find('option:selected');
+         const unitName = selectedOption.data('unitname');
+         const sellingPrice = selectedOption.data('sellingprice');
+
+
+         const row = $(this).closest('tr');
+         row.find('.row-unit-select').val('').trigger('change');
+         row.find('.row-rate').val('');
+
+         row.find('.row-unit-select').val(unitName).trigger('change');
+         row.find('.row-rate').val(sellingPrice);
+     });
+
 
      function addRow() {
          const table = $('#table tbody');
@@ -86,16 +101,22 @@
                 </select>
             </td>
             <td>
-                <select name="ItemID[]" class="form-control select2" style="width: 100%">
+                <select name="ItemID[]" class="form-control select2 row-item-select" style="width: 100%">
                     <option value="">Select</option>
                     @foreach ($items as $item)
-                        <option value="{{ $item->ItemID }}">{{ $item->ItemName }}</option>
+                        <option 
+                        value="{{ $item->ItemID }}"
+                            data-UnitName="{{ $item->UnitName }}"
+                            data-SellingPrice="{{ $item->SellingPrice }}"
+
+
+                        >{{ $item->ItemName . $item->UnitName . $item->SellingPrice }}</option>
                     @endforeach
                 </select>
             </td>
             <td> <textarea name="Description[]" rows="1" class="form-control"></textarea></td>
             <td>
-                <select name="UnitName[]" class="form-select form-control-sm select2"
+                <select name="UnitName[]" class="form-select form-control-sm select2 row-unit-select"
                     style="width: 100%">
                     <option value="">Select</option>
                     @foreach ($units as $unit)
@@ -104,7 +125,7 @@
                 </select>
             </td>
             <td>
-                <input type="number" name="Rate[]" class="form-control">
+                <input type="number" name="Rate[]" class="form-control row-rate">
             </td>
             <td>
                 <button class="btn btn-danger btn-sm" onclick="removeRow(this, event)">

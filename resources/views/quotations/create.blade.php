@@ -133,12 +133,14 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select name="ItemID[]" class="form-control select2"
+                                                    <select name="ItemID[]" class="form-control select2 row-item-select"
                                                         style="width: 100%">
                                                         <option value="">Select</option>
                                                         @foreach ($items as $item)
                                                             <option
                                                                 {{ $item->ItemID == $detail->ItemID ? 'selected' : '' }}
+                                                                data-UnitName="{{ $item->UnitName }}"
+                                                                data-SellingPrice="{{ $item->SellingPrice }}"
                                                                 value="{{ $item->ItemID }}">{{ $item->ItemName }}</option>
                                                         @endforeach
                                                     </select>
@@ -148,7 +150,8 @@
                                                 </td>
 
                                                 <td>
-                                                    <select name="UnitName[]" class="form-select form-control-sm select2"
+                                                    <select name="UnitName[]"
+                                                        class="form-select form-control-sm select2 row-unit-select"
                                                         style="width: 100%">
                                                         <option value="">Select</option>
                                                         @foreach ($units as $unit)
@@ -160,7 +163,7 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="Rate[]" class="form-control"
+                                                    <input type="number" name="Rate[]" class="form-control  row-rate"
                                                         value="{{ $detail->Rate }}">
                                                 </td>
                                                 <td>
