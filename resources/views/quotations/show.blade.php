@@ -284,6 +284,12 @@
                     {{ $quotation->Subject }}
                 </td>
             </tr>
+            <tr>
+                <td class="label">Project Engg:</td>
+                <td class="value">
+                    {{ $quotation->ProjectEngg }}
+                </td>
+            </tr>
 
             {{-- <tr>
             <td class="label">Project:</td>

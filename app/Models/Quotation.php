@@ -22,6 +22,7 @@ class Quotation extends Model
         'TenderNo',
         'ReferenceNo',
         'ProjectName',
+        'ProjectEngg',
         'Attension',
         'Subject',
         'scope_of_work',

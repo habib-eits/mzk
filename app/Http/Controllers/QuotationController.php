@@ -142,6 +142,7 @@ class QuotationController extends Controller
                     'TenderNo' => $data['TenderNo'],
                     'ReferenceNo' => $data['ReferenceNo'],
                     'ProjectName' => $data['ProjectName'],
+                    'ProjectEngg' => $data['ProjectEngg'],
                     'Attension' => $data['Attension'],
                     'Subject' => $data['Subject'],
                     'scope_of_work' => $data['scope_of_work'],

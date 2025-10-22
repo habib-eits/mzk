@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::table('invoice_master', function (Blueprint $table) {
             $table->string('Attension')->nullable();
             $table->string('ProjectName')->nullable();
+            $table->string('ProjectEngg')->nullable();
             $table->string('TenderNo')->nullable();
             $table->text('scope_of_work')->nullable();
             $table->text('terms_and_conditions')->nullable();
@@ -33,6 +34,7 @@ return new class extends Migration
             $table->dropColumn([
                 'Attension', 
                 'ProjectName',
+                'ProjectEngg',
                 'TenderNo',
                 'scope_of_work',
                 'terms_and_conditions',

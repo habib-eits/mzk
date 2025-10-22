@@ -50,6 +50,13 @@
                                                 value="{{ $quotation->ProjectName }}">
                                         </div>
                                     </div>
+                                    <div class="mb-3 row">
+                                        <label class="col-md-4 col-form-label">Project Engg</label>
+                                        <div class="col-md-8">
+                                            <input type="text" name="ProjectEngg" class="form-control"
+                                                value="{{ $quotation->ProjectEngg }}">
+                                        </div>
+                                    </div>
 
 
 

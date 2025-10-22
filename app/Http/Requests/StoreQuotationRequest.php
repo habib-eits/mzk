@@ -31,6 +31,7 @@ class StoreQuotationRequest extends FormRequest
             'TenderNo'=> 'nullable' ,
             'ReferenceNo'=> 'nullable' ,
             'ProjectName'=> 'nullable' ,
+            'ProjectEngg'=> 'nullable' ,
             'Attension'=> 'nullable' ,
             'Subject'=> 'nullable' ,
             'scope_of_work'=> 'nullable' ,
