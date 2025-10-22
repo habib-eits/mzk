@@ -57,7 +57,7 @@ class UnitController extends Controller
                     ->make(true);
             }
     
-            return view('Units.index',compact('title','routeName'));
+            return view('units.index',compact('title','routeName'));
 
         }catch (\Exception $e){
             dd($e->getMessage());
