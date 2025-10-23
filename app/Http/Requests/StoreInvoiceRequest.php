@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreQuotationRequest extends FormRequest
+class StoreInvoiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,6 @@ class StoreQuotationRequest extends FormRequest
             'PartyID' => 'required',
             'Date'=> 'required',
             'DueDate'=> 'nullable' ,
-            'Status'=> 'required' ,
             'TenderNo'=> 'nullable' ,
             'ReferenceNo'=> 'nullable' ,
             'ProjectName'=> 'nullable' ,

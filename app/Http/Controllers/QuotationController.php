@@ -10,8 +10,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreQuotationRequest;
-use App\Http\Requests\UpdateQuotationRequest;
-use App\Http\Requests\StoreQuotationDetailRequest;
 use App\Models\ServiceType;
 
 class QuotationController extends Controller
@@ -22,9 +20,7 @@ class QuotationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-        
-        
+    {   
          try{
             if ($request->ajax()) {
                 $data = Quotation::all();
@@ -44,40 +40,10 @@ class QuotationController extends Controller
                    
 
                     ->addColumn('action', function ($row) {
-                        $csrf = csrf_field();
-                        $method = method_field('DELETE');
-
-                        $btn = '
-                            <div class="d-flex align-items-center col-actions">
-                                <div class="dropdown">
-                                    <a class="action-set show" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                                        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li>
-                                            <a href="' . route('quotation.show', $row->InvoiceMasterID) . '" class="dropdown-item">
-                                                <i class="bx bx-show font-size-16 text-primary me-1"></i> View
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="' . route('quotation.edit', $row->InvoiceMasterID) . '" class="dropdown-item">
-                                                <i class="bx bx-pencil font-size-16 text-primary me-1"></i> Edit
-                                            </a>
-                                        </li>
-                                      
-                                        <li>
-                                            <form action="' . route('quotation.destroy', $row->InvoiceMasterID) . '" method="POST" onsubmit="return confirm(\'Are you sure you want to delete this work order?\');">
-                                                ' . $csrf . $method . '
-                                                <button type="submit" class="dropdown-item text-danger" >
-                                                    <i class="bx bx-trash font-size-16 text-danger me-1"></i> Delete
-                                                </button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>';
-
-                        return $btn;
+                        return view('quotations.partials.action', [
+                            'id' => $row->InvoiceMasterID,
+                            'status' => $row->Status,
+                        ])->render();
                     })
 
                     
@@ -139,6 +105,7 @@ class QuotationController extends Controller
                     'PartyID' => $data['PartyID'],
                     'Date' => $data['Date'],
                     'DueDate' => $data['DueDate'],
+                    'Status' => $data['Status'],
                     'TenderNo' => $data['TenderNo'],
                     'ReferenceNo' => $data['ReferenceNo'],
                     'ProjectName' => $data['ProjectName'],
@@ -260,6 +227,7 @@ class QuotationController extends Controller
         {
             QuotationDetail::create([
                 'InvoiceMasterID' => $quotation->InvoiceMasterID,
+                'InvoiceNo' => $quotation->InvoiceNo,
                 'Date' => $quotation->Date,
                 'ItemID' => $itemID,
                 'service_type_id' => $data['service_type_id'][$index],
@@ -270,4 +238,6 @@ class QuotationController extends Controller
 
         }
     }
+
+    
 }

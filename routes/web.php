@@ -36,14 +36,16 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ChartOfAccount;
 
 use App\Http\Controllers\LeadController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\StaffController;
-use App\Http\Controllers\BranchController;
  use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ReportController;
+
+
 use App\Http\Controllers\StatusController;
-
-
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\EstimateController;
@@ -55,7 +57,7 @@ use App\Http\Controllers\SubServiceController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\DefaultContentController;
 use App\Http\Controllers\SupervisorFineController;
-use App\Http\Controllers\UnitController;
+use App\Http\Controllers\CreateSaleInoviceFromQuotation;
 
 //------------------------------------------------------------
 
@@ -89,10 +91,11 @@ Route::group(['middleware' => ['CheckAdmin']], function () {
 Route::resource('work-order', WorkOrderController::class);
 Route::resource('default-content', DefaultContentController::class);
 Route::resource('quotation', QuotationController::class);
+Route::resource('invoice', InvoiceController::class);
 Route::resource('service-type', ServiceTypeController::class);
 Route::resource('unit', UnitController::class);
 
-
+Route::post('create-sale-invoice-from-quotation/{quotation_id}', CreateSaleInoviceFromQuotation::class)->name('create-sale-invoice-from-quotation');
 
 //------------------------------------------------------------
 

@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
-class Quotation extends Model
+
+class Invoice extends Model
 {
     use HasFactory;
 
+    
     /*
     |--------------------------------------------------------------------------
     | Basic Model Configuration
@@ -27,7 +28,6 @@ class Quotation extends Model
         'PartyID',
         'Date',
         'DueDate',
-        'Status',
         'TenderNo',
         'ReferenceNo',
         'ProjectName',
@@ -42,9 +42,7 @@ class Quotation extends Model
 
     // default value automatically applied
     protected $attributes = [
-        'InvoiceType' => 'quotation',
-        'reference_quotation_id' => null,
-        'is_locked' => 0,
+        'InvoiceType' => 'invoice'
     ];
 
     /*
@@ -53,12 +51,16 @@ class Quotation extends Model
     |--------------------------------------------------------------------------
     */
 
+     /**
+     * The "booted" method of the model.
+     */
     protected static function booted(): void
     {
         static::addGlobalScope('type-inovice', function (Builder $builder) {
-            $builder->where('InvoiceType', 'quotation');
+            $builder->where('InvoiceType', 'invoice');
         });
     }
+
 
     protected static function boot()
     {
@@ -71,14 +73,11 @@ class Quotation extends Model
         });
     }
 
-
     /*
     |--------------------------------------------------------------------------
     | Relationships
     |--------------------------------------------------------------------------
     */
-
-
     public function party()
     {
         return $this->belongsTo(Party::class, 'PartyID');
@@ -87,8 +86,14 @@ class Quotation extends Model
 
     public function details()
     {
-        return $this->hasMany(QuotationDetail::class, 'InvoiceMasterID');
+        return $this->hasMany(InvoiceDetail::class, 'InvoiceMasterID');
     }
+
+    public function referenceQuotationNo()
+    {
+        return $this->belongsTo(Quotation::class, 'reference_quotation_id','InvoiceMasterID')->where('InvoiceType', 'quotation');
+    }
+
 
     /*
     |--------------------------------------------------------------------------
@@ -124,11 +129,10 @@ class Quotation extends Model
 
             $next = $max ? $max + 1 : 1;
 
-            $invoiceNo = "QUO-{$next}";
+            $invoiceNo = "INV-{$next}";
 
         } while (self::where('InvoiceNo', $invoiceNo)->exists());
 
         return $invoiceNo;
     }
-    
 }

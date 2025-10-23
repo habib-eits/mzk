@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('TenderNo')->nullable();
             $table->text('scope_of_work')->nullable();
             $table->text('terms_and_conditions')->nullable();
+            $table->unsignedBigInteger('reference_quotation_id');
+            $table->integer('is_locked');
         });
     }
 
@@ -38,6 +40,8 @@ return new class extends Migration
                 'TenderNo',
                 'scope_of_work',
                 'terms_and_conditions',
+                'reference_quotation_id',
+                'is_locked',
             ]);
         });
     }

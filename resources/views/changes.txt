@@ -1,0 +1,2 @@
+ALTER TABLE `invoice_master` ADD `reference_quotation_id` BIGINT(20) NULL AFTER `terms_and_conditions`;
+ALTER TABLE `invoice_master` ADD `is_locked` INT NULL DEFAULT '0' AFTER `reference_quotation_id`;

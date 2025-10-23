@@ -10,12 +10,12 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                            <h3 class="mb-sm-0 font-size-18">Quotation</h3>
+                            <h3 class="mb-sm-0 font-size-18">Invoice</h3>
 
                             <div class="page-title-right d-flex">
 
                                 <div class="page-btn">
-                                    <a href="{{ route('quotation.create') }}" class="btn btn-added btn-primary">
+                                    <a href="{{ route('invoice.create') }}" class="btn btn-added btn-primary">
                                         <i class="me-2 bx bx-plus"></i>Add
                                     </a>
                                 </div>
@@ -37,7 +37,7 @@
                                     <th style="width: 15%">Date</th>
                                     <th style="width: 15%">Party</th>
                                     <th style="width: 25%">Project Name</th>
-                                    <th style="width: 25%">Status</th>
+                                    <th style="width: 25%">Ref Quo#</th>
 
                                     <th style="width: 10%">Action</th>
                                 </tr>
@@ -54,7 +54,7 @@
             var table = $('#table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('quotation.index') }}",
+                ajax: "{{ route('invoice.index') }}",
                 columns: [{
                         data: 'InvoiceMasterID'
                     },
@@ -68,7 +68,7 @@
                         data: 'ProjectName'
                     },
                     {
-                        data: 'Status'
+                        data: 'reference_quotation_no'
                     },
 
 
@@ -86,33 +86,5 @@
 
 
         });
-
-
-        function createSaleInvoiceFromQuotation(quotationId) {
-            if (confirm('Are you sure you want to create a Sale Invoice from this Quotation?')) {
-                $.ajax({
-                    url: "{{ route('create-sale-invoice-from-quotation', ':quotationId') }}".replace(':quotationId',
-                        quotationId),
-                    type: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-
-                        notyf.success({
-                            message: response.message,
-                            duration: 3000
-                        });
-                    },
-                    error: function(e) {
-
-                        notyf.error({
-                            message: e.responseJSON.message,
-                            duration: 5000
-                        });
-                    }
-                });
-            }
-        }
     </script>
 @endsection

@@ -1,5 +1,5 @@
 @extends('template.tmp')
-@section('title', 'Quotation')
+@section('title', 'Invoice')
 @section('content')
 
 
@@ -9,7 +9,7 @@
             <div class="container-fluid">
                 <form id="create-update-form">
                     @csrf
-                    <input type="hidden" name="InvoiceMasterID" value="{{ $quotation->InvoiceMasterID }}">
+                    <input type="hidden" name="InvoiceMasterID" value="{{ $invoice->InvoiceMasterID }}">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -23,44 +23,38 @@
                                                 <option value="">Select</option>
                                                 @foreach ($parties as $party)
                                                     <option value="{{ $party->PartyID }}"
-                                                        {{ $quotation->PartyID == $party->PartyID ? 'selected' : '' }}>
+                                                        {{ $invoice->PartyID == $party->PartyID ? 'selected' : '' }}>
                                                         {{ $party->PartyName }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-md-4">
-                                            <input class="form-control" placeholder="Quotation No (Auto Generated)"
-                                                value="{{ $quotation->InvoiceNo }}" readonly>
-                                        </div>
-
-
                                     </div>
                                     <div class="mb-3 row">
                                         <label class="col-md-4 col-form-label">Attension</label>
                                         <div class="col-md-8">
                                             <input type="text" name="Attension" class="form-control"
-                                                value="{{ $quotation->Attension }}">
+                                                value="{{ $invoice->Attension }}">
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
                                         <label class="col-md-4 col-form-label">Subject</label>
                                         <div class="col-md-8">
                                             <input type="text" name="Subject" class="form-control"
-                                                value="{{ $quotation->Subject }}">
+                                                value="{{ $invoice->Subject }}">
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
                                         <label class="col-md-4 col-form-label">Project Name</label>
                                         <div class="col-md-8">
                                             <input type="text" name="ProjectName" class="form-control"
-                                                placeholder="Project Name - location" value="{{ $quotation->ProjectName }}">
+                                                placeholder="Project Name - location" value="{{ $invoice->ProjectName }}">
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
                                         <label class="col-md-4 col-form-label">Project Engg</label>
                                         <div class="col-md-8">
                                             <input type="text" name="ProjectEngg" class="form-control"
-                                                value="{{ $quotation->ProjectEngg }}">
+                                                value="{{ $invoice->ProjectEngg }}">
                                         </div>
                                     </div>
 
@@ -76,40 +70,28 @@
                                         <label class="col-md-6 col-form-label">Reference No</label>
                                         <div class="col-md-6">
                                             <input type="text" name="ReferenceNo" class="form-control"
-                                                value="{{ old('ReferenceNo', $quotation->ReferenceNo) }}">
+                                                value="{{ old('ReferenceNo', $invoice->ReferenceNo) }}">
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
-                                        <label class="col-md-6 col-form-label">Quotation Date</label>
+                                        <label class="col-md-6 col-form-label">Invoice Date</label>
                                         <div class="col-md-6">
                                             <input type="date" name="Date" class="form-control"
-                                                value="{{ $quotation->Date != null ? $quotation->Date : date('Y-m-d') }}">
+                                                value="{{ $invoice->Date != null ? $invoice->Date : date('Y-m-d') }}">
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
-                                        <label class="col-md-6 col-form-label">Quotation Expiry</label>
+                                        <label class="col-md-6 col-form-label">Invoice Expiry</label>
                                         <div class="col-md-6">
                                             <input type="date" name="DueDate" class="form-control"
-                                                value="{{ $quotation->DueDate != null ? $quotation->DueDate : date('Y-m-d') }}">
+                                                value="{{ $invoice->DueDate != null ? $invoice->DueDate : date('Y-m-d') }}">
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
                                         <label class="col-md-6 col-form-label">Tender No</label>
                                         <div class="col-md-6">
                                             <input type="text" name="TenderNo" class="form-control"
-                                                value="{{ $quotation->TenderNo }}">
-                                        </div>
-                                    </div>
-                                    <div class="mb-3 row">
-                                        <label class="col-md-6 col-form-label">Status</label>
-                                        <div class="col-md-6">
-                                            <select name="Status" class="form-select select2 mt-5" style="width:100%;">
-                                                @foreach (config('status') as $row)
-                                                    <option value="{{ $row['value'] }}"
-                                                        {{ $quotation->Status == $row['value'] ? 'selected' : '' }}>
-                                                        {{ $row['name'] }}</option>
-                                                @endforeach
-                                            </select>
+                                                value="{{ $invoice->TenderNo }}">
                                         </div>
                                     </div>
 
@@ -136,7 +118,7 @@
                                     </thead>
 
                                     <tbody>
-                                        @foreach ($quotation->details as $detail)
+                                        @foreach ($invoice->details as $detail)
                                             <tr>
 
                                                 <td>
@@ -159,8 +141,7 @@
                                                                 {{ $item->ItemID == $detail->ItemID ? 'selected' : '' }}
                                                                 data-UnitName="{{ $item->UnitName }}"
                                                                 data-SellingPrice="{{ $item->SellingPrice }}"
-                                                                value="{{ $item->ItemID }}">{{ $item->ItemName }}
-                                                            </option>
+                                                                value="{{ $item->ItemID }}">{{ $item->ItemName }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
@@ -239,5 +220,5 @@
     </div>
 
 
-    @include('quotations.js')
+    @include('invoices.js')
 @endsection
