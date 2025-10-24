@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
 class Invoice extends Model
@@ -124,6 +125,17 @@ class Invoice extends Model
         return Attribute::make(
             get: fn () => date('d-m-Y', strtotime($this->DueDate))
         );     
+    }
+    // Payment terms (difference in days)
+    protected function paymentTerms(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $date = Carbon::parse($this->Date);
+                $dueDate = Carbon::parse($this->DueDate);
+                return $date->diffInDays($dueDate);
+            }
+        );
     }
 
     /*
