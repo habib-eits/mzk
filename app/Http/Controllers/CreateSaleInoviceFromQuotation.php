@@ -53,11 +53,12 @@ class CreateSaleInoviceFromQuotation extends Controller
             'terms_and_conditions' => null,
             'reference_quotation_id' => $quotation->InvoiceMasterID,
         ];
-
+        // create sale invoice record
         $invoice = Invoice::create($invoiceData);
 
         $invoiceDetailData = [];
 
+        
         foreach($quotation->details as $row)
         {
             $invoiceDetailData[] = [
@@ -71,13 +72,18 @@ class CreateSaleInoviceFromQuotation extends Controller
                 'Rate' => $row->Rate,
             ];
         }
+        // bulk insert  sale invoice details record
 
         InvoiceDetail::insert($invoiceDetailData);
 
 
-
+        //update quotation status to invoice-created
         $this->updateQuotationStatus($quotation);
-
+        return response()->json([
+            'success' => true,
+            'message' => 'Sale Invoice Created From Quotation',
+            'InvoiceMasterID' => $invoice->InvoiceMasterID,
+        ],200);
 
     }
 

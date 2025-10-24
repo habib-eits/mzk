@@ -103,6 +103,12 @@
                             message: response.message,
                             duration: 3000
                         });
+
+                        setTimeout(function() {
+                            window.location.href = "{{ route('invoice.edit', ':id') }}".replace(':id',
+                                response.InvoiceMasterID);
+                        }, 1500);
+
                     },
                     error: function(e) {
 

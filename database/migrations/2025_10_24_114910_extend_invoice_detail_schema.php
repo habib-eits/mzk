@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
          Schema::table('invoice_detail', function (Blueprint $table) {
-            $table->decimal('Previous',15,3)->nullable();
-            $table->decimal('Current',15,3)->nullable();
-            $table->decimal('Cumulative',15,3)->nullable();
+            $table->decimal('Previous',15,2)->nullable();
+            $table->decimal('Current',15,2)->nullable();
+            $table->decimal('Cumulative',15,2)->nullable();
 
         });
     }

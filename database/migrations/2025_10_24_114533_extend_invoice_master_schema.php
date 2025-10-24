@@ -14,12 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::table('invoice_master', function (Blueprint $table) {
-            
+            $table->integer('is_locked')->default(0)->nullable();
+            $table->unsignedBigInteger('reference_quotation_id')->nullable();
             $table->decimal('TotalInvoiceAmount',15,2)->nullable();
             $table->decimal('PrevInvExclRet',15,2)->nullable();
             $table->string('RetentionMonthYear')->nullable();
             $table->decimal('RetentionAmount',15,2)->nullable();
-            // $table->decimal('Subtotal',15,2)->nullable();
             $table->decimal('CurrentRetention',15,2)->nullable();
             $table->decimal('NetInvoiceAmount',15,2)->nullable();
             $table->decimal('SubtotalVat',15,2)->nullable();
@@ -38,12 +38,12 @@ return new class extends Migration
     {
         Schema::table('invoice_master', function (Blueprint $table) {
             $table->dropColumn([
-              
+                'is_locked',
+                'reference_quotation_id',
                 'TotalInvoiceAmount',
                 'PrevInvExclRet',
                 'RetentionMonthYear',
                 'RetentionAmount',
-                // 'Subtotal',
                 'CurrentRetention',
                 'NetInvoiceAmount',
                 'SubtotalVat',

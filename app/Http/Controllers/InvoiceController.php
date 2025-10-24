@@ -149,7 +149,7 @@ class InvoiceController extends Controller
                     'PrevInvExclRet'        => $data['PrevInvExclRet'],
                     'RetentionMonthYear'    => $data['RetentionMonthYear'],
                     'RetentionAmount'       => $data['RetentionAmount'],
-                    'Subtotal'              => $data['Subtotal'],
+                    'SubTotal'              => $data['SubTotal'],
                     'CurrentRetention'      => $data['CurrentRetention'],
                     'NetInvoiceAmount'      => $data['NetInvoiceAmount'],
                     'SubtotalVat'           => $data['SubtotalVat'],

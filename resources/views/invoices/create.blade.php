@@ -221,7 +221,8 @@
                                     <td>Less Previous Invoice (excl 10% Ret):</td>
                                     <td>
                                         <input type="number" step="0.01" name="PrevInvExclRet" id="PrevInvExclRet"
-                                            class="form-control trigger-summary-calcuation" value="{{ 120611.61 }}">
+                                            class="form-control trigger-summary-calcuation"
+                                            value="{{ $invoice->PrevInvExclRet }}">
                                     </td>
                                 </tr>
                                 <tr>
@@ -235,15 +236,16 @@
 
                                     <td>
                                         <input type="number" step="0.01" name="RetentionAmount" id="RetentionAmount"
-                                            class="form-control trigger-summary-calcuation" value="{{ 13401.9 }}">
+                                            class="form-control trigger-summary-calcuation"
+                                            value="{{ $invoice->RetentionAmount }}">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Subtotal</td>
+                                    <td>SubTotal</td>
                                     <td>
-                                        <input type="number" step="0.01" name="Subtotal" id="Subtotal"
+                                        <input type="number" step="0.01" name="SubTotal" id="SubTotal"
                                             class="form-control trigger-summary-calcuation"
-                                            value="{{ $invoice->Subtotal }}" readonly>
+                                            value="{{ $invoice->SubTotal }}" readonly>
                                     </td>
                                 </tr>
                                 <tr>
@@ -335,7 +337,7 @@
             const prevInvExclRet = parseFloat($('#PrevInvExclRet').val()) || 0;
             const retentionAmount = parseFloat($('#RetentionAmount').val()) || 0;
             const subtotal = totalInvoiceAmount - prevInvExclRet - retentionAmount;
-            $('#Subtotal').val(subtotal.toFixed(2));
+            $('#SubTotal').val(subtotal.toFixed(2));
 
             const currentRetention = subtotal * 0.10;
             $('#CurrentRetention').val(currentRetention.toFixed(2));
