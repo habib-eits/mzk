@@ -12,14 +12,14 @@
                         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                             <h3 class="mb-sm-0 font-size-18">Invoice</h3>
 
-                            <div class="page-title-right d-flex">
+                            {{-- <div class="page-title-right d-flex">
 
                                 <div class="page-btn">
                                     <a href="{{ route('invoice.create') }}" class="btn btn-added btn-primary">
                                         <i class="me-2 bx bx-plus"></i>Add
                                     </a>
                                 </div>
-                            </div>
+                            </div> --}}
 
 
 

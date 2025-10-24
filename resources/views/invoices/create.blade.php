@@ -116,7 +116,7 @@
                                             <th style="width: 7%">Cumulative</th>
                                             <th style="width: 7%">Rate</th>
                                             <th style="width: 15%">Total</th>
-                                            <th style="width: 5%"></th>
+                                            {{-- <th style="width: 5%"></th> --}}
                                         </tr>
                                     </thead>
 
@@ -181,12 +181,12 @@
                                                         class="form-control  row-total" value="{{ $detail->Total }}"
                                                         readonly>
                                                 </td>
-                                                <td class="text-center">
+                                                {{-- <td class="text-center">
                                                     <button class="btn btn-danger btn-sm"
                                                         onclick="removeRow(this, event)">
                                                         <span class="bx bx-trash"></span>
                                                     </button>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
 
@@ -201,104 +201,114 @@
                         </div>
 
                     </div>
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <h5>Summary</h5>
+                            <div class="card">
+                                <div class="card-body">
+                                    <table>
+                                        <tr>
+                                            <th style="width:50%"></th>
+                                            <th style="width:50%"></th>
+                                        </tr>
 
-                    <div class="card">
-                        <div class="card-body">
-                            <table>
-                                <tr>
-                                    <th style="width:50%"></th>
-                                    <th style="width:50%"></th>
-                                </tr>
-                                <tr>
-                                    <td>Total Invoice Amount</td>
-                                    <td>
-                                        <input type="number" step="0.01" name="TotalInvoiceAmount"
-                                            id="TotalInvoiceAmount" class="form-control"
-                                            value="{{ $invoice->TotalInvoiceAmount }}" readonly>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Less Previous Invoice (excl 10% Ret):</td>
-                                    <td>
-                                        <input type="number" step="0.01" name="PrevInvExclRet" id="PrevInvExclRet"
-                                            class="form-control trigger-summary-calcuation"
-                                            value="{{ $invoice->PrevInvExclRet }}">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        10% Retention up to
-                                        <input type="text" name="RetentionMonthYear" id="RetentionMonthYear"
-                                            class="form-control trigger-summary-calcuation" placeholder="Month & Year"
-                                            value="{{ $invoice->RetentionMonthYear }}"
-                                            style="display:inline-block; width:auto; margin:0; padding:2px 5px;">
-                                    </td>
+                                        <tr>
+                                            <td>Total Invoice Amount</td>
+                                            <td>
+                                                <input type="number" step="0.01" name="TotalInvoiceAmount"
+                                                    id="TotalInvoiceAmount" class="form-control"
+                                                    value="{{ $invoice->TotalInvoiceAmount }}" readonly>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Less Previous Invoice (excl 10% Ret):</td>
+                                            <td>
+                                                <input type="number" step="0.01" name="PrevInvExclRet"
+                                                    id="PrevInvExclRet" class="form-control trigger-summary-calcuation"
+                                                    value="{{ $invoice->PrevInvExclRet }}">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                10% Retention up to
+                                                <input type="text" name="RetentionMonthYear" id="RetentionMonthYear"
+                                                    class="form-control trigger-summary-calcuation"
+                                                    placeholder="Month & Year" value="{{ $invoice->RetentionMonthYear }}"
+                                                    style="display:inline-block; width:auto; margin:0; padding:2px 5px;">
+                                            </td>
 
-                                    <td>
-                                        <input type="number" step="0.01" name="RetentionAmount" id="RetentionAmount"
-                                            class="form-control trigger-summary-calcuation"
-                                            value="{{ $invoice->RetentionAmount }}">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>SubTotal</td>
-                                    <td>
-                                        <input type="number" step="0.01" name="SubTotal" id="SubTotal"
-                                            class="form-control trigger-summary-calcuation"
-                                            value="{{ $invoice->SubTotal }}" readonly>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Current 10% Retention:</td>
-                                    <td>
-                                        <input type="number" step="0.01" name="CurrentRetention"
-                                            id="CurrentRetention" class="form-control trigger-summary-calcuation"
-                                            value="{{ $invoice->CurrentRetention }}" readonly>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Net Invoice Amount:</td>
-                                    <td>
-                                        <input type="number" step="0.01" name="NetInvoiceAmount"
-                                            id="NetInvoiceAmount" class="form-control trigger-summary-calcuation"
-                                            value="{{ $invoice->NetInvoiceAmount }}" readonly>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>VAT (5%):</td>
-                                    <td>
-                                        <input type="number" step="0.01" name="SubtotalVat" id="SubtotalVat"
-                                            class="form-control trigger-summary-calcuation"
-                                            value="{{ $invoice->SubtotalVat }}" readonly>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>VAT Retention (5%):</td>
-                                    <td>
-                                        <input type="number" step="0.01" name="CurrentRetentionVat"
-                                            id="CurrentRetentionVat" class="form-control trigger-summary-calcuation"
-                                            value="{{ $invoice->CurrentRetentionVat }}" readonly>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Applicable VAT:</td>
-                                    <td>
-                                        <input type="number" step="0.01" name="NetInvoiceAmountVat"
-                                            id="NetInvoiceAmountVat" class="form-control trigger-summary-calcuation"
-                                            value="{{ $invoice->NetInvoiceAmountVat }}" readonly>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Net Amount :</td>
-                                    <td>
-                                        <input type="number" step="0.01" name="NetAmount" id="NetAmount"
-                                            class="form-control trigger-summary-calcuation"
-                                            value="{{ $invoice->NetAmount }}" readonly>
-                                    </td>
-                                </tr>
-                            </table>
+                                            <td>
+                                                <input type="number" step="0.01" name="RetentionAmount"
+                                                    id="RetentionAmount" class="form-control trigger-summary-calcuation"
+                                                    value="{{ $invoice->RetentionAmount }}">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>SubTotal</td>
+                                            <td>
+                                                <input type="number" step="0.01" name="SubTotal" id="SubTotal"
+                                                    class="form-control trigger-summary-calcuation"
+                                                    value="{{ $invoice->SubTotal }}" readonly>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Current 10% Retention:</td>
+                                            <td>
+                                                <input type="number" step="0.01" name="CurrentRetention"
+                                                    id="CurrentRetention" class="form-control trigger-summary-calcuation"
+                                                    value="{{ $invoice->CurrentRetention }}" readonly>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Net Invoice Amount:</td>
+                                            <td>
+                                                <input type="number" step="0.01" name="NetInvoiceAmount"
+                                                    id="NetInvoiceAmount" class="form-control trigger-summary-calcuation"
+                                                    value="{{ $invoice->NetInvoiceAmount }}" readonly>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>VAT (5%):</td>
+                                            <td>
+                                                <input type="number" step="0.01" name="SubtotalVat" id="SubtotalVat"
+                                                    class="form-control trigger-summary-calcuation"
+                                                    value="{{ $invoice->SubtotalVat }}" readonly>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>VAT Retention (5%):</td>
+                                            <td>
+                                                <input type="number" step="0.01" name="CurrentRetentionVat"
+                                                    id="CurrentRetentionVat"
+                                                    class="form-control trigger-summary-calcuation"
+                                                    value="{{ $invoice->CurrentRetentionVat }}" readonly>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Applicable VAT:</td>
+                                            <td>
+                                                <input type="number" step="0.01" name="NetInvoiceAmountVat"
+                                                    id="NetInvoiceAmountVat"
+                                                    class="form-control trigger-summary-calcuation"
+                                                    value="{{ $invoice->NetInvoiceAmountVat }}" readonly>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Net Amount :</td>
+                                            <td>
+                                                <input type="number" step="0.01" name="NetAmount" id="NetAmount"
+                                                    class="form-control trigger-summary-calcuation"
+                                                    value="{{ $invoice->NetAmount }}" readonly>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+
 
 
                     <div class="mt-4 text-end">
