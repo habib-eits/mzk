@@ -12,6 +12,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreInvoiceRequest;
+use App\Models\InvoiceDetail;
 
 class InvoiceController extends Controller
 {
@@ -110,10 +111,6 @@ class InvoiceController extends Controller
             'serviceTypes' => ServiceType::all(),
             'units' => DB::table('unit')->get(),
             'invoice' => new Invoice,
-            'defaultScopeOfWork' => DefaultContent::getContent('invoice','scope_of_work'),
-            'defaultTermsAndConditions' => DefaultContent::getContent('invoice','terms_and_conditions'),
-            'scopeOfWork' => DefaultContent::getContent('invoice','scope_of_work'),// setting for create
-            'termsAndConditions' => DefaultContent::getContent('invoice','terms_and_conditions'),
         ]);
     }
 
@@ -131,7 +128,9 @@ class InvoiceController extends Controller
         try{
             
             $data = $request->validated();
+
             
+
             $invoice = Invoice::updateOrCreate(
                 [
                     'InvoiceMasterID' => $data['InvoiceMasterID']
@@ -146,17 +145,15 @@ class InvoiceController extends Controller
                     'ProjectEngg' => $data['ProjectEngg'],
                     'Attension' => $data['Attension'],
                     'Subject' => $data['Subject'],
-                    'scope_of_work' => $data['scope_of_work'],
-                    'terms_and_conditions' => $data['terms_and_conditions'],
                     ]
                 );
                 
             if(!empty($data['InvoiceMasterID'])){
-                $this->deleteQuotationDetails($invoice);
+                $this->deleteInvoiceDetails($invoice);
             }
                 
 
-            $this->createQuotationDetails($invoice, $data);
+            $this->createInvoiceDetails($invoice, $data);
 
             
 
@@ -181,7 +178,7 @@ class InvoiceController extends Controller
         }
     }
 
-    public function deleteQuotationDetails($invoice)
+    public function deleteInvoiceDetails($invoice)
     {
         if($invoice){
             $invoice->details()->delete();            
@@ -232,10 +229,6 @@ class InvoiceController extends Controller
             'units' => DB::table('unit')->get(),
             'serviceTypes' => ServiceType::all(),
             'invoice' => $invoice,
-            'defaultScopeOfWork' => DefaultContent::getContent('invoice','scope_of_work'),
-            'defaultTermsAndConditions' => DefaultContent::getContent('invoice','terms_and_conditions'),
-            'scopeOfWork' => $invoice->scope_of_work,
-            'termsAndConditions' => $invoice->terms_and_conditions,
         ]);
     }
 
@@ -250,34 +243,39 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         $linkedQuotationID = $invoice->reference_quotation_id;
-        $quotation = Quotation::find($linkedQuotationID);
+        $linkedQuotation = Quotation::find($linkedQuotationID);
 
         
-        if($quotation)
+        if($linkedQuotation)
         {
-            $quotation->update([
+            $linkedQuotation->update([
                 'Status' => 'pending'
             ]);
         }
-
+        $this->deleteInvoiceDetails($invoice);
         $invoice->delete();
         
        return redirect()->route('invoice.index')->with('success', 'Invoice deleted successfully.');
     }
 
 
-    protected function createQuotationDetails(Invoice $invoice,array $data)
+    protected function createInvoiceDetails(Invoice $invoice,array $data)
     {
         foreach($data['ItemID'] as $index => $itemID)
         {
-            QuotationDetail::create([
+            InvoiceDetail::create([
                 'InvoiceMasterID' => $invoice->InvoiceMasterID,
+                'InvoiceNo' => $invoice->InvoiceNo,
                 'Date' => $invoice->Date,
                 'ItemID' => $itemID,
                 'service_type_id' => $data['service_type_id'][$index],
                 'Description' => $data['Description'][$index],
                 'UnitName' => $data['UnitName'][$index],
+                'Previous' => $data['Previous'][$index],
+                'Current' => $data['Current'][$index],
+                'Cumulative' => $data['Cumulative'][$index],
                 'Rate' => $data['Rate'][$index],
+                'Total' => $data['Total'][$index],
             ]);
 
         }

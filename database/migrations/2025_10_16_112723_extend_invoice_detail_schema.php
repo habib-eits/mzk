@@ -15,6 +15,9 @@ return new class extends Migration
     {
          Schema::table('invoice_detail', function (Blueprint $table) {
             $table->unsignedBigInteger('service_type_id')->after('ItemID')->nullable();
+            $table->decimal('Previous',15,3)->nullable();
+            $table->decimal('Current',15,3)->nullable();
+            $table->decimal('Cumulative',15,3)->nullable();
 
         });
     }
@@ -27,7 +30,12 @@ return new class extends Migration
     public function down()
     {
         Schema::table('invoice_detail', function (Blueprint $table) {
-            $table->dropColumn(['service_type_id']);
+            $table->dropColumn([
+                'service_type_id',
+                'Previous',
+                'Current',
+                'Cumulative',
+            ]);
 
         });
     }

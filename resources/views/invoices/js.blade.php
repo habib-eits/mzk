@@ -52,25 +52,6 @@
          });
      });
 
-     $('#default_scope_of_work_btn').on('click', function() {
-
-         if (confirm(
-                 'Are you sure you want to replace the current content with the default content it cannot be undone?'
-             )) {
-             const defaultContent = @json($defaultScopeOfWork);
-             tinymce.get('scope_of_work').setContent(defaultContent);
-             tinymce.triggerSave();
-         }
-     });
-     $('#default_terms_and_conditions_btn').on('click', function() {
-         if (confirm(
-                 'Are you sure you want to replace the current content with the default content it cannot be undone?'
-             )) {
-             const defaultContent = @json($defaultTermsAndConditions);
-             tinymce.get('terms_and_conditions').setContent(defaultContent);
-             tinymce.triggerSave();
-         }
-     });
 
      $(document).on('change', '.row-item-select', function() {
 

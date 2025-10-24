@@ -123,8 +123,8 @@
                                     <tbody>
                                         @foreach ($invoice->details as $detail)
                                             <tr>
-                                                <input type="hidden" name="service_type_id[]"
-                                                    value="{{ $detail->service_type_id }}">
+
+
                                                 <td>
                                                     <select name="ItemID[]" class="form-control select2 row-item-select"
                                                         style="width: 100%">
@@ -134,8 +134,7 @@
                                                                 {{ $item->ItemID == $detail->ItemID ? 'selected' : '' }}
                                                                 data-UnitName="{{ $item->UnitName }}"
                                                                 data-SellingPrice="{{ $item->SellingPrice }}"
-                                                                value="{{ $item->ItemID }}">{{ $item->ItemName }}
-                                                            </option>
+                                                                value="{{ $item->ItemID }}">{{ $item->ItemName }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
@@ -158,27 +157,25 @@
                                                 </td>
                                                 <td>
                                                     <input type="number" name="Previous[]"
-                                                        class="form-control  row-previous trigger-calculation"
+                                                        class="form-control  row-previous"
                                                         value="{{ $detail->Previous }}">
                                                 </td>
                                                 <td>
                                                     <input type="number" name="Current[]"
-                                                        class="form-control  row-current trigger-calculation"
-                                                        value="{{ $detail->Current }}">
+                                                        class="form-control  row-current" value="{{ $detail->Current }}">
                                                 </td>
                                                 <td>
                                                     <input type="number" name="Cumulative[]"
                                                         class="form-control  row-cumulative"
-                                                        value="{{ $detail->Cumulative }}" readonly>
+                                                        value="{{ $detail->Cumulative }}">
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="Rate[]"
-                                                        class="form-control  row-rate trigger-calculation"
+                                                    <input type="number" name="Rate[]" class="form-control  row-rate"
                                                         value="{{ $detail->Rate }}">
                                                 </td>
                                                 <td>
                                                     <input type="number" name="Total[]" class="form-control  row-total"
-                                                        value="{{ $detail->Total }}" readonly>
+                                                        value="{{ $detail->Total }}">
                                                 </td>
                                                 <td class="text-center">
                                                     <button class="btn btn-danger btn-sm"
@@ -214,19 +211,6 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).on('change', '.trigger-calculation', function() {
-            let row = $(this).closest('tr');
-            let previous = parseFloat(row.find('.row-previous').val()) || 0;
-            let current = parseFloat(row.find('.row-current').val()) || 0;
-            let cumulative = previous + current;
-            row.find('.row-cumulative').val(cumulative);
-
-            let rate = parseFloat(row.find('.row-rate').val()) || 0;
-            let total = cumulative * rate;
-            row.find('.row-total').val(total.toFixed(2));
-        });
-    </script>
 
 
     @include('invoices.js')

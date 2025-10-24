@@ -22,7 +22,11 @@ class InvoiceDetail extends Model
         'service_type_id',
         'Description',
         'UnitName',
+        'Previous',
+        'Current',
+        'Cumulative',
         'Rate',
+        'Total',
     ];
 
 

@@ -34,8 +34,6 @@ class StoreInvoiceRequest extends FormRequest
             'ProjectEngg'=> 'nullable' ,
             'Attension'=> 'nullable' ,
             'Subject'=> 'nullable' ,
-            'scope_of_work'=> 'nullable' ,
-            'terms_and_conditions'=> 'nullable' ,
 
              // Validate details array
             'ItemID' => 'required|array|min:1',
@@ -43,7 +41,11 @@ class StoreInvoiceRequest extends FormRequest
             'ItemID.*' => 'required|integer',
             'Description.*' => 'nullable|string',
             'UnitName.*' => 'required|string',
+            'Previous.*' => 'required|numeric|min:0',
+            'Current.*' => 'required|numeric|min:0',
+            'Cumulative.*' => 'required|numeric|min:0',
             'Rate.*' => 'required|numeric|min:0',
+            'Total.*' => 'required|numeric|min:0',
        
         ];
     }
