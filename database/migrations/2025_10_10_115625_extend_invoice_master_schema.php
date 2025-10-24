@@ -22,18 +22,6 @@ return new class extends Migration
             $table->text('terms_and_conditions')->nullable();
             $table->unsignedBigInteger('reference_quotation_id');
             $table->integer('is_locked');
-
-            $table->decimal('TotalInvoiceAmount',15,2)->nullable();
-            $table->decimal('PrevInvExclRet',15,2)->nullable();
-            $table->string('RetentionMonthYear')->nullable();
-            $table->decimal('RetentionAmount',15,2)->nullable();
-            $table->decimal('Subtotal',15,2)->nullable();
-            $table->decimal('CurrentRetention',15,2)->nullable();
-            $table->decimal('NetInvoiceAmount',15,2)->nullable();
-            $table->decimal('SubtotalVat',15,2)->nullable();
-            $table->decimal('CurrentRetentionVat',15,2)->nullable();
-            $table->decimal('NetInvoiceAmountVat',15,2)->nullable();
-            $table->decimal('NetAmount',15,2)->nullable();
         });
     }
 
@@ -58,13 +46,7 @@ return new class extends Migration
                 'PrevInvExclRet',
                 'RetentionMonthYear',
                 'RetentionAmount',
-                'Subtotal',
-                'CurrentRetention',
-                'NetInvoiceAmount',
-                'SubtotalVat',
-                'CurrentRetentionVat',
-                'NetInvoiceAmountVat',
-                'NetAmount',
+             
             ]);
         });
     }

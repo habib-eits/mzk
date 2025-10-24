@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('PrevInvExclRet',15,2)->nullable();
             $table->string('RetentionMonthYear')->nullable();
             $table->decimal('RetentionAmount',15,2)->nullable();
-            $table->decimal('Subtotal',15,2)->nullable();
+            // $table->decimal('Subtotal',15,2)->nullable();
             $table->decimal('CurrentRetention',15,2)->nullable();
             $table->decimal('NetInvoiceAmount',15,2)->nullable();
             $table->decimal('SubtotalVat',15,2)->nullable();
@@ -43,7 +43,7 @@ return new class extends Migration
                 'PrevInvExclRet',
                 'RetentionMonthYear',
                 'RetentionAmount',
-                'Subtotal',
+                // 'Subtotal',
                 'CurrentRetention',
                 'NetInvoiceAmount',
                 'SubtotalVat',
