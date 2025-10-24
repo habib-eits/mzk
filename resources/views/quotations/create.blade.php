@@ -183,7 +183,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="number" name="Rate[]" class="form-control  row-rate"
-                                                        value="{{ $detail->Rate }}">
+                                                        step="0.01" value="{{ $detail->Rate }}">
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-danger btn-sm"

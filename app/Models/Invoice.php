@@ -38,6 +38,18 @@ class Invoice extends Model
         'terms_and_conditions',
         'reference_quotation_id',
         'is_locked',
+
+        'TotalInvoiceAmount',
+        'PrevInvExclRet',
+        'RetentionMonthYear',
+        'RetentionAmount',
+        'Subtotal',
+        'CurrentRetention',
+        'NetInvoiceAmount',
+        'SubtotalVat',
+        'CurrentRetentionVat',
+        'NetInvoiceAmountVat',
+        'NetAmount',
     ];
 
     // default value automatically applied

@@ -35,6 +35,18 @@ class StoreInvoiceRequest extends FormRequest
             'Attension'=> 'nullable' ,
             'Subject'=> 'nullable' ,
 
+            'TotalInvoiceAmount' => 'required|numeric|min:0',
+            'PrevInvExclRet' => 'required|numeric|min:0',
+            'RetentionMonthYear' => 'required',
+            'RetentionAmount' => 'required|numeric|min:0',
+            'Subtotal' => 'required|numeric|min:0',
+            'CurrentRetention' => 'required|numeric|min:0',
+            'NetInvoiceAmount' => 'required|numeric|min:0',
+            'SubtotalVat' => 'required|numeric|min:0',
+            'CurrentRetentionVat' => 'required|numeric|min:0',
+            'NetInvoiceAmountVat' => 'required|numeric|min:0',
+            'NetAmount' => 'required|numeric|min:0',
+
              // Validate details array
             'ItemID' => 'required|array|min:1',
             'service_type_id.*' => 'required|integer',

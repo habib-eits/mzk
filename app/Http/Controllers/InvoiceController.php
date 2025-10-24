@@ -145,6 +145,17 @@ class InvoiceController extends Controller
                     'ProjectEngg' => $data['ProjectEngg'],
                     'Attension' => $data['Attension'],
                     'Subject' => $data['Subject'],
+                    'TotalInvoiceAmount'    => $data['TotalInvoiceAmount'],
+                    'PrevInvExclRet'        => $data['PrevInvExclRet'],
+                    'RetentionMonthYear'    => $data['RetentionMonthYear'],
+                    'RetentionAmount'       => $data['RetentionAmount'],
+                    'Subtotal'              => $data['Subtotal'],
+                    'CurrentRetention'      => $data['CurrentRetention'],
+                    'NetInvoiceAmount'      => $data['NetInvoiceAmount'],
+                    'SubtotalVat'           => $data['SubtotalVat'],
+                    'CurrentRetentionVat'   => $data['CurrentRetentionVat'],
+                    'NetInvoiceAmountVat'   => $data['NetInvoiceAmountVat'],
+                    'NetAmount'             => $data['NetAmount'],
                     ]
                 );
                 

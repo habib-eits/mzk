@@ -157,28 +157,29 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="Previous[]"
+                                                    <input type="number" step="0.01" name="Previous[]"
                                                         class="form-control  row-previous trigger-calculation"
                                                         value="{{ $detail->Previous }}">
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="Current[]"
+                                                    <input type="number" step="0.01" name="Current[]"
                                                         class="form-control  row-current trigger-calculation"
                                                         value="{{ $detail->Current }}">
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="Cumulative[]"
+                                                    <input type="number" step="0.01" name="Cumulative[]"
                                                         class="form-control  row-cumulative"
                                                         value="{{ $detail->Cumulative }}" readonly>
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="Rate[]"
+                                                    <input type="number" step="0.01" name="Rate[]"
                                                         class="form-control  row-rate trigger-calculation"
                                                         value="{{ $detail->Rate }}">
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="Total[]" class="form-control  row-total"
-                                                        value="{{ $detail->Total }}" readonly>
+                                                    <input type="number" step="0.01" name="Total[]"
+                                                        class="form-control  row-total" value="{{ $detail->Total }}"
+                                                        readonly>
                                                 </td>
                                                 <td class="text-center">
                                                     <button class="btn btn-danger btn-sm"
@@ -193,12 +194,108 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="m-2">
+                            {{-- <div class="m-2">
                                 <button type="button" class="btn btn-sm btn-success mt-2" onclick="addRow()">Add
                                     More</button>
-                            </div>
+                            </div> --}}
                         </div>
 
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <table>
+                                <tr>
+                                    <th style="width:50%"></th>
+                                    <th style="width:50%"></th>
+                                </tr>
+                                <tr>
+                                    <td>Total Invoice Amount</td>
+                                    <td>
+                                        <input type="number" step="0.01" name="TotalInvoiceAmount"
+                                            id="TotalInvoiceAmount" class="form-control"
+                                            value="{{ $invoice->TotalInvoiceAmount }}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Less Previous Invoice (excl 10% Ret):</td>
+                                    <td>
+                                        <input type="number" step="0.01" name="PrevInvExclRet" id="PrevInvExclRet"
+                                            class="form-control trigger-summary-calcuation" value="{{ 120611.61 }}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        10% Retention up to
+                                        <input type="text" name="RetentionMonthYear" id="RetentionMonthYear"
+                                            class="form-control trigger-summary-calcuation" placeholder="Month & Year"
+                                            value="{{ $invoice->RetentionMonthYear }}"
+                                            style="display:inline-block; width:auto; margin:0; padding:2px 5px;">
+                                    </td>
+
+                                    <td>
+                                        <input type="number" step="0.01" name="RetentionAmount" id="RetentionAmount"
+                                            class="form-control trigger-summary-calcuation" value="{{ 13401.9 }}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Subtotal</td>
+                                    <td>
+                                        <input type="number" step="0.01" name="Subtotal" id="Subtotal"
+                                            class="form-control trigger-summary-calcuation"
+                                            value="{{ $invoice->Subtotal }}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Current 10% Retention:</td>
+                                    <td>
+                                        <input type="number" step="0.01" name="CurrentRetention"
+                                            id="CurrentRetention" class="form-control trigger-summary-calcuation"
+                                            value="{{ $invoice->CurrentRetention }}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Net Invoice Amount:</td>
+                                    <td>
+                                        <input type="number" step="0.01" name="NetInvoiceAmount"
+                                            id="NetInvoiceAmount" class="form-control trigger-summary-calcuation"
+                                            value="{{ $invoice->NetInvoiceAmount }}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>VAT (5%):</td>
+                                    <td>
+                                        <input type="number" step="0.01" name="SubtotalVat" id="SubtotalVat"
+                                            class="form-control trigger-summary-calcuation"
+                                            value="{{ $invoice->SubtotalVat }}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>VAT Retention (5%):</td>
+                                    <td>
+                                        <input type="number" step="0.01" name="CurrentRetentionVat"
+                                            id="CurrentRetentionVat" class="form-control trigger-summary-calcuation"
+                                            value="{{ $invoice->CurrentRetentionVat }}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Applicable VAT:</td>
+                                    <td>
+                                        <input type="number" step="0.01" name="NetInvoiceAmountVat"
+                                            id="NetInvoiceAmountVat" class="form-control trigger-summary-calcuation"
+                                            value="{{ $invoice->NetInvoiceAmountVat }}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Net Amount :</td>
+                                    <td>
+                                        <input type="number" step="0.01" name="NetAmount" id="NetAmount"
+                                            class="form-control trigger-summary-calcuation"
+                                            value="{{ $invoice->NetAmount }}" readonly>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
 
@@ -225,7 +322,50 @@
             let rate = parseFloat(row.find('.row-rate').val()) || 0;
             let total = cumulative * rate;
             row.find('.row-total').val(total.toFixed(2));
+
+            summaryCalculation();
         });
+
+
+
+        function summaryCalculation() {
+            const totalInvoiceAmount = columnSum('.row-total');
+            $('#TotalInvoiceAmount').val(totalInvoiceAmount.toFixed(2));
+
+            const prevInvExclRet = parseFloat($('#PrevInvExclRet').val()) || 0;
+            const retentionAmount = parseFloat($('#RetentionAmount').val()) || 0;
+            const subtotal = totalInvoiceAmount - prevInvExclRet - retentionAmount;
+            $('#Subtotal').val(subtotal.toFixed(2));
+
+            const currentRetention = subtotal * 0.10;
+            $('#CurrentRetention').val(currentRetention.toFixed(2));
+
+            const netInvoiceAmount = subtotal - currentRetention;
+            $('#NetInvoiceAmount').val(netInvoiceAmount.toFixed(2));
+
+            const SubtotalVat = subtotal * 0.05;
+            $('#SubtotalVat').val(SubtotalVat.toFixed(2));
+
+            const currentRetentionVat = currentRetention * 0.05;
+            $('#CurrentRetentionVat').val(currentRetentionVat.toFixed(2));
+
+            const netInvoiceAmountVat = netInvoiceAmount * 0.05;
+            $('#NetInvoiceAmountVat').val(netInvoiceAmountVat.toFixed(2));
+
+            const netAmount = netInvoiceAmount + netInvoiceAmountVat;
+            $('#NetAmount').val(netAmount.toFixed(2));
+
+        }
+
+
+        function columnSum(selector) {
+            let sum = 0;
+            $(selector).each(function() {
+                let val = parseFloat($(this).val()) || 0;
+                sum += val;
+            });
+            return sum;
+        }
     </script>
 
 

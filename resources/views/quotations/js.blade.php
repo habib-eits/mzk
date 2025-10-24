@@ -125,7 +125,7 @@
                 </select>
             </td>
             <td>
-                <input type="number" name="Rate[]" class="form-control row-rate">
+                <input type="number" name="Rate[]" class="form-control row-rate" step="0.01">
             </td>
             <td>
                 <button class="btn btn-danger btn-sm" onclick="removeRow(this, event)">
