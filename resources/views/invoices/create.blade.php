@@ -44,6 +44,13 @@
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
+                                        <label class="col-md-4 col-form-label">Location</label>
+                                        <div class="col-md-8">
+                                            <input type="text" name="Location" class="form-control"
+                                                value="{{ $invoice->Location }}">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
                                         <label class="col-md-4 col-form-label">Project Name</label>
                                         <div class="col-md-8">
                                             <input type="text" name="ProjectName" class="form-control"
@@ -92,6 +99,13 @@
                                         <div class="col-md-6">
                                             <input type="text" name="TenderNo" class="form-control"
                                                 value="{{ $invoice->TenderNo }}">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label class="col-md-6 col-form-label">SCA Ref</label>
+                                        <div class="col-md-6">
+                                            <input type="text" name="SCARef" class="form-control"
+                                                value="{{ $invoice->SCARef }}">
                                         </div>
                                     </div>
 

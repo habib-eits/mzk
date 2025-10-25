@@ -194,21 +194,23 @@
         <!-- Client & Invoice Details -->
         <table class="client-invoice-table">
             <tr>
-                <th colspan="2">Client Details</th>
+                <th style="border-right: 0px solid #aaa;">Client Details</th>
+                <th style="text-align: right;border-left: 0px solid #aaa;">Tender No {{ $invoice->TenderNo }}</th>
             </tr>
             <tr>
-                <td colspan="2"><strong>{{ $invoice->Party->PartyName }}</strong></td>
+                <td><strong>{{ $invoice->Party->PartyName }}</strong></td>
+                <td><strong>TRN: {{ $invoice->Party->TRN }}</strong></td>
             </tr>
             <tr>
-                <td colspan="2">P.O.BOX: 7856, ABU DHABI</td>
+                <td colspan="2">{{ $invoice->Location }}</td>
             </tr>
             <tr>
-                <td>TRN:</td>
-                <td>100250705900003</td>
+                <td>Project Details:</td>
+                <td>{{ $invoice->Subject }}</td>
             </tr>
             <tr>
                 <td>SCA Ref:</td>
-                <td></td>
+                <td>{{ $invoice->SCARef }}</td>
             </tr>
         </table>
 
@@ -221,32 +223,24 @@
                     <th>Unit</th>
                     <th>Previous</th>
                     <th>Current</th>
-                    <th>To Date</th>
+                    <th>Cumulative</th>
                     <th>Rate</th>
                     <th>Total</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Installation of 8cm Interlock Including compaction & Grouting.</td>
-                    <td>M2</td>
-                    <td>8,335.40</td>
-                    <td class="text-right">4,342.00</td>
-                    <td class="text-right">12,677.40</td>
-                    <td class="text-right">11</td>
-                    <td class="text-right">139,451.40</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Installation of Kerbstone with Haunching & Blinding.</td>
-                    <td>LM</td>
-                    <td>3,023.10</td>
-                    <td class="text-right">1,724.35</td>
-                    <td class="text-right">4,747.45</td>
-                    <td class="text-right">14</td>
-                    <td class="text-right">66,464.30</td>
-                </tr>
+                @foreach ($invoice->details as $detail)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $detail->item->ItemName . ' ' . $detail->Description }}</td>
+                        <td>{{ $detail->UnitName }}</td>
+                        <td>{{ number_format($detail->Previous, 2) }}</td>
+                        <td class="text-right">{{ number_format($detail->Current, 2) }}</td>
+                        <td class="text-right">{{ number_format($detail->Cumulative, 2) }}</td>
+                        <td class="text-right">{{ number_format($detail->Rate, 2) }}</td>
+                        <td class="text-right">{{ number_format($detail->Total, 2) }}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
 
@@ -268,7 +262,8 @@
                         <tr>
 
                             <td>
-                                <img src="{{ asset('custom/mzk-sign.png') }}" alt="Signature" class="signature-img"><br>
+                                <img src="{{ asset('custom/mzk-sign.png') }}" alt="Signature"
+                                    class="signature-img"><br>
                                 <strong>Authorized Signature</strong>
                             </td>
                             <td>
@@ -287,48 +282,52 @@
                     <table class="summary-table">
                         <tr>
                             <td>Total Invoice Amount:</td>
-                            <td class="text-right">205,915.70</td>
+                            <td class="text-right">{{ $invoice->TotalInvoiceAmount }}</td>
                         </tr>
                         <tr>
                             <td>Less Previous Invoice (excl 10% Ret):</td>
-                            <td class="text-right">120,611.61</td>
+                            <td class="text-right">{{ $invoice->PrevInvExclRet }}</td>
                         </tr>
                         <tr>
-                            <td>10% Retention up to Apr 2024:</td>
-                            <td class="text-right">13,401.90</td>
+                            <td>10% Retention up to {{ $invoice->RetentionMonthYear }}:</td>
+                            <td class="text-right">{{ $invoice->RetentionAmount }}</td>
                         </tr>
                         <tr>
                             <td><strong>Sub Total:</strong></td>
-                            <td class="text-right">71,902.97</td>
+                            <td class="text-right">{{ $invoice->SubTotal }}</td>
                         </tr>
                         <tr>
                             <td>Current 10% Retention:</td>
-                            <td class="text-right">7,190.30</td>
+                            <td class="text-right">{{ $invoice->CurrentRetention }}</td>
                         </tr>
                         <tr>
                             <td><strong>Net Invoice Amount:</strong></td>
-                            <td class="text-right">64,712.67</td>
+                            <td class="text-right">{{ $invoice->NetInvoiceAmount }}</td>
                         </tr>
                         <tr>
                             <td>VAT 5%:</td>
-                            <td class="text-right">3,595.15</td>
+                            <td class="text-right">{{ $invoice->SubtotalVat }}</td>
                         </tr>
                         <tr>
                             <td>VAT Retention 5%:</td>
-                            <td class="text-right">359.51</td>
+                            <td class="text-right">{{ $invoice->CurrentRetentionVat }}</td>
                         </tr>
                         <tr>
                             <td><strong>Applicable VAT:</strong></td>
-                            <td class="text-right">3,235.63</td>
+                            <td class="text-right">{{ $invoice->NetInvoiceAmountVat }}</td>
                         </tr>
                         <tr>
                             <td><strong>NET AMOUNT AED:</strong></td>
-                            <td class="text-right">67,948.31</td>
+                            <td class="text-right">{{ $invoice->NetAmount }}</td>
                         </tr>
                         <tr>
+                            @php
+                                $formatter = new \NumberFormatter('en', \NumberFormatter::SPELLOUT);
+
+                            @endphp
                             <td colspan="2">
                                 <strong>Amount In Words:</strong><br>
-                                Sixty Seven Thousand Nine Hundred Forty Eight and Thirty One Fils only
+                                {{ ucfirst($formatter->format($invoice->NetAmount)) }}
                             </td>
                         </tr>
                     </table>

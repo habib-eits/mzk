@@ -145,6 +145,8 @@ class InvoiceController extends Controller
                     'ProjectEngg' => $data['ProjectEngg'],
                     'Attension' => $data['Attension'],
                     'Subject' => $data['Subject'],
+                    'Location' => $data['Location'],
+                    'SCARef' => $data['SCARef'],
                     'TotalInvoiceAmount'    => $data['TotalInvoiceAmount'],
                     'PrevInvExclRet'        => $data['PrevInvExclRet'],
                     'RetentionMonthYear'    => $data['RetentionMonthYear'],

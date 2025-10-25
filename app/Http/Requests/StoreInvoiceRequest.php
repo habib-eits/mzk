@@ -34,6 +34,8 @@ class StoreInvoiceRequest extends FormRequest
             'ProjectEngg'=> 'nullable' ,
             'Attension'=> 'nullable' ,
             'Subject'=> 'nullable' ,
+            'Location'=> 'nullable' ,
+            'SCARef'=> 'nullable' ,
 
             'TotalInvoiceAmount' => 'required|numeric|min:0',
             'PrevInvExclRet' => 'required|numeric|min:0',

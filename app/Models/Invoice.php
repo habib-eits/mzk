@@ -35,6 +35,8 @@ class Invoice extends Model
         'ProjectEngg',
         'Attension',
         'Subject',
+        'Location',
+        'SCARef',
         'scope_of_work',
         'terms_and_conditions',
         'reference_quotation_id',
