@@ -360,6 +360,11 @@
         });
 
 
+        $(document).on('change', '.trigger-summary-calcuation', function() {
+            summaryCalculation();
+        });
+
+
 
         function summaryCalculation() {
             const totalInvoiceAmount = columnSum('.row-total');
