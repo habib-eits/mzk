@@ -46,7 +46,7 @@ class Invoice extends Model
         'PrevInvExclRet',
         'RetentionMonthYear',
         'RetentionAmount',
-        'Subtotal',
+        'SubTotal',
         'CurrentRetention',
         'NetInvoiceAmount',
         'SubtotalVat',
