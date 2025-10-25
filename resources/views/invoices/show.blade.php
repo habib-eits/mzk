@@ -264,7 +264,7 @@
                             <td>
                                 <img src="{{ asset('custom/mzk-sign.png') }}" alt="Signature"
                                     class="signature-img"><br>
-                                <strong>Authorized Signature</strong>
+                                <strong>Authorized Signatures</strong>
                             </td>
                             <td>
                                 <img src="{{ asset('custom/mzk-tech-stamp.jpg') }}" alt="Stamp"
