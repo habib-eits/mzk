@@ -16,6 +16,7 @@
                                 {{-- left side --}}
                                 <div class="col-md-8">
 
+
                                     <div class="mb-3 row">
                                         <label class="col-md-4 col-form-label">Customer</label>
                                         <div class="col-md-4">
@@ -28,6 +29,12 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <div class="col-md-4">
+                                            <input class="form-control" placeholder="Quotation No (Auto Generated)"
+                                                value="{{ $invoice->InvoiceNo }}" readonly>
+                                        </div>
+
+
                                     </div>
                                     <div class="mb-3 row">
                                         <label class="col-md-4 col-form-label">Attension</label>
