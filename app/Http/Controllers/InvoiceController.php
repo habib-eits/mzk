@@ -211,10 +211,13 @@ class InvoiceController extends Controller
 
         $detailsGroupedByServiceType = $invoice->details->groupBy('service_type_id');
 
+        $amountInWords = Invoice::convertAmountToWords($invoice->NetAmount);
+
         $pdf = PDF::loadView('invoices.show',[
             'invoice' => $invoice,
             'detailsGroupedByServiceType' => $detailsGroupedByServiceType,
             'company' => DB::table('company')->first(),
+            'amountInWords' => $amountInWords,
         ]);
 
         return $pdf->stream($invoice->ReferenceNo.'.pdf');
@@ -225,6 +228,9 @@ class InvoiceController extends Controller
         //     'company' => DB::table('company')->first(),
         // ]);
     }
+
+    
+
 
     /**
      * Show the form for editing the specified resource.

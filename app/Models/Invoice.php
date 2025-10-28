@@ -161,4 +161,31 @@ class Invoice extends Model
 
         return $invoiceNo;
     }
+
+    public static function convertAmountToWords($amount)
+    {
+        $formatter = new \NumberFormatter('en', \NumberFormatter::SPELLOUT);
+
+        // Ensure two decimal places and split into Dirham / Fils parts
+        $amountParts = explode('.', number_format($amount, 2, '.', ''));
+
+        $dirhams = (int)$amountParts[0];
+        $fils = (int)$amountParts[1];
+
+        $dirhamsInWords = $formatter->format($dirhams);
+        $filsInWords = $formatter->format($fils);
+
+        // Handle singular/plural properly
+        $dirhamWord = $dirhams == 1 ? 'dirham' : 'dirhams';
+        $filsWord = $fils == 1 ? 'fil' : 'fils';
+
+        // Build final string
+        $amountInWords = ucfirst("{$dirhamsInWords} {$dirhamWord}");
+        if ($fils > 0) {
+            $amountInWords .= " and {$filsWord} {$filsInWords}";
+        }
+        $amountInWords .= " only";
+
+        return $amountInWords;
+    }
 }

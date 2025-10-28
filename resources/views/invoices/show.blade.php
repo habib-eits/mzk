@@ -321,13 +321,9 @@
                             <td class="text-right">{{ $invoice->NetAmount }}</td>
                         </tr>
                         <tr>
-                            @php
-                                $formatter = new \NumberFormatter('en', \NumberFormatter::SPELLOUT);
-
-                            @endphp
                             <td colspan="2">
                                 <strong>Amount In Words:</strong><br>
-                                {{ ucfirst($formatter->format($invoice->NetAmount)) }}
+                                {{ $amountInWords }}
                             </td>
                         </tr>
                     </table>
