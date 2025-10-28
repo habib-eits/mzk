@@ -163,28 +163,35 @@ class Invoice extends Model
     }
 
     public static function convertAmountToWords($amount)
-    {
-        $formatter = new \NumberFormatter('en', \NumberFormatter::SPELLOUT);
+{
+    $formatter = new \NumberFormatter('en', \NumberFormatter::SPELLOUT);
 
-        // Ensure two decimal places and split into parts
-        $amountParts = explode('.', number_format($amount, 2, '.', ''));
+    // Ensure two decimal places and split into Dirham / Fils parts
+    $amountParts = explode('.', number_format($amount, 2, '.', ''));
 
-        $dirhams = (int)$amountParts[0];
-        $fils = (int)$amountParts[1];
+    $dirhams = (int)$amountParts[0];
+    $fils = (int)$amountParts[1];
 
-        $dirhamsInWords = ucfirst($formatter->format($dirhams));
-        $filsInWords = $formatter->format($fils);
+    $dirhamsInWords = trim($formatter->format($dirhams));
+    $filsInWords = trim($formatter->format($fils));
 
-        // Build output
-        if ($fils > 0) {
-            $amountInWords = "{$dirhamsInWords} and Fils {$filsInWords} Dirham Only";
-        } else {
-            $amountInWords = "{$dirhamsInWords} Dirham Only";
-        }
+    // Handle singular/plural properly
+    $dirhamWord = $dirhams == 1 ? 'Dirham' : 'Dirhams';
+    $filsWord = $fils == 1 ? 'Fil' : 'Fils';
 
-        return $amountInWords;
+    // Build final string
+    $amountInWords = ucfirst("{$dirhamsInWords} {$dirhamWord}");
+
+    if ($fils > 0) {
+        $amountInWords .= " and {$filsInWords} {$filsWord}";
     }
 
+    $amountInWords .= " Only";
 
+    // Fix common formatter issues like 'and zero' for 100
+    $amountInWords = preg_replace('/\s+/', ' ', $amountInWords); // clean spaces
+
+    return $amountInWords;
+}
 
 }
