@@ -213,6 +213,14 @@ class InvoiceController extends Controller
 
         $amountInWords = Invoice::convertAmountToWords($invoice->NetAmount);
 
+
+        return response()->json([
+            10 => Invoice::convertAmountToWords(10),
+            12.22 => Invoice::convertAmountToWords(12.22),
+            1050 => Invoice::convertAmountToWords(1050),
+            56945781.25 => Invoice::convertAmountToWords(56945781.25),
+        ]);
+
         $pdf = PDF::loadView('invoices.show',[
             'invoice' => $invoice,
             'detailsGroupedByServiceType' => $detailsGroupedByServiceType,

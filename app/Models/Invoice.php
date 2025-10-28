@@ -175,12 +175,16 @@ class Invoice extends Model
         $dirhamsInWords = ucfirst($formatter->format($dirhams));
         $filsInWords = $formatter->format($fils);
 
-        // Construct output in your requested format:
-        // “Eight Hundred Seven and Fils Ninety-Eight Dirham Only”
-        $amountInWords = "{$dirhamsInWords} and Fils {$filsInWords} Dirham Only";
+        // Build output
+        if ($fils > 0) {
+            $amountInWords = "{$dirhamsInWords} and Fils {$filsInWords} Dirham Only";
+        } else {
+            $amountInWords = "{$dirhamsInWords} Dirham Only";
+        }
 
         return $amountInWords;
     }
+
 
 
 }
