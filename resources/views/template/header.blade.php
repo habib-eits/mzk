@@ -1,156 +1,175 @@
 <header id="page-topbar" class="shadow-sm">
-<div class="navbar-header">
-<div class="d-flex">
-<!-- LOGO -->
-<div class="navbar-brand-box">
-<a href="{{URL('/dashboard')}}" class="logo logo-dark">
-<span class="logo-sm">
-<img src="{{URL('/')}}/assets/images/square.svg" alt="" height="30">
-</span>
-<span class="logo-lg">
-<img src="{{URL('/')}}/assets/images/square.svg" alt="" height="10"> Falak
-</span>
-</a>
-<a href="{{URL('/Dashboard')}}" class="logo logo-light">
-<span class="logo-sm">
-<img src="{{URL('/')}}/assets/images/square.svg" alt="" height="30">
-</span>
-<span class="logo-lg ">
-<h5 class="mt-4 text-white"> Extensive Books</h5>
-</span>
-</a>
-</div>
-<button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">
-<i class="fa fa-fw fa-bars"></i>
-</button>
-<!-- App Search-->
-<form class="app-search  d-none d-xl-block">
-<div class="position-relative">
-<div class="d-flex gap-2 flex-wrap">
+    <div class="navbar-header">
+        <div class="d-flex">
+            <!-- LOGO -->
+            <div class="navbar-brand-box">
+                <a href="{{ URL('/dashboard') }}" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="{{ URL('/') }}/assets/images/square.svg" alt="" height="30">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="{{ URL('/') }}/assets/images/square.svg" alt="" height="10"> Falak
+                    </span>
+                </a>
+                <a href="{{ URL('/Dashboard') }}" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="{{ URL('/') }}/assets/images/square.svg" alt="" height="30">
+                    </span>
+                    <span class="logo-lg ">
+                        <h5 class="mt-4 text-white"> Extensive Books</h5>
+                    </span>
+                </a>
+            </div>
+            <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">
+                <i class="fa fa-fw fa-bars"></i>
+            </button>
+            <!-- App Search-->
+            <form class="app-search  d-none d-xl-block">
+                <div class="position-relative">
+                    <div class="d-flex gap-2 flex-wrap">
 
 
-<div class="btn-group">
-<button type="button" class="  btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class=" text-success far fa-bookmark
-font-size-16 align-middle me-2"></i>Favorite <i class="mdi mdi-chevron-down"></i></button>
-<div class="dropdown-menu" style="margin: 0px;">
-    
-    <a class="dropdown-item" href="{{URL('/SalesInvoiceCreate')}}"><i class="bx bx-plus "></i> Invoice</a>
-    <div class="dropdown-divider"></div>
-    
-    <a class="dropdown-item" href="{{URL('/VoucherCreate/BP')}}"><i class="bx bx-plus "></i> BP-Bank Payment</a>
-    <a class="dropdown-item" href="{{URL('/VoucherCreate/BR')}}"><i class="bx bx-plus "></i> BR-Bank Receipt</a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{URL('/VoucherCreate/CP')}}"><i class="bx bx-plus "></i> CP-Cash Payment</a>
-    <a class="dropdown-item" href="{{URL('/VoucherCreate/CR')}}"><i class="bx bx-plus "></i> CR-Cash Receipt</a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="{{URL('/JV')}}"><i class="bx bx-plus "></i> Journal Voucher</a>
-    
-    
-</div>
-</div><!-- /btn-group -->
-<div class="btn-group">
-    <button type="button" class="  btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Party Reports <i class="mdi mdi-chevron-down"></i></button>
-    <div class="dropdown-menu" style="margin: 0px;">
-        <a class="dropdown-item" href="{{URL('/Invoice')}}">Invoice</a>
-        <a class="dropdown-item" href="{{URL('/PartyLedger')}}">Party Ledger</a>
-        <a class="dropdown-item" href="{{URL('/PartyBalance')}}">Party Balance</a>
-        <a class="dropdown-item" href="{{URL('/PartyYearlyBalance')}}">Yearly Report</a>
-           <a class="dropdown-item" href="{{URL('/PartyAgingPDF')}}">Aging Report</a>
-        <!-- <a class="dropdown-item" href="#">Party Analysis</a> -->
-        <a class="dropdown-item" href="{{URL('/PartyList')}}">Party List</a>
-        <a class="dropdown-item" href="{{URL('/PartyWiseSale')}}">Partywise Sale (SOA)</a>
-        <a class="dropdown-item" href="{{URL('/OutStandingInvoice')}}">Outstanding Invoices</a>
-            <a class="dropdown-item" href="{{URL('/TaxReport')}}">Tax Report</a>
-            <a class="dropdown-item" href="{{URL('/CitywiseReport')}}">Saleman Party Balances</a>
-    </div>
-    </div><!-- /btn-group -->
-    
-<div class="btn-group">
-<button type="button" class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Supplier Reports <i class="mdi mdi-chevron-down"></i></button>
-<div class="dropdown-menu">
-    <a class="dropdown-item" href="{{URL('/SupplierLedger')}}">Supplier Ledger</a>
-    <a class="dropdown-item" href="{{URL('/SupplierBalance')}}">Supplier Balance</a>
-    <a class="dropdown-item" href="{{URL('/Invoice')}}">Sale Invoice</a>
-    <a class="dropdown-item" href="{{URL('/SalemanReport')}}">Sales Man Report</a>
-    <a class="dropdown-item" href="{{URL('/TaxReportSupplier')}}">Tax Report</a>
-    <a class="dropdown-item" href="{{URL('/SupplierWiseSale')}}">Purchase Report</a>
-</div>
-</div><!-- /btn-group -->
-<div class="btn-group">
-    <button type="button" class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Accounts Reports <i class="mdi mdi-chevron-down"></i></button>
-    <div class="dropdown-menu">
-        <a class="dropdown-item  " href="{{URL('/VoucherReport')}}">Voucher</a>
-        <a class="dropdown-item" href="{{URL('/CashbookReport')}}">Cash Book</a>
-        <div class="dropdown-divider"></div>
-        <!-- <a class="dropdown-item" href="#">Sales man wise cash book</a> -->
-        <a class="dropdown-item" href="{{URL('/DailyIncomeExpense')}}">Daily Income / Expense</a>
+                        <div class="btn-group">
+                            <button type="button" class="  btn btn-outline-light dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-expanded="false"><i
+                                    class=" text-success far fa-bookmark
+font-size-16 align-middle me-2"></i>Favorite <i
+                                    class="mdi mdi-chevron-down"></i></button>
+                            <div class="dropdown-menu" style="margin: 0px;">
+
+                                <a class="dropdown-item" href="{{ URL('/SalesInvoiceCreate') }}"><i
+                                        class="bx bx-plus "></i> Invoice</a>
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item" href="{{ URL('/VoucherCreate/BP') }}"><i
+                                        class="bx bx-plus "></i> BP-Bank Payment</a>
+                                <a class="dropdown-item" href="{{ URL('/VoucherCreate/BR') }}"><i
+                                        class="bx bx-plus "></i> BR-Bank Receipt</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ URL('/VoucherCreate/CP') }}"><i
+                                        class="bx bx-plus "></i> CP-Cash Payment</a>
+                                <a class="dropdown-item" href="{{ URL('/VoucherCreate/CR') }}"><i
+                                        class="bx bx-plus "></i> CR-Cash Receipt</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ URL('/JV') }}"><i class="bx bx-plus "></i> Journal
+                                    Voucher</a>
 
 
-        <a class="dropdown-item" href="{{URL('/DaybookReport')}}">Day book</a>
-        <a class="dropdown-item" href="{{URL('/GeneralLedger')}}">General Ledger</a>
-        
-        <a class="dropdown-item" href="{{URL('/TrialBalance')}}">Trial Balance</a>
-        
-        <a class="dropdown-item" href="{{URL('/trialreportsearch')}}">Trial Balance New Report</a>
+                            </div>
+                        </div><!-- /btn-group -->
+                        <div class="btn-group">
+                            <button type="button" class="  btn btn-outline-light dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-expanded="false">Party Reports <i
+                                    class="mdi mdi-chevron-down"></i></button>
+                            <div class="dropdown-menu" style="margin: 0px;">
+                                <a class="dropdown-item" href="{{ URL('/Invoice') }}">Invoice</a>
+                                <a class="dropdown-item" href="{{ URL('/PartyLedger') }}">Party Ledger</a>
+                                <a class="dropdown-item" href="{{ URL('/PartyBalance') }}">Party Balance</a>
+                                <a class="dropdown-item" href="{{ URL('/PartyYearlyBalance') }}">Yearly Report</a>
+                                <a class="dropdown-item" href="{{ URL('/PartyAgingPDF') }}">Aging Report</a>
+                                <!-- <a class="dropdown-item" href="#">Party Analysis</a> -->
+                                <a class="dropdown-item" href="{{ URL('/PartyList') }}">Party List</a>
+                                <a class="dropdown-item" href="{{ URL('/PartyWiseSale') }}">Partywise Sale (SOA)</a>
+                                <a class="dropdown-item" href="{{ URL('/OutStandingInvoice') }}">Outstanding
+                                    Invoices</a>
+                                <a class="dropdown-item" href="{{ URL('/TaxReport') }}">Tax Report</a>
+                                <a class="dropdown-item" href="{{ URL('/CitywiseReport') }}">Saleman Party Balances</a>
+                            </div>
+                        </div><!-- /btn-group -->
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-light dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-expanded="false">Supplier Reports <i
+                                    class="mdi mdi-chevron-down"></i></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ URL('/SupplierLedger') }}">Supplier Ledger</a>
+                                <a class="dropdown-item" href="{{ URL('/SupplierBalance') }}">Supplier Balance</a>
+                                <a class="dropdown-item" href="{{ URL('/Invoice') }}">Sale Invoice</a>
+                                <a class="dropdown-item" href="{{ URL('/SalemanReport') }}">Sales Man Report</a>
+                                <a class="dropdown-item" href="{{ URL('/TaxReportSupplier') }}">Tax Report</a>
+                                <a class="dropdown-item" href="{{ URL('/SupplierWiseSale') }}">Purchase Report</a>
+                            </div>
+                        </div><!-- /btn-group -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-light dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-expanded="false">Accounts Reports <i
+                                    class="mdi mdi-chevron-down"></i></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item  " href="{{ URL('/VoucherReport') }}">Voucher</a>
+                                <a class="dropdown-item" href="{{ URL('/CashbookReport') }}">Cash Book</a>
+                                <div class="dropdown-divider"></div>
+                                <!-- <a class="dropdown-item" href="#">Sales man wise cash book</a> -->
+                                <a class="dropdown-item" href="{{ URL('/DailyIncomeExpense') }}">Daily Income /
+                                    Expense</a>
 
 
-        <a class="dropdown-item" href="{{URL('/TrialBalanceActivity')}}">Trial with acitivity</a>
-        <!-- <a class="dropdown-item" href="#">yearly summary</a> -->
-        <a class="dropdown-item" href="{{URL('/ProfitAndLoss')}}">profit and loss</a>
-        <a class="dropdown-item" href="{{URL('/BalanceSheet')}}">balance sheet</a>
-        <a class="dropdown-item" href="{{URL('/PartyBalance')}}">party balance</a>
-        <!--     <a class="dropdown-item" href="#">ageing report</a>
+                                <a class="dropdown-item" href="{{ URL('/DaybookReport') }}">Day book</a>
+                                <a class="dropdown-item" href="{{ URL('/GeneralLedger') }}">General Ledger</a>
+
+                                <a class="dropdown-item" href="{{ URL('/TrialBalance') }}">Trial Balance</a>
+
+                                <a class="dropdown-item" href="{{ URL('/trialreportsearch') }}">Trial Balance New
+                                    Report</a>
+
+
+                                <a class="dropdown-item" href="{{ URL('/TrialBalanceActivity') }}">Trial with
+                                    acitivity</a>
+                                <!-- <a class="dropdown-item" href="#">yearly summary</a> -->
+                                <a class="dropdown-item" href="{{ URL('/ProfitAndLoss') }}">profit and loss</a>
+                                <a class="dropdown-item" href="{{ URL('/BalanceSheet') }}">balance sheet</a>
+                                <a class="dropdown-item" href="{{ URL('/PartyBalance') }}">party balance</a>
+                                <!--     <a class="dropdown-item" href="#">ageing report</a>
         <a class="dropdown-item" href="#">cash flow</a> -->
-        <a class="dropdown-item" href="{{URL('/TaxOverallReport')}}">Tax Report</a>
-        <a class="dropdown-item" href="{{URL('/ReconcileReport')}}">Bank Reconciliation</a>
-        <a class="dropdown-item" href="{{URL('/InvoiceSummary')}}">invoice summary list</a>
-        <a class="dropdown-item" href="{{URL('/Inventory')}}">Stock Inventory</a>
-        <a class="dropdown-item" href="{{URL('/ExpenseReport')}}">Expense Report</a>
-        
-    </div>
-    </div><!-- /btn-group -->
-    <!--   <div class="btn-group ">
+                                <a class="dropdown-item" href="{{ URL('/TaxOverallReport') }}">Tax Report</a>
+                                <a class="dropdown-item" href="{{ URL('/ReconcileReport') }}">Bank Reconciliation</a>
+                                <a class="dropdown-item" href="{{ URL('/InvoiceSummary') }}">invoice summary list</a>
+                                <a class="dropdown-item" href="{{ URL('/Inventory') }}">Stock Inventory</a>
+                                <a class="dropdown-item" href="{{ URL('/ExpenseReport') }}">Expense Report</a>
+
+                            </div>
+                        </div><!-- /btn-group -->
+                        <!--   <div class="btn-group ">
         <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Reports <i class="mdi mdi-chevron-down"></i></button>
         <div class="dropdown-menu">
-            <a class="dropdown-item  " href="{{URL('/Journal')}}">Journal</a>
-            <a class="dropdown-item" href="{{URL('/CashbookReport')}}">Cash Book</a>
+            <a class="dropdown-item  " href="{{ URL('/Journal') }}">Journal</a>
+            <a class="dropdown-item" href="{{ URL('/CashbookReport') }}">Cash Book</a>
             <div class="dropdown-divider"></div>
             
             
         </div>
     </div><  /btn-group -->
-    
-</div>
-</div>
-</form>
- <a href="{{ route('pdf-invoice') }}">invoice</a>
- <a href="{{ route('pdf-quotation') }}">quotation</a>
- <a href="{{ route('pdf-voucher') }}">voucher</a>
- <a href="{{ route('pdf-workOrder') }}">workOrder</a>
-</div>
-<div class="d-flex">
-<div class="dropdown d-inline-block d-lg-none ms-2">
-    <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"
-    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <i class="mdi mdi-magnify"></i>
-    </button>
-    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-        aria-labelledby="page-header-search-dropdown">
-        
-        <form class="p-3">
-            <div class="form-group m-0">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
+
                     </div>
                 </div>
-            </div>
-        </form>
-    </div>
-</div>
+            </form>
 
-<!--
+        </div>
+        <div class="d-flex">
+            <div class="dropdown d-inline-block d-lg-none ms-2">
+                <button type="button" class="btn header-item noti-icon waves-effect"
+                    id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="mdi mdi-magnify"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                    aria-labelledby="page-header-search-dropdown">
+
+                    <form class="p-3">
+                        <div class="form-group m-0">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search ..."
+                                    aria-label="Recipient's username">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit"><i
+                                            class="mdi mdi-magnify"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!--
 <div class="dropdown d-none d-lg-inline-block ms-1">
     <button type="button" class="btn header-item noti-icon waves-effect"
     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -202,7 +221,7 @@ font-size-16 align-middle me-2"></i>Favorite <i class="mdi mdi-chevron-down"></i
     </div>
 </div> -->
 
-<!--
+            <!--
 <div class="dropdown d-inline-block">
     <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -240,7 +259,7 @@ font-size-16 align-middle me-2"></i>Favorite <i class="mdi mdi-chevron-down"></i
             </a>
             <a href="#" class="text-reset notification-item">
                 <div class="media">
-                    <img src="{{URL('/')}}/assets/images/users/avatar-3.jpg"
+                    <img src="{{ URL('/') }}/assets/images/users/avatar-3.jpg"
                     class="me-3 rounded-circle avatar-xs" alt="user-pic">
                     <div class="media-body">
                         <h6 class="mt-0 mb-1">James Lemire</h6>
@@ -269,7 +288,7 @@ font-size-16 align-middle me-2"></i>Favorite <i class="mdi mdi-chevron-down"></i
             </a>
             <a href="#" class="text-reset notification-item">
                 <div class="media">
-                    <img src="{{URL('/')}}/assets/images/users/avatar-4.jpg"
+                    <img src="{{ URL('/') }}/assets/images/users/avatar-4.jpg"
                     class="me-3 rounded-circle avatar-xs" alt="user-pic">
                     <div class="media-body">
                         <h6 class="mt-0 mb-1">Salena Layfield</h6>
@@ -289,29 +308,33 @@ font-size-16 align-middle me-2"></i>Favorite <i class="mdi mdi-chevron-down"></i
     </div>
 </div>
 -->
-<div class="dropdown d-inline-block">
-    <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <img class="rounded-circle header-profile-user" src="{{URL('/')}}/assets/images/users/avatar-1.jpg"
-    alt="Header Avatar">
-    <span class="d-none d-xl-inline-block ms-1 " key="t-henry">Setting</span>
-    <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
-    </button>
-    <div class="dropdown-menu dropdown-menu-end">
-        <!-- item-->
-        <a class="dropdown-item" href="{{URL('/UserProfile')}}">
-            <i class="bx bx-user font-size-16 align-middle me-1"></i>
-            <span key="t-profile">Profile</span></a>
-            
-            
-            <a class="dropdown-item d-block" href="{{URL('/ChangePassword')}}"><i class="bx bx-wrench font-size-16 align-middle me-1"></i> <span key="t-settings">Change Password</span></a>
-            
-            
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-danger" href="{{URL('/Logout')}}"><i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span key="t-logout">Logout</span></a>
+            <div class="dropdown d-inline-block">
+                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="rounded-circle header-profile-user"
+                        src="{{ URL('/') }}/assets/images/users/avatar-1.jpg" alt="Header Avatar">
+                    <span class="d-none d-xl-inline-block ms-1 " key="t-henry">Setting</span>
+                    <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <!-- item-->
+                    <a class="dropdown-item" href="{{ URL('/UserProfile') }}">
+                        <i class="bx bx-user font-size-16 align-middle me-1"></i>
+                        <span key="t-profile">Profile</span></a>
+
+
+                    <a class="dropdown-item d-block" href="{{ URL('/ChangePassword') }}"><i
+                            class="bx bx-wrench font-size-16 align-middle me-1"></i> <span key="t-settings">Change
+                            Password</span></a>
+
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-danger" href="{{ URL('/Logout') }}"><i
+                            class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span
+                            key="t-logout">Logout</span></a>
+                </div>
+            </div>
+
         </div>
     </div>
-    
-</div>
-</div>
 </header>
