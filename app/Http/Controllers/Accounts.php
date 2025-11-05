@@ -2493,7 +2493,7 @@ class Accounts extends Controller
     }
     public function RoleUpdate(request $request)
     {
-
+        dd($request->all());
         ///////////////////////USER RIGHT & CONTROL ///////////////////////////////////////////
         $allow = check_role(session::get('UserID'), 'User Rights', 'Assign');
         if ($allow == 0) {
