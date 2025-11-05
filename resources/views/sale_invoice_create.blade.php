@@ -645,7 +645,8 @@
                                                 <input type="number" name="Grandtotal" id="Grandtotal"
                                                     class="form-control" step="0.01" id="grandtotal"
                                                     placeholder="Grand Total" onkeypress="return IsNumeric(event);"
-                                                    ondrop="return false;" onpaste="return false;" value="0" readonly>
+                                                    ondrop="return false;" onpaste="return false;" value="0"
+                                                    readonly>
                                             </div>
                                         </div>
                                         <div class="form-group mt-1 d-none">
@@ -1123,8 +1124,7 @@
                         discountamount);
                     $('#Grandtotal').val(grandtotal.toFixed(2));
                     calculateTotal();
-                }
-                else {
+                } else {
                     seletedVal.value == 0 ? seletedVal.value = 5 : seletedVal.value = 0
                     return false;
                 }

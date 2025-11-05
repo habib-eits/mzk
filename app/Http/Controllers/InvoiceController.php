@@ -23,6 +23,8 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
+        // $invoice = Invoice::find(6);
+        // dd($invoice->NetAmount);
         
          try{
             if ($request->ajax()) {
@@ -163,10 +165,12 @@ class InvoiceController extends Controller
                 
             if(!empty($data['InvoiceMasterID'])){
                 $this->deleteInvoiceDetails($invoice);
+                $this->deleteJournalEntries($invoice);
             }
                 
 
             $this->createInvoiceDetails($invoice, $data);
+            $this->createJournalEntries($invoice);
 
             
 
@@ -195,6 +199,13 @@ class InvoiceController extends Controller
     {
         if($invoice){
             $invoice->details()->delete();            
+        }
+
+    }
+    public function deleteJournalEntries($invoice)
+    {
+        if($invoice){
+            DB::table('journal')->where('InvoiceMasterID', $invoice->InvoiceMasterID)->delete();
         }
 
     }
@@ -300,6 +311,36 @@ class InvoiceController extends Controller
             ]);
 
         }
+    }
+
+    protected function createJournalEntries(Invoice $invoice)
+    {
+
+        $data = [
+            'VHNO' => $invoice->InvoiceNo,
+            'JournalType' => 'JV',
+            'PartyID' => $invoice->PartyID,
+            'InvoiceMasterID' => $invoice->InvoiceMasterID,
+            'Date' => $invoice->Date,
+            'Narration' => 'Invoice #' . $invoice->InvoiceNo,
+        ];
+
+        $ar_debit = array_merge($data, [
+            'ChartOfAccountID' => '110400',  // A/R
+            'Dr' => $invoice->NetAmount,
+        ]);
+
+
+        $sales_credit = array_merge($data, [
+            'ChartOfAccountID' => '400100',  // Sales Revenue
+            'Cr' => $invoice->NetAmount,
+        ]);
+
+
+        DB::table('journal')->insert($ar_debit);
+        DB::table('journal')->insert($sales_credit);
+
+       
     }
 }
 

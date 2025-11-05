@@ -51,7 +51,7 @@ class StoreInvoiceRequest extends FormRequest
 
              // Validate details array
             'ItemID' => 'required|array|min:1',
-            'service_type_id.*' => 'required|integer',
+            'service_type_id.*' => 'nullable|integer',
             'ItemID.*' => 'required|integer',
             'Description.*' => 'nullable|string',
             'UnitName.*' => 'required|string',
