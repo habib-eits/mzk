@@ -125,6 +125,7 @@ font-size-16 align-middle me-2"></i>Favorite <i
                                 <a class="dropdown-item" href="{{ URL('/InvoiceSummary') }}">invoice summary list</a>
                                 <a class="dropdown-item" href="{{ URL('/Inventory') }}">Stock Inventory</a>
                                 <a class="dropdown-item" href="{{ URL('/ExpenseReport') }}">Expense Report</a>
+                                <a class="dropdown-item" href="{{ URL('/StaffReport') }}">Staff Report</a>
 
                             </div>
                         </div><!-- /btn-group -->

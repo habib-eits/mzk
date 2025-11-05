@@ -913,6 +913,12 @@ Route::post('/AttendanceUpdate/',[HR::class,'AttendanceUpdate'])->name('attendan
 
 
     Route::post('/ajax_job2', [JobController::class, 'ajax_job2'])->name('ajax.job2');
+
+
+
+    Route::get('/StaffReport/',[HR::class,'StaffReport'])->name('staff.report');
+    Route::post('/StaffReport1/',[HR::class,'StaffReport1'])->name('staff.report1');
+    Route::get('/StaffReport_detail/{employee_id}/{chartofaccountid}',[HR::class,'StaffReport_detail'])->name('staff.report.detail');
     
 
 // END OF CRM LINKS

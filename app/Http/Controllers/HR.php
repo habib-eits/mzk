@@ -4944,4 +4944,102 @@ $advance_cr =
 }
 
 
+public function StaffReport()
+{
+  $pagetitle='Staff Report';
+
+  $employee = DB::table('v_employee')->get();
+  $chartofaccount = DB::table('chartofaccount')->get();
+
+  return view('hr.staff_report',compact('pagetitle','employee','chartofaccount'));
+
+}
+
+
+  public function StaffReport1( request $request)
+  {
+
+    $pagetitle='Staff Report';
+
+
+    
+      $journal = DB::table('v_journal')
+      ->select(
+          DB::raw('COALESCE(SUM(v_journal.Dr), 0) AS TotalDr'),
+          DB::raw('COALESCE(SUM(v_journal.Cr), 0) AS TotalCr'),
+          DB::raw('COALESCE(SUM(v_journal.Dr), 0) - COALESCE(SUM(v_journal.Cr), 0) AS Balance'),
+          'v_employee.EmployeeID',
+          'v_employee.FirstName',
+          'v_employee.MiddleName',
+          'v_employee.LastName',
+          'v_employee.JobTitleName',
+          'v_employee.FullName',
+          'v_journal.ChartOfAccountID',
+          'v_journal.ChartOfAccountName'
+      )
+      ->join('v_employee', 'v_journal.EmployeeID', '=', 'v_employee.EmployeeID')
+
+      // required date range filter
+      ->where('v_journal.ChartOfAccountID','<>', '110101')
+
+      // optional filters
+      ->when($request->EmployeeID, function ($query) use ($request) {
+          $query->where('v_journal.EmployeeID', $request->EmployeeID);
+      })
+      ->when($request->ChartOfAccountID, function ($query) use ($request) {
+          $query->where('v_journal.ChartOfAccountID', $request->ChartOfAccountID);
+      })
+
+      ->groupBy(
+          'v_employee.EmployeeID',
+          'v_employee.FullName',
+          'v_employee.JobTitleName',
+          'v_journal.ChartOfAccountID',
+          'v_journal.ChartOfAccountName'
+      )
+      ->havingRaw('COALESCE(SUM(v_journal.Dr), 0) - COALESCE(SUM(v_journal.Cr), 0) > 0')
+      ->get();
+
+
+
+    return view('hr.staff_report1',compact('pagetitle','journal'));
+
+  }
+
+public function StaffReport_detail($employee_id, $chartofaccountid)
+{
+    $pagetitle = 'Staff Report Detail';
+
+    // Get employee and chart of account info
+    $employee = DB::table('v_employee')->where('EmployeeID', $employee_id)->first();
+    $chartofaccount = DB::table('chartofaccount')->where('ChartOfAccountID', $chartofaccountid)->first();
+
+    // Fetch journal entries
+    $journal = DB::table('v_journal')
+        ->select(
+            'v_journal.Date',
+            'v_journal.Dr',
+            'v_journal.Cr',
+            'v_employee.EmployeeID',
+            'v_employee.FirstName',
+            'v_employee.MiddleName',
+            'v_employee.LastName',
+            'v_employee.JobTitleName',
+            'v_employee.FullName',
+            'v_journal.ChartOfAccountID',
+            'v_journal.ChartOfAccountName'
+        )
+        ->join('v_employee', 'v_journal.EmployeeID', '=', 'v_employee.EmployeeID')
+        ->where('v_journal.ChartOfAccountID', '<>', '110101')
+        ->where('v_journal.ChartOfAccountID', $chartofaccountid)
+        ->where('v_journal.EmployeeID', $employee_id)
+        ->orderBy('v_journal.Date', 'asc')
+        ->get();
+
+    return view('hr.staff_report_detail', compact('pagetitle', 'employee', 'chartofaccount', 'journal'));
+}
+
+
+
+
 }
