@@ -111,7 +111,7 @@
                                                             value="{{ $value1->Table }}">
                                                         <input name="Action[]" type="hidden" id="{{ $value->RoleID }}"
                                                             value="{{ $value->Action }}">
-                                                        <input name="Allow[]" type="text" id="{{ $value->RoleID }}Allow"
+                                                        <input name="Allow[]" type="hidden" id="{{ $value->RoleID }}Allow"
                                                             value="{{ $value->Allow }}" class="role">
 
 
