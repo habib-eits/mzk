@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Payment Receipt</title>
     <style>
         .font {
             font-family: "Poppins", sans-serif !important;
@@ -29,24 +30,25 @@
 
 <body>
     <div class="container mt-5">
-  
 
-        <div class="row"  >
+
+        <div class="row">
             <div class="col-md-3">
-                <div >
-                    <img height="150px;" src="{{asset('/documents/'.$company[0]->Logo)}}" alt="{{$company[0]->Name}}" >
+                <div>
+                    <img height="150px;" src="{{ asset('/documents/' . $company[0]->Logo) }}"
+                        alt="{{ $company[0]->Name }}">
 
                 </div>
 
             </div>
             <div class="col-md-8">
                 <span class="font"><strong>
-                        <h3>{{$company[0]->Name}}</h3>
+                        <h3>{{ $company[0]->Name }}</h3>
                     </strong>
-                    TRN # {{$company[0]->TRN}},<br>
-                    {{$company[0]->Address}}<br>
-                    {{$company[0]->Contact}}<br>
-                    {{$company[0]->Email}}
+                    TRN # {{ $company[0]->TRN }},<br>
+                    {{ $company[0]->Address }}<br>
+                    {{ $company[0]->Contact }}<br>
+                    {{ $company[0]->Email }}
 
                 </span>
 
@@ -60,6 +62,12 @@
             </div>
 
             <div class="container">
+                @php
+                    $paymentAccount = DB::table('chartofaccount')
+                        ->where('ChartOfAccountID', $payment_master[0]->PaymentMode)
+
+                        ->first();
+                @endphp
 
                 <div class="row">
                     <div class="col-8">
@@ -68,29 +76,36 @@
                             <tbody class="font">
                                 <tr>
                                     <td>Payment Date</td>
-                                    <th>{{$payment_master[0]->PaymentDate	}}</th>
+                                    <th>{{ $payment_master[0]->PaymentDate }}</th>
                                 </tr>
                                 <tr>
                                     <td>Reference Number</td>
-                                    <th>{{$payment_master[0]->ReferenceNo	}}</th>
+                                    <th>{{ $payment_master[0]->ReferenceNo }}</th>
                                 </tr>
                                 <tr>
                                     <td>Payment Mode</td>
-                                    <th>{{$payment_master[0]->PaymentMode	}}</th>
+                                    {{-- <th>{{ $payment_master[0]->PaymentMode }}</th> --}}
+                                    <th>{{ $paymentAccount->Category ?? 'N/A' }}</th>
                                 </tr>
-                                
+                                <tr>
+                                    <td>Account</td>
+                                    {{-- <th>{{ $payment_master[0]->PaymentMode }}</th> --}}
+                                    <th>{{ $paymentAccount->ChartOfAccountName ?? 'N/A' }}</th>
+                                </tr>
+
                             </tbody>
                         </table>
                         Bill To:
                         <br>
-                        <strong style="font-weight: bold;" class="font">{{$payment_master[0]->SupplierName}}</strong>
-                       
+                        <strong style="font-weight: bold;"
+                            class="font">{{ $payment_master[0]->SupplierName }}</strong>
+
                     </div>
                     <div class="col-4">
                         <div class="bg-info text-center pt-4" style="height: 45%; width: 70%; margin-left: -20%;">
                             <span class="font" style="color: white;">
                                 Amount Paid <br>
-                                PKR {{$payment_master[0]->PaymentAmount	}}
+                                PKR {{ $payment_master[0]->PaymentAmount }}
                             </span>
                         </div>
 
@@ -98,47 +113,54 @@
                 </div>
                 <hr>
 
-                 @if(count($payment_detail)>0)        
-                <table class="table table-sm align-middle table-nowrap mb-0">
-                <tbody><tr class="bg-light">
-                <th scope="col" class="col-md-1">S.No</th>
-                <th scope="col" class="col-md-9">Invoice No</th>
-                <th scope="col" class="col-md-2">Amount</th>
-                </tr>
-                </tbody>
-                <tbody>
-                @foreach ($payment_detail as $key =>$value)
-                 <tr>
-                 <td class="col-md-1">{{$key+1}}</td>
-                 <td class="col-md-1">{{$value->InvoiceNo}}</td>
-                 <td class="col-md-1">{{$value->Payment}}</td>
-                 </tr>
-                 @endforeach   
-                 <tr class="font-weight-bolder">
-                     <td></td>
-                     <td>Total</td>
-                     <td>{{$payment_master[0]->PaymentAmount    }} PKR </td>
-                 </tr>
-                 </tbody>
+                @if (count($payment_detail) > 0)
+                    <table class="table table-sm align-middle table-nowrap mb-0">
+                        <tbody>
+                            <tr class="bg-light">
+                                <th scope="col" class="col-md-1">S.No</th>
+                                <th scope="col" class="col-md-9">Invoice No</th>
+                                <th scope="col" class="col-md-2">Amount</th>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            @foreach ($payment_detail as $key => $value)
+                                <tr>
+                                    <td class="col-md-1">{{ $key + 1 }}</td>
+                                    <td class="col-md-1">{{ $value->InvoiceNo }}</td>
+                                    <td class="col-md-1">{{ $value->Payment }}</td>
+                                </tr>
+                            @endforeach
+                            <tr class="font-weight-bolder">
+                                <td></td>
+                                <td>Total</td>
+                                <td>{{ $payment_master[0]->PaymentAmount }} PKR </td>
+                            </tr>
+                        </tbody>
 
-                 </table>
-                 @else
-                   <p class=" text-danger">No data found</p>
-                 @endif   
+                    </table>
+                @else
+                    <p class=" text-danger">No data found</p>
+                @endif
 
             </div>
 
- <hr>
+            <hr>
 
- <div style="height: 250px;">.</div>
+            <div style="height: 250px;">.</div>
 
         </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
