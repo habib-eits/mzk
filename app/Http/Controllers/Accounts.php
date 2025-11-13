@@ -3383,10 +3383,12 @@ class Accounts extends Controller
         if (($request->PartyID > 0)) {
 
             $party_wise = DB::table('v_partywise_sale')->where('PartyID', $request->PartyID)
+                ->where('invoiceType','invoice')
                 ->whereBetween('date', array($request->StartDate, $request->EndDate))
                 ->get();
         } else {
             $party_wise = DB::table('v_partywise_sale')
+                ->where('invoiceType','invoice')
                 ->whereBetween('date', array($request->StartDate, $request->EndDate))
 
                 ->get();
@@ -3412,10 +3414,12 @@ class Accounts extends Controller
         if (($request->PartyID > 0)) {
 
             $party_wise = DB::table('v_partywise_sale')->where('PartyID', $request->PartyID)
+                ->where('invoiceType','invoice')
                 ->whereBetween('date', array($request->StartDate, $request->EndDate))
                 ->get();
         } else {
             $party_wise = DB::table('v_partywise_sale')
+                ->where('invoiceType','invoice')
                 ->whereBetween('date', array($request->StartDate, $request->EndDate))
 
                 ->get();
