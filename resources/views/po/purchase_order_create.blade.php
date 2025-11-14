@@ -5,11 +5,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- <script src="{{ asset('assets/invoice/js/jquery-1.11.2.min.js') }}"></script>
-                                                            <script src="{{ asset('assets/invoice/js/jquery-ui.min.js') }}"></script>
-                                                            <script src="js/ajax.js"></script> -->
+                                                                                    <script src="{{ asset('assets/invoice/js/jquery-ui.min.js') }}"></script>
+                                                                                    <script src="js/ajax.js"></script> -->
     <!--
-                                                            <script src="{{ asset('assets/invoice/js/bootstrap.min.js') }}"></script>
-                                                            <script src="{{ asset('assets/invoice/js/bootstrap-datepicker.js') }}"></script>  -->
+                                                                                    <script src="{{ asset('assets/invoice/js/bootstrap.min.js') }}"></script>
+                                                                                    <script src="{{ asset('assets/invoice/js/bootstrap-datepicker.js') }}"></script>  -->
 
 
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
@@ -513,9 +513,9 @@
 
                                                 <th width="150">UNIT</th>
 
-                                                <th width="150" class="d-none">UNIT/Qty</th>
+                                                <th width="150" class="">QUANTITY</th>
 
-                                                <th width="150">QUANTITY</th>
+                                                <th width="150">LS</th>
 
                                                 <th width="150">RATE</th>
 
@@ -566,7 +566,7 @@
 
                                                     </select></td>
 
-                                                <td valign="top" class="d-none">
+                                                <td valign="top" class="">
                                                     <input type="number" name="UnitQty[]" id="UnitQty_1"
                                                         class=" form-control changesNo  " autocomplete="off"
                                                         onkeypress="return IsNumeric(event);" ondrop="return false;"
@@ -576,7 +576,7 @@
 
                                                 <td valign="top">
                                                     <input type="number" name="Qty[]" id="Qty_1"
-                                                        class=" form-control changesNo QtyTotal" autocomplete="off"
+                                                        class=" form-control changesNo QtyTotal d-none" autocomplete="off"
                                                         onkeypress="return IsNumeric(event);" ondrop="return false;"
                                                         onpaste="return false;" step="0.01" value="1"> <select
                                                         class="form-select mt-1" name="LS[]" id="LS_1">
@@ -601,8 +601,8 @@
                                                             onpaste="return false;" step="0.01" value="0">
                                                         <span>
                                                             <!-- <div class="col-sm-3">
-                                                                                                    <label class="col-form-label" for="password">Salesperson </label>
-                                                                                                </div> -->
+                                                                                                                            <label class="col-form-label" for="password">Salesperson </label>
+                                                                                                                        </div> -->
                                                             <div class="col-sm-9 input-group">
                                                                 <select name="DiscountType[]" id="DiscountType_1"
                                                                     class="form-select  changesNo bg-light">
@@ -836,12 +836,12 @@
                 </form>
 
                 <!--  <div class='row'>
-                                                                      <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
-                                                                        <div class="well text-center">
-                                                                      <h2>Back TO Tutorial: <a href="#"> Invoice System </a> </h2>
-                                                                    </div>
-                                                                      </div>
-                                                                    </div>   -->
+                                                                                              <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                                                                                                <div class="well text-center">
+                                                                                              <h2>Back TO Tutorial: <a href="#"> Invoice System </a> </h2>
+                                                                                            </div>
+                                                                                              </div>
+                                                                                            </div>   -->
 
 
 
@@ -880,12 +880,12 @@
             html += ' <td valign="top"><select name="UnitName[]" id="UnitName_' + i +
                 '" class="form-select">                                          @foreach ($unit as $value)     <option value="{{ $value->UnitName }}">{{ $value->UnitName }}</option>                                              @endforeach                                          </select></td>                                             ';
 
-            html += '<td valign="top" class="d-none"> <input type="number" name="UnitQty[]" id="UnitQty_' + i +
+            html += '<td valign="top" > <input type="number" name="UnitQty[]" id="UnitQty_' + i +
                 '" class=" form-control changesNo " autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" step="0.01" value="">                                            </td>';
 
 
             html += '<td valign="top"><input type="text" name="Qty[]" id="Qty_' + i +
-                '" class="form-control changesNo QtyTotal" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" value="1"> <select  class="form-select mt-1" name="LS[]" id="LS_' +
+                '" class="form-control changesNo QtyTotal d-none" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" value="1"> <select  class="form-select mt-1" name="LS[]" id="LS_' +
                 i +
                 '"><option value="YES"> L/S YES</option>        <option value="NO">LS / NO</option>    </select></td>';
 
