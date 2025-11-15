@@ -9529,7 +9529,7 @@ $pagetitle='Purchase Order';
         $item = json_encode($items);
         // dd($item);
         $supplier = DB::table('supplier')->get();
-        $tax = DB::table('tax')->get();
+        $tax = DB::table('tax')->take(2)->get();
         $job = DB::table('v_job')->get();
 
         // $tax = DB::table('tax')->get();
@@ -9784,7 +9784,7 @@ $pagetitle='Purchase Order';
 
 
         $supplier = DB::table('supplier')->get();
-        $tax = DB::table('tax')->get();
+        $tax = DB::table('tax')->take(2)->get();
 
         // $tax = DB::table('tax')->get();
         $user = DB::table('user')->get();

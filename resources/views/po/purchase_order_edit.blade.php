@@ -5,11 +5,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- <script src="{{ asset('assets/invoice/js/jquery-1.11.2.min.js') }}"></script>
-                                                <script src="{{ asset('assets/invoice/js/jquery-ui.min.js') }}"></script>
-                                                <script src="js/ajax.js"></script> -->
+                                                    <script src="{{ asset('assets/invoice/js/jquery-ui.min.js') }}"></script>
+                                                    <script src="js/ajax.js"></script> -->
     <!--
-                                                <script src="{{ asset('assets/invoice/js/bootstrap.min.js') }}"></script>
-                                                <script src="{{ asset('assets/invoice/js/bootstrap-datepicker.js') }}"></script>  -->
+                                                    <script src="{{ asset('assets/invoice/js/bootstrap.min.js') }}"></script>
+                                                    <script src="{{ asset('assets/invoice/js/bootstrap-datepicker.js') }}"></script>  -->
 
 
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
@@ -627,8 +627,8 @@
                                                                 step="0.01" value="0">
                                                             <span>
                                                                 <!-- <div class="col-sm-3">
-                                                                                        <label class="col-form-label" for="password">Salesperson </label>
-                                                                                    </div> -->
+                                                                                            <label class="col-form-label" for="password">Salesperson </label>
+                                                                                        </div> -->
                                                                 <div class="col-sm-9 input-group">
                                                                     <select name="DiscountType[]" id="DiscountType_1"
                                                                         class="form-select  changesNo bg-light">
@@ -871,12 +871,12 @@
                 </form>
 
                 <!--  <div class='row'>
-                                                          <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
-                                                            <div class="well text-center">
-                                                          <h2>Back TO Tutorial: <a href="#"> Invoice System </a> </h2>
-                                                        </div>
-                                                          </div>
-                                                        </div>   -->
+                                                              <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                                                                <div class="well text-center">
+                                                              <h2>Back TO Tutorial: <a href="#"> Invoice System </a> </h2>
+                                                            </div>
+                                                              </div>
+                                                            </div>   -->
 
 
 
