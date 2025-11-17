@@ -496,7 +496,7 @@
             <tr>
                 <td width="50%">
                     <div class="customer-notes"><strong><u>
-                                <h2>GENERAL TERM & CONDITIONS:</h2>
+                                {{-- <h2>GENERAL TERM & CONDITIONS:</h2> --}}
                             </u></strong><br><br>
                         <?php echo $invoice_master[0]->CustomerNotes; ?>
                     </div>
