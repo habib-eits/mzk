@@ -5,23 +5,23 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Estimate</title>
     <style type="text/css">
+        @page {
+            margin-top: 100px;
+            margin-bottom: 100px;
+            margin-left: 0.8cm;
+            margin-right: 0.8cm;
+        }
+
+        body,
+        td,
+        th {
+            font-size: 11pt;
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
 
-            @page {
-                margin-top: 100px;
-                margin-bottom: 100px;
-                margin-left: 0.8cm;
-                margin-right: 0.8cm;
-            }
-
-            body,td,th {
-  font-size: 11pt;
-  font-family: Arial, Helvetica, sans-serif;
-}
 
 
-
-        
 
         h1,
         h2,
@@ -165,7 +165,7 @@
         }
 
         .order-details tr {
-           /* page-break-inside: always;
+            /* page-break-inside: always;
             page-break-after: auto;*/
         }
 
@@ -250,81 +250,74 @@
             display: none;
         }
 
-       
-
-  
-            header {
-                position: fixed;
-                top: -105px;
-                left: 0px;
-                right: 0px;
-                height: auto;
-                font-size: 20px !important;
-                 /*background-color: black;*/
-                text-align: center;
-             /*border-bottom: 1px solid black;*/
-
-            }
-
-            footer {
-                position: fixed; 
-                bottom: -100px; 
-                left: 0px; 
-                right: 0px;
-                height: auto; 
-                font-size: 11px !important;
-                
-                border-top: 1px solid black;
-                
-                text-align: center;
-                padding-top: 0px;
-
-            }
 
 
 
-        
+        header {
+            position: fixed;
+            top: -105px;
+            left: 0px;
+            right: 0px;
+            height: auto;
+            font-size: 20px !important;
+            /*background-color: black;*/
+            text-align: center;
+            /*border-bottom: 1px solid black;*/
 
- 
+        }
+
+        footer {
+            position: fixed;
+            bottom: -100px;
+            left: 0px;
+            right: 0px;
+            height: auto;
+            font-size: 11px !important;
+
+            border-top: 1px solid black;
+
+            text-align: center;
+            padding-top: 0px;
+
+        }
     </style>
- 
+
 
 </head>
 
-<body  >
-  <header >
+<body>
+    <header>
 
-            @if(request()->brancid==1)
+        {{-- @if (request()->brancid == 1)
             <img src="{{asset('assets/images/header1.jpg')}}" width="100%" >
             @else
             <img src="{{asset('assets/images/header2.jpg')}}" width="100%" >
 
-            @endif
-
-            
-         
-        </header>
-   
- 
-  
-    <footer> 
-          @if(request()->brancid==1)
-            <img src="{{asset('assets/images/footer1.jpg')}}" width="100%" >
-            @else
-            <img src="{{asset('assets/images/footer2.jpg')}}" width="100%" >
-
-            @endif
+            @endif --}}
 
 
-        </footer>
+
+    </header>
+
+
+
+    <footer>
+        @if (request()->brancid == 1)
+            <img src="{{ asset('assets/images/footer1.jpg') }}" width="100%">
+        @else
+            <img src="{{ asset('assets/images/footer2.jpg') }}" width="100%">
+        @endif
+
+
+    </footer>
 
 
     <table class="head container">
         <tr>
             <td colspan="2" class="header">
                 <div align="center">
-                    <h2><u>DELIVERY NOTE</u></h2> 
-                    
+                    <h2><u>DELIVERY NOTE</u></h2>
+
                 </div>
             </td>
         </tr>
@@ -332,18 +325,18 @@
     <table class="order-data-addresses">
         <tr>
             <td valign="bottom" width="70%">
-                 <div style="width: 200px;"> <strong>{{ $invoice_master[0]->PartyName }}</strong> <br>
-                         {{ $invoice_master[0]->Address }}<br><br>
-                        </div>
-  <table align="right" border="1" >
+                <div style="width: 200px;"> <strong>{{ $invoice_master[0]->PartyName }}</strong> <br>
+                    {{ $invoice_master[0]->Address }}<br><br>
+                </div>
+                <table align="right" border="1">
                     <tr class="order-number">
-                        <th  width="110" style="background-color: #e9e9e9;"><span>Job No</span></th>
+                        <th width="110" style="background-color: #e9e9e9;"><span>Job No</span></th>
                         <td width="85">
                             <div align="right">{{ $invoice_master[0]->JobNo }}</div>
                         </td>
                     </tr>
-                 
-                  
+
+
                     <tr class="payment-method">
                         <th style="background-color: #e9e9e9;"><span>Reference No </span></th>
                         <td>
@@ -352,16 +345,16 @@
                     </tr>
                 </table>
                 <br />
-                
-            </td>
-            <td  width="30%">
 
-<br><br>
-<br>
+            </td>
+            <td width="30%">
+
+                <br><br>
+                <br>
                 <table align="right" border="1">
                     <tr class="order-number">
                         <th width="85" style="background-color: #e9e9e9;"><span>Delivery # </span></th>
-                        <td width="120" >
+                        <td width="120">
                             <div align="right">{{ $invoice_master[0]->InvoiceNo }}</div>
                         </td>
                     </tr>
@@ -371,139 +364,143 @@
                             <div align="right">{{ dateformatman($invoice_master[0]->Date) }}</div>
                         </td>
                     </tr>
-                 
-                  
-                
+
+
+
                 </table>
 
-        <br><br>
+                <br><br>
             </td>
         </tr>
-      
+
     </table>
 
 
-<!-- <br>
+    <!-- <br>
 Dear Madam / Dear Sir,<br>
 We are pleased to place order on you for the following materials subject to terms & conditions specified here.
 <br>
 <br> -->
-  
 
 
 
-    <table  width="100%" style=" border: 1px solid black; border-collapse: collapse;"  >
-        <thead >
+
+    <table width="100%" style=" border: 1px solid black; border-collapse: collapse;">
+        <thead>
             <tr style="background-color: #e9e9e9; border-bottom: 1px solid;">
-                <th width="5%" class="sno" style="border-right: 1px solid black; border-left: 1px solid black;">S#</th>
-                <th  class="product"  style="border-right: 1px solid black; border-left: 1px solid black;">Description</th>
-                <th width="10%" class="price"  style="border-right: 1px solid black; border-left: 1px solid black;text-align: center;">Unit Name </th>
-                <th width="20%" class="quantity"  style="border-right: 1px solid black; border-left: 1px solid black; text-align: center;">Unit Qty</th>
-                 <th width="10%" class="price"  style="border-right: 1px solid black; border-left: 1px solid black;text-align: center;">Qty </th>
+                <th width="5%" class="sno" style="border-right: 1px solid black; border-left: 1px solid black;">
+                    S#</th>
+                <th class="product" style="border-right: 1px solid black; border-left: 1px solid black;">Description
+                </th>
+                <th width="10%" class="price"
+                    style="border-right: 1px solid black; border-left: 1px solid black;text-align: center;">Unit Name
+                </th>
+                <th width="20%" class="quantity"
+                    style="border-right: 1px solid black; border-left: 1px solid black; text-align: center;">Unit Qty
+                </th>
+                <th width="10%" class="price"
+                    style="border-right: 1px solid black; border-left: 1px solid black;text-align: center;">Qty </th>
             </tr>
         </thead>
         <tbody>
 
-            
 
 
- 
+
+
             @foreach ($invoice_detail as $key => $value)
+                ?>
 
-           
+                <tr valign="top">
+                    <td height="13px" style="border-right: 1px solid black; border-left: 1px solid black;">
+                        {{ ++$key }}</td>
+                    <td style="border-right: 1px solid black; border-left: 1px solid black;">
 
-            ?>
 
-                <tr valign="top" >
-                    <td height="13px"  style="border-right: 1px solid black; border-left: 1px solid black;">{{++$key}}</td>
-                    <td   style="border-right: 1px solid black; border-left: 1px solid black;"> 
-                     
-                 
-               
 
-                    
-                         
 
-                       {{ $value->ItemName }}
 
-                                             
+
+
+                        {{ $value->ItemName }}
+
+
 
                     </td>
-                    
-                     <td  style="border-right: 1px solid black; border-left: 1px solid black; text-align: center;  " > 
 
-                        {{   $value->UnitName }}
+                    <td style="border-right: 1px solid black; border-left: 1px solid black; text-align: center;  ">
 
-                      
+                        {{ $value->UnitName }}
+
+
 
                     </td>
-                     <td  style="border-right: 1px solid black; border-left: 1px solid black; text-align: center; ">
-                    {{    $value->UnitQty }} </td>
-                     <td  style="border-right: 1px solid black; border-left: 1px solid black;text-align: center; "> {{   $value->Qty }}</td>
-                 </tr>
-
-
+                    <td style="border-right: 1px solid black; border-left: 1px solid black; text-align: center; ">
+                        {{ $value->UnitQty }} </td>
+                    <td style="border-right: 1px solid black; border-left: 1px solid black;text-align: center; ">
+                        {{ $value->Qty }}</td>
+                </tr>
             @endforeach
 
 
-    
+
         </tbody>
-      
+
     </table>
 
-    <br> 
-    <br> 
+    <br>
+    <br>
     <br>
     <h2>Drivers Detail's </h2>
     <br>
     <br>
-<table width="100%">
-    
-    <tbody>
-        <tr>
-            <td width="50%" height="20" >Driver Name : </td>
-            <td width="50%" height="20" >{{$invoice_master[0]->DriverName}}</td>
-        
+    <table width="100%">
 
-             <td width="50%"  height="20">Signature : </td>
-            <td width="50%"  height="20" >................................</td>
-       
-       </tr>
-
-       
-            <td width="50%"  height="20" >Driver Contact : </td>
-            <td width="50%" height="20" >{{$invoice_master[0]->DriverContact}}</td>
-           
-       
-
-        
-             <td width="50%"  height="20"  >Vehicle No : </td>
-            <td width="50%"  height="20" >{{$invoice_master[0]->VehicleNumber}}</td>
-       
-    </tbody>
-</table>
- 
-           <br><br><br><br><br><br>       
-        
-      <table width="100%" >
-                       
-                       <tbody>
-                           <tr>
-                               <td style="text-align: center;" width="50%">...................................................</td>
-                               <td style="text-align: center;" width="50%">...................................................</td>
-                           </tr>
-
-                            <tr>
-                               <td style="text-align: center;" width="50%">Prepared By</td>
-                               <td style="text-align: center;" width="50%">Received By: Signature & Company Stamp</td>
-                           </tr>
-                       </tbody>
-                   </table>             
+        <tbody>
+            <tr>
+                <td width="50%" height="20">Driver Name : </td>
+                <td width="50%" height="20">{{ $invoice_master[0]->DriverName }}</td>
 
 
- <!-- logo and digital signature  -->
- 
-<!--      <img src="{{URL('/documents/'.$company[0]->Logo)}}" alt="" width="150">
+                <td width="50%" height="20">Signature : </td>
+                <td width="50%" height="20">................................</td>
+
+            </tr>
+
+
+            <td width="50%" height="20">Driver Contact : </td>
+            <td width="50%" height="20">{{ $invoice_master[0]->DriverContact }}</td>
+
+
+
+
+            <td width="50%" height="20">Vehicle No : </td>
+            <td width="50%" height="20">{{ $invoice_master[0]->VehicleNumber }}</td>
+
+        </tbody>
+    </table>
+
+    <br><br><br><br><br><br>
+
+    <table width="100%">
+
+        <tbody>
+            <tr>
+                <td style="text-align: center;" width="50%">...................................................</td>
+                <td style="text-align: center;" width="50%">...................................................</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center;" width="50%">Prepared By</td>
+                <td style="text-align: center;" width="50%">Received By: Signature & Company Stamp</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- logo and digital signature  -->
+
+    <!--      <img src="{{ URL('/documents/' . $company[0]->Logo) }}" alt="" width="150">
 <br>
 <br>
   <strong>CEMCON Mechanical Engineering LLC</strong><br>
@@ -514,7 +511,7 @@ We are pleased to place order on you for the following materials subject to term
   Email: bdm@cme.ae, Web: www.cme.ae<br>
   <br>
    -->
- 
+
     <script type="text/php"> 
     
     if (isset($pdf)) { 
@@ -531,11 +528,8 @@ We are pleased to place order on you for the following materials subject to term
         $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
     }
     
-    </script> 
+    </script>
 
 </body>
 
 </html>
-
-
-         

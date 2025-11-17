@@ -444,7 +444,7 @@
                         @else
                             <li
                                 style="line-height:0.1%; margin-bottom: 0px; margin-left: 0px;list-style-type: afar; list-style-position: inside;padding-left: 20px;">
-                                {{ $value->ItemName }}</li>
+                                {{ $value->ItemName . ' ' . $value->Description }}</li>
                         @endif
 
                     </td>
