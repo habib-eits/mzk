@@ -105,7 +105,7 @@
                         <div class="bg-info text-center pt-4" style="height: 45%; width: 70%; margin-left: -20%;">
                             <span class="font" style="color: white;">
                                 Amount Paid <br>
-                                PKR {{ $payment_master[0]->PaymentAmount }}
+                                AED {{ $payment_master[0]->PaymentAmount }}
                             </span>
                         </div>
 
@@ -133,7 +133,7 @@
                             <tr class="font-weight-bolder">
                                 <td></td>
                                 <td>Total</td>
-                                <td>{{ $payment_master[0]->PaymentAmount }} PKR </td>
+                                <td>{{ $payment_master[0]->PaymentAmount }} AED </td>
                             </tr>
                         </tbody>
 

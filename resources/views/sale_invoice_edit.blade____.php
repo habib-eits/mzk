@@ -269,7 +269,7 @@
           <div class="form-group mt-1">
              <label>Sub Total: &nbsp;</label>
             <div class="input-group">
-              <span class="input-group-text bg-light">PKR</span>              
+              <span class="input-group-text bg-light">AED</span>              
 
               <input type="text" class="form-control" id="subTotal" name="SubTotal" placeholder="Subtotal" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" value="{{$invoice_master[0]->SubTotal}}">
             </div>
@@ -281,7 +281,7 @@
 
               <input type="text" class="form-control" id="tax"  name="DiscountPer"  placeholder="Tax" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" value="{{$invoice_master[0]->DiscountPer}}" >
 
-               <span class="input-group-text bg-light">PKR</span>              
+               <span class="input-group-text bg-light">AED</span>              
 
               <input type="text"  name="DiscountAmount" class="form-control" id="taxAmount"  onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" value="{{$invoice_master[0]->DiscountAmount}}">
             </div>
