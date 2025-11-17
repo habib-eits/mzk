@@ -5644,7 +5644,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
                        <div class="d-flex align-items-center col-actions">
 
-                       <a href="' . URL('/createInvoice/' . $row->InvoiceMasterID) . '"><span class="font-size-14 align-middle me-1 text-secondary">INV</span></a>
+                       
 <a href="' . URL('/DeliveryChallanView/' . $row->InvoiceMasterID) . '"><i class="font-size-18 mdi mdi-eye-outline align-middle me-1 text-secondary"></i></a>
 <a href="' . URL('/DeliveryChallanEdit/' . $row->InvoiceMasterID) . '"><i class="font-size-18 mdi mdi-pencil align-middle me-1 text-secondary"></i></a>
 <a target="_blank" href="' . URL('/DeliveryChallanViewPDF/' . $row->InvoiceMasterID) .'/'. $row->BranchID. '"><i class="font-size-18 mdi mdi-file-pdf-outline align-middle me-1 text-secondary"></i></a>
@@ -5760,13 +5760,12 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
     public function DeliveryChallanView($id)
     {
         $pagetitle = 'Delivery Challan';
-        $challan = DB::table('v_delivery_challan')->where('ChallanMasterID', $id)->get();
-        $challan_detail = DB::table('v_challan_detail')->where('ChallanMasterID', $id)->get();
+        $challan = DB::table('v_invoice_master')->where('InvoiceMasterID', $id)->get();
+        $challan_detail = DB::table('v_invoice_detail')->where('InvoiceMasterID', $id)->get();
         $company = DB::table('company')->get();
-
         session()->forget('VHNO');
 
-        Session::put('VHNO', $challan[0]->ChallanNo);
+        Session::put('VHNO', $challan[0]->InvoiceNo);
 
 
 
@@ -5911,8 +5910,8 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
     {
 
         $pagetitle = 'Delivery Challan';
-        $id = DB::table('challan_master')->where('ChallanMasterID', $id)->delete();
-        $id = DB::table('challan_detail')->where('ChallanMasterID', $id)->delete();
+        $id = DB::table('invoice_master')->where('InvoiceMasterID', $id)->delete();
+        $id = DB::table('invoice_detail')->where('InvoiceMasterID', $id)->delete();
 
 
 
