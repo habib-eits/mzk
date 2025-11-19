@@ -160,6 +160,13 @@ class InvoiceController extends Controller
                     'CurrentRetentionVat'   => $data['CurrentRetentionVat'],
                     'NetInvoiceAmountVat'   => $data['NetInvoiceAmountVat'],
                     'NetAmount'             => $data['NetAmount'],
+
+                    'TaxType' => 'TaxExclusive',
+                    'SubTotal'=>  $data['NetInvoiceAmount'],
+                    'Total' => $data['NetInvoiceAmount'],
+                    'TaxPer' => 5,
+                    'Tax' => $data['NetInvoiceAmountVat'],
+                    'GrandTotal' => $data['NetAmount'],
                     ]
                 );
                 

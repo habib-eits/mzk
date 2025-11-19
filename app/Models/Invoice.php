@@ -53,6 +53,15 @@ class Invoice extends Model
         'CurrentRetentionVat',
         'NetInvoiceAmountVat',
         'NetAmount',
+
+        //added tahat becuase reporting are working on this
+        'TaxType',
+        'SubTotal',
+        'Total',
+        'TaxPer',
+        'Tax',
+        'GrandTotal',
+
     ];
 
     // default value automatically applied
