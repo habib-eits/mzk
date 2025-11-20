@@ -161,8 +161,8 @@ class Invoice extends Model
             // Get the current max number
             $max = self::selectRaw("MAX(CAST(SUBSTRING_INDEX(InvoiceNo, '-', -1) AS UNSIGNED)) as max_number")
                         ->value('max_number');
-
-            $next = $max ? $max + 1 : 1;
+            
+            $next = $max ? $max + 1 : 1001;//if first record start with 1001 asked by client
 
             $invoiceNo = "INV-{$next}";
 

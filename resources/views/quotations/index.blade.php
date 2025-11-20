@@ -33,13 +33,17 @@
                         <table id="table" class="table table-striped table-sm " style="width:100%">
                             <thead>
                                 <tr>
-                                    <th style="width: 5%">ID</th>
-                                    <th style="width: 15%">Date</th>
-                                    <th style="width: 15%">Party</th>
-                                    <th style="width: 25%">Project Name</th>
-                                    <th style="width: 25%">Status</th>
+                                    <th>ID</th>
+                                    <th>Quotation No</th>
+                                    <th>Date</th>
+                                    <th>Party</th>
+                                    <th>Project Name</th>
+                                    <th>Project Engg</th>
+                                    <th>Tender No</th>
+                                    <th>Reference No</th>
+                                    <th>Status</th>
 
-                                    <th style="width: 10%">Action</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -59,6 +63,9 @@
                         data: 'InvoiceMasterID'
                     },
                     {
+                        data: 'InvoiceNo'
+                    },
+                    {
                         data: 'date'
                     },
                     {
@@ -66,6 +73,15 @@
                     },
                     {
                         data: 'ProjectName'
+                    },
+                    {
+                        data: 'ProjectEngg'
+                    },
+                    {
+                        data: 'TenderNo'
+                    },
+                    {
+                        data: 'ReferenceNo'
                     },
                     {
                         data: 'Status'
