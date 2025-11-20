@@ -33,13 +33,17 @@
                         <table id="table" class="table table-striped table-sm " style="width:100%">
                             <thead>
                                 <tr>
-                                    <th style="width: 5%">ID</th>
-                                    <th style="width: 15%">Date</th>
-                                    <th style="width: 15%">Party</th>
-                                    <th style="width: 25%">Project Name</th>
-                                    <th style="width: 25%">Ref Quo#</th>
+                                    <th>ID</th>
+                                    <th>Invoice No</th>
+                                    <th>Date</th>
+                                    <th>Party</th>
+                                    <th>Project Name</th>
+                                    <th>Ref Quo#</th>
+                                    <th>Subtotal</th>
+                                    <th>Tax</th>
+                                    <th>Grand Total</th>
 
-                                    <th style="width: 10%">Action</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -55,8 +59,12 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('invoice.index') }}",
-                columns: [{
+                columns: [
+                    {
                         data: 'InvoiceMasterID'
+                    },
+                    {
+                        data: 'InvoiceNo'
                     },
                     {
                         data: 'date'
@@ -69,6 +77,15 @@
                     },
                     {
                         data: 'reference_quotation_no'
+                    },
+                    {
+                        data: 'SubTotal'
+                    },
+                    {
+                        data: 'Tax'
+                    },
+                    {
+                        data: 'GrandTotal'
                     },
 
 
