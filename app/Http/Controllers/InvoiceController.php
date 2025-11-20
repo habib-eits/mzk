@@ -291,6 +291,7 @@ class InvoiceController extends Controller
                 'Status' => 'pending'
             ]);
         }
+        $this->deleteJournalEntries($invoice);
         $this->deleteInvoiceDetails($invoice);
         $invoice->delete();
         
@@ -349,5 +350,6 @@ class InvoiceController extends Controller
 
        
     }
+
 }
 
