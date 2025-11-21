@@ -75,7 +75,8 @@
 
                         <li> <a href="{{ URL('/Job') }}" key="t-products">Job </a></li>
 
-                        <li> <a href="{{ URL('/Estimate') }}" key="t-products">Quotation</a></li>
+                        {{-- <li> <a href="{{ URL('/Estimate') }}" key="t-products">Quotation</a></li> --}}
+                        <li> <a href="{{ route('quotation.index') }}" key="t-products">Quotation</a></li>
 
                         <li> <a href="{{ URL('/SaleOrder') }}" key="t-products">Sale Order</a></li>
 
