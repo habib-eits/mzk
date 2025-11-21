@@ -184,7 +184,7 @@ TRN # {{$invoice_master[0]->TRN}},<br>
 
 
                     <td valign="top" style="padding: 10px 10px 5px 10px;text-align:right;word-wrap: break-word;" class="pcs-item-row">
-                  <span id="tmp_item_qty">{{$value->UnitName}}/{{$value->UnitQty}}</span>                </td>
+                  <span id="tmp_item_qty">{{$value->UnitName}}</span>                </td>
 
 
             <td valign="top" style="padding: 10px 10px 5px 10px;text-align:right;word-wrap: break-word;" class="pcs-item-row">

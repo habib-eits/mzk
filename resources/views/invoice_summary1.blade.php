@@ -65,14 +65,16 @@
   <thead style="display: table-header-group;">
    <tr class="bg-light">
      <th width="5%" bgcolor="#CCCCCC"><div align="center"><strong>S#</strong></div></th>
+      <th width="15%" bgcolor="#CCCCCC"><div align="left"><strong>Date</strong></div></th>
+      <th width="15%" bgcolor="#CCCCCC"><div align="left"><strong>Invoice No</strong></div></th>
       <th width="15%" bgcolor="#CCCCCC"><div align="left"><strong>PARTY/SUPPLIER</strong></div></th>
       <th width="15%" bgcolor="#CCCCCC"><div align="left"><strong>SALEMAN</strong></div></th>
       <th width="15%" bgcolor="#CCCCCC"><div align="left"><strong>SUBTOTAL</strong></div></th>
       <th width="15%" bgcolor="#CCCCCC"><div align="left"><strong>TAX</strong></div></th>
       <th width="15%" bgcolor="#CCCCCC"><div align="left"><strong>DISCOUNT</strong></div></th>
       <th width="15%" bgcolor="#CCCCCC"><div align="left"><strong>GRAND</strong></div></th>
-      <th width="15%" bgcolor="#CCCCCC"><div align="left"><strong>PAID</strong></div></th>
-      <th width="15%" bgcolor="#CCCCCC"><div align="left"><strong>BALANCE</strong></div></th>
+      {{-- <th width="15%" bgcolor="#CCCCCC"><div align="left"><strong>PAID</strong></div></th> --}}
+      {{-- <th width="15%" bgcolor="#CCCCCC"><div align="left"><strong>BALANCE</strong></div></th> --}}
         
    </tr>
   </thead>
@@ -85,14 +87,16 @@
       <tr>
       
       <td><div align="center">{{$key+1}}</div></td>
+      <td>{{$value->Date}}</td>
+      <td>{{$value->InvoiceNo}}</td>
       <td>{{$value->PartyName}}</td>
       <td>{{$value->FullName}}</td>
       <td>{{$value->SubTotal}}</td>
       <td>{{$value->Tax}}</td>
       <td>{{$value->DiscountAmount}}</td>
       <td>{{$value->GrandTotal}}</td>
-      <td>{{$value->Paid}}</td>
-      <td>{{$value->Balance}}</td>
+      {{-- <td>{{$value->Paid}}</td> --}}
+      {{-- <td>{{$value->Balance}}</td> --}}
     
 
 
@@ -105,13 +109,15 @@
  <td></td>
  <td></td>
  <td></td>
+ <td></td>
+ <td></td>
  
    
  <td>{{number_format($invoice_total[0]->Tax,2)}}</td>
  <td>{{number_format($invoice_total[0]->Discount,2)}}</td>
  <td>{{number_format($invoice_total[0]->GrandTotal,2)}}</td>
- <td>{{number_format($invoice_total[0]->Paid,2)}}</td>
- <td>{{number_format($invoice_total[0]->Balance,2)}}</td>
+ {{-- <td>{{number_format($invoice_total[0]->Paid,2)}}</td> --}}
+ {{-- <td>{{number_format($invoice_total[0]->Balance,2)}}</td> --}}
        
       
       

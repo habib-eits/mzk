@@ -265,7 +265,7 @@
      z-index:-1000;
      background-repeat: no-repeat;
 
-     background-image: url({{URL('/documents/'.$company[0]->BackgroundLogo)}});
+     /* background-image: url({{URL('/documents/'.$company[0]->BackgroundLogo)}}); */
     
      
 }
@@ -282,7 +282,7 @@
         <table class="head container">
             <tr>
                 <td class="header">
-                    <img src="{{URL('/documents/'.$company[0]->Logo)}}" width="188" height="104" />                </td>
+                    <img src="{{ asset('documents/' . $company[0]->Logo)}}" width="188" height="104" />                </td>
                 <td class="shop-info">
                     <div class="shop-name">
                         <div align="right"><strong>{{$company[0]->Name}}<br>{{$company[0]->Name2}}</strong><br />
@@ -354,7 +354,7 @@
             <tr>
                   <td height="25px">{{$key+1}}</td>
                 <td>{{$value->ItemName}}</td>
-                <td>{{$value->UnitName}}/{{$value->UnitQty}}</td>
+                <td>{{$value->UnitName}}</td>
                 <td>{{$value->Qty}}</td>
                 <td>{{number_format($value->Rate,2)}}</td>
                 <td>{{number_format($value->Tax,2)}}</td>

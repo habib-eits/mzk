@@ -69,11 +69,11 @@ font-size-16 align-middle me-2"></i>Favorite <i
                                 <a class="dropdown-item" href="{{ URL('/PartyAgingPDF') }}">Aging Report</a>
                                 <!-- <a class="dropdown-item" href="#">Party Analysis</a> -->
                                 <a class="dropdown-item" href="{{ URL('/PartyList') }}">Party List</a>
-                                <a class="dropdown-item" href="{{ URL('/PartyWiseSale') }}">Partywise Sale (SOA)</a>
-                                <a class="dropdown-item" href="{{ URL('/OutStandingInvoice') }}">Outstanding
-                                    Invoices</a>
+                                <a class="dropdown-item" href="{{ URL('/PartyWiseSale') }}">Partywise Sale (SOA) </a>
+                                {{-- <a class="dropdown-item" href="{{ URL('/OutStandingInvoice') }}">Outstanding
+                                    Invoices</a> --}}
                                 <a class="dropdown-item" href="{{ URL('/TaxReport') }}">Tax Report</a>
-                                <a class="dropdown-item" href="{{ URL('/CitywiseReport') }}">Saleman Party Balances</a>
+                                {{-- <a class="dropdown-item" href="{{ URL('/CitywiseReport') }}">Saleman Party Balances</a> --}}
                             </div>
                         </div><!-- /btn-group -->
 
@@ -85,7 +85,7 @@ font-size-16 align-middle me-2"></i>Favorite <i
                                 <a class="dropdown-item" href="{{ URL('/SupplierLedger') }}">Supplier Ledger</a>
                                 <a class="dropdown-item" href="{{ URL('/SupplierBalance') }}">Supplier Balance</a>
                                 <a class="dropdown-item" href="{{ URL('/Invoice') }}">Sale Invoice</a>
-                                <a class="dropdown-item" href="{{ URL('/SalemanReport') }}">Sales Man Report</a>
+                                {{-- <a class="dropdown-item" href="{{ URL('/SalemanReport') }}">Sales Man Report</a> --}}
                                 <a class="dropdown-item" href="{{ URL('/TaxReportSupplier') }}">Tax Report</a>
                                 <a class="dropdown-item" href="{{ URL('/SupplierWiseSale') }}">Purchase Report</a>
                             </div>
@@ -123,7 +123,7 @@ font-size-16 align-middle me-2"></i>Favorite <i
                                 <a class="dropdown-item" href="{{ URL('/TaxOverallReport') }}">Tax Report</a>
                                 <a class="dropdown-item" href="{{ URL('/ReconcileReport') }}">Bank Reconciliation</a>
                                 <a class="dropdown-item" href="{{ URL('/InvoiceSummary') }}">invoice summary list</a>
-                                <a class="dropdown-item" href="{{ URL('/Inventory') }}">Stock Inventory</a>
+                                {{-- <a class="dropdown-item" href="{{ URL('/Inventory') }}">Stock Inventory</a> --}}
                                 <a class="dropdown-item" href="{{ URL('/ExpenseReport') }}">Expense Report</a>
                                 <a class="dropdown-item" href="{{ URL('/StaffReport') }}">Staff Report</a>
 

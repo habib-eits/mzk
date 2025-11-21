@@ -112,7 +112,7 @@
                 </li>
 
 
-                <li>
+                <li class="d-none">
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-shopping-outline"></i>
                         <span key="t-ecommerce">CRM</span>
@@ -316,11 +316,11 @@
                         <!-- <li><a href="#" key="t-products" >Party Analysis</a></li> -->
                         <li><a href="{{ URL('/PartyList') }}" key="t-products">Party List</a></li>
                         <li><a href="{{ URL('/PartyWiseSale') }}" key="t-products">Partywise Sale (SOA)</a></li>
-                        <li><a href="{{ URL('/OutStandingInvoice') }}" key="t-products">Outstanding Invoices</a></li>
+                        {{-- <li><a href="{{ URL('/OutStandingInvoice') }}" key="t-products">Outstanding Invoices</a></li> --}}
                         <li><a href="{{ URL('/TaxReport') }}" key="t-products">Tax Report</a></li>
 
 
-                        <li><a href="{{ URL('/CitywiseReport') }}" key="t-products">Saleman Party Balances</a></li>
+                        {{-- <li><a href="{{ URL('/CitywiseReport') }}" key="t-products">Saleman Party Balances</a></li> --}}
 
 
 
@@ -339,7 +339,7 @@
                         <li> <a href="{{ URL('/SupplierLedger') }}" key="t-products">Supplier Ledger</a></li>
                         <li> <a href="{{ URL('/SupplierBalance') }}" key="t-products">Supplier Balance</a></li>
                         <li> <a href="{{ URL('/Invoice') }}" key="t-products">Sale Invoice</a></li>
-                        <li> <a href="{{ URL('/SalemanReport') }}" key="t-products">Sales Man Report</a></li>
+                        {{-- <li> <a href="{{ URL('/SalemanReport') }}" key="t-products">Sales Man Report</a></li> --}}
                         <li> <a href="{{ URL('/TaxReport') }}" key="t-products">Tax Report</a></li>
                         <li> <a href="{{ URL('/SupplierWiseSale') }}" key="t-products">Purchase Report</a></li>
 

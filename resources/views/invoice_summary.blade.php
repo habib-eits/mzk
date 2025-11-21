@@ -62,7 +62,7 @@
 
  
             
-                <div class="col-md-4">
+                <div class="col-md-4 d-none">
                 <label for="basicpill-firstname-input">Invoice Type</label>
              <div class="mb-1">
                  <select name="InvoiceTypeID" id="" class="  form-select" id="select2-basic">
@@ -84,7 +84,7 @@
  
 
 
-              <div class="col-md-4">
+              <div class="col-md-4 d-none">
              <div class="mb-0">
                 <label for="basicpill-firstname-input">Saleman</label>
                  <select name="UserID" id="" class="select2 form-select" id="select2-basic">

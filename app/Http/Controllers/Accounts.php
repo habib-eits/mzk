@@ -3833,7 +3833,7 @@ class Accounts extends Controller
         $company = DB::table('company')->get();
 
         $invoice_master = DB::table('v_invoice_master')
-            ->where('InvoiceNo', 'like', '%TAX%')
+            ->where('InvoiceType', 'invoice')
             ->whereBetween('Date', array($request->StartDate, $request->EndDate))
             ->orderBy('InvoiceMasterID')
             ->orderBy('Date')
@@ -3859,7 +3859,7 @@ class Accounts extends Controller
         $pagetitle = 'Tax Report';
         $company = DB::table('company')->get();
         $invoice_master = DB::table('v_invoice_master')
-            ->where('InvoiceNo', 'like', '%TAX%')
+           ->where('InvoiceType', 'invoice')
             ->whereBetween('Date', array($request->StartDate, $request->EndDate))
             ->whereNotNull('PartyID')
             ->orderBy('InvoiceMasterID')
@@ -4980,14 +4980,16 @@ class Accounts extends Controller
 
 
         $invoice_summary = DB::table('v_invoice_master')
-            ->where($where)
+                        ->where('InvoiceType', 'invoice')
+
             ->whereBetween('Date', array($request->StartDate, $request->EndDate))
             ->orderBy('Date')
             ->get();
 
         $invoice_total = DB::table('v_invoice_master')
             ->select(DB::raw('count(InvoiceMasterID) as Qty'), DB::raw('sum(Tax) as Tax'), DB::raw('sum(DiscountAmount) as Discount'), DB::raw('sum(Total) as Total'), DB::raw('sum(GrandTotal) as GrandTotal'), DB::raw('sum(Paid) as Paid'), DB::raw('sum(Balance) as Balance'))
-            ->where($where)
+                        ->where('InvoiceType', 'invoice')
+
             ->whereBetween('Date', array($request->StartDate, $request->EndDate))
             ->get();
 
@@ -5016,17 +5018,19 @@ class Accounts extends Controller
 
 
 
-
+        //saleman and type remvoed as not needed
         $invoice_summary = DB::table('v_invoice_master')
-            ->where($where)
+            // ->where($where)
+            ->where('InvoiceType', 'invoice')
             ->whereBetween('Date', array($request->StartDate, $request->EndDate))
-            ->groupBy('FullName', 'UserID')
+            // ->groupBy('FullName', 'UserID')
             ->orderBy('Date')
             ->get();
 
         $invoice_total = DB::table('v_invoice_master')
             ->select(DB::raw('count(InvoiceMasterID) as Qty'), DB::raw('sum(Tax) as Tax'), DB::raw('sum(DiscountAmount) as Discount'), DB::raw('sum(Total) as Total'), DB::raw('sum(GrandTotal) as GrandTotal'), DB::raw('sum(Paid) as Paid'), DB::raw('sum(Balance) as Balance'))
-            ->where($where)
+            // ->where($where)
+            ->where('InvoiceType', 'invoice')
             ->whereBetween('Date', array($request->StartDate, $request->EndDate))
             ->get();
         $pdf = PDF::loadView('invoice_summary1pdf', compact('invoice_summary', 'invoice_total', 'pagetitle'));
@@ -7427,7 +7431,6 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
     public function BillSave(Request $request)
     {
 
-        // dd($request->all());
         $invoice_mst = array(
             'InvoiceNo' => $request->InvoiceNo,
             'JobID' => $request->JobID,
