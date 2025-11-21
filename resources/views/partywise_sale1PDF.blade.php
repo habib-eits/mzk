@@ -256,8 +256,8 @@
                 right: 0px;
                 height: auto;
                 font-size: 20px !important;
-                 background-color: black;
-                text-align: center;
+                 /* background-color: black; */
+                text-align: left;
              border-bottom: 1px solid black;
 
             }
@@ -288,31 +288,19 @@
 </head>
 
 <body  >
+
+  
   <header >
 
-            @if(request()->BranchID==1)
-            <img src="{{asset('assets/images/header1.jpg')}}" width="100%" >
-            @else
-            <img src="{{asset('assets/images/header2.jpg')}}" width="100%" >
-
-            @endif
-
+      <img src="{{ asset('documents/' . $company[0]->Logo)}}" width="188px" height="104px" />   
+           
             
          
         </header>
    
  
   
-    <footer> 
-          @if(request()->BranchID==1)
-            <img src="{{asset('assets/images/footer1.jpg')}}" width="100%" >
-            @else
-            <img src="{{asset('assets/images/footer2.jpg')}}" width="100%" >
-
-            @endif
-
-
-        </footer>
+    
 
 
    <?php 
@@ -323,7 +311,7 @@ $party = DB::table('party')->where('PartyID',request()->PartyID)->first();
     ?>  
      
 
-<p>To {{$party->PartyName}}<br>
+<p><b>To {{$party->PartyName}}</b><br>
 {{$party->Address}}</p>
  
 
@@ -401,35 +389,11 @@ $GrandTotal  = $GrandTotal+ $value->GrandTotal;
 
  
  
- 
-     @if(request()->BranchID==1)
-     <strong>Qaiser Shahzad’</strong><br>
-            <img src="{{asset('assets/images/logo-1.jpg')}}" >
- 
-<br>
-  <strong>CEMCON Middle East LLC </strong><br>
- 
-  Dubai, United Arab Emirates.<br>
-  Telephone: +971 43303554<br>
-  Cell: +971 52 7272 172<br>
-  Email: info@cme.ae, Web: www.cme.ae<br>
-  <br>
-            @else
-            <strong>Qaiser Shahzad’</strong><br>
-            <img src="{{asset('assets/images/logo-2.jpg')}}" >
- 
-<br>
-  <strong>CEMCON Mechanical Engineering LLC </strong><br>
- 
-  Ajman Industrial Area 2.<Br>
-United Arab Emirates 
-.<br>
-  Telephone: +971 6 5224700<br>
-  Cell: +971 52 727 2172<br>
-  Email: info@cme.ae, Web: www.cme.ae<br>
-  <br>
-
-            @endif
+ <div align="left"><strong>{{$company[0]->Name}}<br>{{$company[0]->Name2}}</strong><br />
+      {{$company[0]->Address}}<br />
+      Contact:{{$company[0]->Contact}}<br />
+      TRN:{{$company[0]->TRN}}<br />
+ </div>
 
   
  

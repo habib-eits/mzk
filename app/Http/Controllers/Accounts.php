@@ -3403,7 +3403,6 @@ class Accounts extends Controller
     public function PartyWiseSale1PDF(request $request)
     {
 
- 
         ///////////////////////USER RIGHT & CONTROL ///////////////////////////////////////////
         $allow = check_role(session::get('UserID'), 'Party Wise Sale', 'PDF');
         if ($allow == 0) {
@@ -3424,9 +3423,9 @@ class Accounts extends Controller
 
                 ->get();
         }
+        $company = DB::table('company')->get();
 
-
-        $pdf = PDF::loadView('partywise_sale1PDF', compact('party_wise', 'pagetitle'));
+        $pdf = PDF::loadView('partywise_sale1PDF', compact('party_wise', 'pagetitle', 'company'));
         // //return $pdf->download('pdfview.pdf');
         //   // $pdf->setpaper('A4', 'portiate');
         return $pdf->stream();
