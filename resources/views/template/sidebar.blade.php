@@ -81,7 +81,8 @@
 
                         <li> <a href="{{ URL('/PurchaseOrder') }}" key="t-products">Purchase Order</a></li>
 
-                        <li> <a href="{{ URL('/Invoice') }}" key="t-products">Invoices</a></li>
+                        <li> <a href="{{ route('invoice.index') }}" key="t-products">Invoices</a></li>
+                        {{-- <li> <a href="{{ URL('/Invoice') }}" key="t-products">Invoices</a></li> --}}
 
                         <li> <a href="{{ URL('/DeliveryChallan') }}" key="t-products">Delivery Notes</a></li>
 
