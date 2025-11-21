@@ -820,6 +820,8 @@ class Accounts extends Controller
         $pagetitle = 'Invoice';
         if ($request->ajax()) {
             $data = DB::table('v_invoice_master')
+                //we have two seprate invoice section and this logc fit to distrbute invoice only
+                ->whereNull('reference_quotation_id') 
                 ->where('InvoiceType', 'Invoice')
                 ->orderByDesc('InvoiceMasterID')
                 ->orderByDesc('Date')
@@ -3902,6 +3904,7 @@ class Accounts extends Controller
 
 
             $output_vat = DB::table('v_invoice_both')
+                ->where('InvoiceType', 'invoice')
                 ->where('PartyID', '<>', 'null')
                 ->whereBetween('Date', array($request->StartDate, $request->EndDate))
                 ->orderBy('InvoiceMasterID')
@@ -3918,9 +3921,17 @@ class Accounts extends Controller
                 ->orderBy('InvoiceMasterID')
                 ->orderBy('Date')
                 ->get();
+
+                 $expense_vat = DB::table('v_expense_detail')
+            ->whereBetween('Date', array($request->StartDate, $request->EndDate))
+
+                ->where('Tax', '>', 0)
+                ->orderBy('ExpenseMasterID')
+                ->orderBy('Date')
+                ->get();
        
 
-        return View('tax_overall_report1', compact('output_vat','input_vat', 'pagetitle', 'company'));
+        return View('tax_overall_report1', compact('output_vat','expense_vat','input_vat', 'pagetitle', 'company'));
         //return $pdf->download('pdfview.pdf');
         // $pdf->setpaper('A4', 'portiate');
 
@@ -3945,6 +3956,7 @@ class Accounts extends Controller
 
 
             $output_vat = DB::table('v_invoice_both')
+             ->where('InvoiceType', 'invoice')
                 ->where('PartyID', '<>', 'null')
                 ->whereBetween('Date', array($request->StartDate, $request->EndDate))
                 ->orderBy('InvoiceMasterID')
@@ -3962,7 +3974,15 @@ class Accounts extends Controller
                 ->orderBy('Date')
                 ->get();
 
-        $pdf = PDF::loadView('tax_overall_report1pdf', compact('output_vat','input_vat', 'pagetitle', 'company'));
+                  $expense_vat = DB::table('v_expense_detail')
+            ->whereBetween('Date', array($request->StartDate, $request->EndDate))
+
+                ->where('Tax', '>', 0)
+                ->orderBy('ExpenseMasterID')
+                ->orderBy('Date')
+                ->get();
+
+        $pdf = PDF::loadView('tax_overall_report1pdf', compact('output_vat','expense_vat'   ,'input_vat', 'pagetitle', 'company'));
         //return $pdf->download('pdfview.pdf');
         $pdf->setpaper('A4', 'portiate');
         return $pdf->stream();

@@ -28,7 +28,8 @@ class InvoiceController extends Controller
         
          try{
             if ($request->ajax()) {
-                $data = Invoice::all();
+                //we have two seprate invoice section and this logc fit to distrbute invoice only
+                $data = Invoice::whereNotNull('reference_quotation_id')->get();
     
                 return Datatables::of($data)
                     ->addIndexColumn()

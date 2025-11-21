@@ -113,7 +113,7 @@
       </div>
       <div class="card-footer bg-light  ">
         <button type="submit" class="btn btn-success w-lg float-right" id="online">Submit</button>
-        <button type="submit" class="btn btn-success w-lg float-right" id="pdf">PDF</button>
+        {{-- <button type="submit" class="btn btn-success w-lg float-right" id="pdf">PDF</button> --}}
                    <a href="{{URL('/')}}" class="btn btn-secondary w-lg float-right">Cancel</a>
       </div>
   </div>
