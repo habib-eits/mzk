@@ -5261,7 +5261,6 @@ class Accounts extends Controller
     {
 
 
-        // dd($request->all());
         // $employee = DB::table('employee')->get();
         // return view ('');
  
@@ -10113,16 +10112,16 @@ $pagetitle='Purchase Order';
         $pagetitle = 'Bulk Payment Search';
         $party = DB::table('party')->where('PartyID', $request->PartyID)->get();
         $invoice_master = DB::table('v_invoice_master')
-            ->whereIn(DB::raw('left(InvoiceNo,3)'), ['TAX', 'INV'])
+            // ->whereIn(DB::raw('left(InvoiceNo,3)'), ['TAX', 'INV'])
+            ->where('InvoiceType', 'invoice')
             ->whereBetween('Date', array($request->StartDate, $request->EndDate))
             ->where('PartyID', $request->PartyID)
 
             ->get();
 
-
         $invoice_summary = DB::table('v_invoice_master')
             ->select(DB::raw('sum(Tax) as Tax, sum(GrandTotal) as GrandTotal, sum(Paid), sum(Balance) as Balance '))
-            ->whereIn(DB::raw('left(InvoiceNo,3)'), ['TAX', 'INV'])
+            ->where('InvoiceType', 'invoice')
             ->whereBetween('Date', array($request->StartDate, $request->EndDate))
             ->where('PartyID', $request->PartyID)
             ->where(DB::raw('GrandTotal-Paid'), '>', 0)
@@ -10380,20 +10379,76 @@ $pagetitle='Purchase Order';
         return View('inventory_detail', compact('pagetitle', 'inventory', 'company', 'startdate', 'enddate'));
     }
 
-
-    public  function PartyAgingPDF()
+    
+    
+    //show plus and minus values in aging report
+    public function PartyAgingPDF()
     {
+        $today = Carbon::today();
 
-        $pagetitle = 'Party Aging Report';
+        // Get all parties
+        $parties = DB::table('party')->get();
 
-        $company = DB::table('company')->get();
-        $aging = DB::table('v_party_aging')->get();
+        $allAging = []; // will store aging for each party individually
 
-        $pdf = PDF::loadView('party_aging_pdf', compact('pagetitle', 'company', 'aging'));
-        //return $pdf->download('pdfview.pdf');
-        $pdf->setpaper('A4', 'landscape');
-        return $pdf->stream();
+        foreach ($parties as $party) {
+
+            // Fetch journal entries for this specific party
+            $journals = DB::table('journal')
+                ->whereNotIn('ChartOfAccountID', ['110400'])
+                ->where('PartyID', $party->PartyID)
+                ->whereDate('Date', '<=', $today)
+                ->orderBy('Date', 'asc')
+                ->get();
+
+            // Initialize aging buckets for this party
+            $agingBuckets = [
+                '0-30' => 0,
+                '31-60' => 0,
+                '61-90' => 0,
+                '91-120' => 0,
+                '121+' => 0,
+            ];
+
+            foreach ($journals as $journal) {
+
+                $days = Carbon::parse($journal->Date)->diffInDays($today);
+                $amount = ($journal->Dr ?? 0) - ($journal->Cr ?? 0);
+
+                if ($amount == 0) continue;
+
+                if ($days <= 30) {
+                    $agingBuckets['0-30'] += $amount;
+                } elseif ($days <= 60) {
+                    $agingBuckets['31-60'] += $amount;
+                } elseif ($days <= 90) {
+                    $agingBuckets['61-90'] += $amount;
+                } elseif ($days <= 120) {
+                    $agingBuckets['91-120'] += $amount;
+                } else {
+                    $agingBuckets['121+'] += $amount;
+                }
+            }
+
+            // Save aging result for this party
+            $allAging[] = [
+                'party' => $party,
+                'aging' => $agingBuckets,
+                'total' => array_sum($agingBuckets),
+            ];
+        }
+
+        // Pass all parties' aging data to the view
+        return view('party_aging', [
+            'today' => $today->toDateString(),
+            'allAging' => $allAging,
+        ]);
     }
+
+   
+
+
+    
 
 
     public  function DBDump()
