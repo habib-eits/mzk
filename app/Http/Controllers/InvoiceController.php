@@ -126,6 +126,7 @@ class InvoiceController extends Controller
     public function store(StoreInvoiceRequest $request)
     {   
        
+       
         DB::beginTransaction();
         
         try{
@@ -338,16 +339,27 @@ class InvoiceController extends Controller
             'ChartOfAccountID' => '110400',  // A/R
             'Dr' => $invoice->NetAmount,
         ]);
+        DB::table('journal')->insert($ar_debit);
+
+        $vat_output_cr = array_merge($data, [
+            'ChartOfAccountID' => '210300',  // VAT  Output
+            'Cr' => $invoice->NetInvoiceAmountVat,
+        ]);
+        DB::table('journal')->insert($vat_output_cr);
+        
+
 
 
         $sales_credit = array_merge($data, [
-            'ChartOfAccountID' => '400100',  // Sales Revenue
-            'Cr' => $invoice->NetAmount,
+            'ChartOfAccountID' => '410100',  // Sales Revenue
+            'Cr' => $invoice->NetInvoiceAmount,
         ]);
-
-
-        DB::table('journal')->insert($ar_debit);
         DB::table('journal')->insert($sales_credit);
+
+       
+
+
+        
 
        
     }

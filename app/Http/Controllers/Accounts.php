@@ -6738,7 +6738,8 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
     }
     public  function CreditNoteSave(request $request)
     {
-        // dd($request->all());
+        
+        
         $invoice_mst = array(
             'InvoiceNo' => $request->InvoiceNo,
             'InvoiceType' => $request->InvoiceType,
@@ -6796,124 +6797,50 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
         // Journal Entries
 
 
-        // 3. Sale Return
-
-        // Sale Return -> Debit
-        $data_sale_return = array(
-            'VHNO' => $request->input('InvoiceNo'),
-            'ChartOfAccountID' => '410175',   //Sale Return
+         $data = [
+            'InvoiceMasterID' => $InvoiceMasterID,
+            'VHNO' => $request->input('InvoiceNo'),  
             'PartyID' => $request->input('PartyID'),
-            'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-            'Narration' => $request->input('Subject'),
+            'Narration' => $request->input('Subject'), 
             'Date' => $request->input('Date'),
-            'Dr' => $request->input('SubTotal') - $request->input('TaxTotal'),
-            'Trace' => 2123, // for debugging for reverse engineering
+        ];
 
-            // 'SubTotal' => $request->input('SubTotal'),
-            // 'TotalTax' => $request->input('TaxTotal'),
-            // 'DiscountAmount' => $request->input('DiscountAmount'),
-            // 'Total' => $request->input('Total'),
-            // 'Paid' => $request->input('amountPaid'),
-            // 'Balance' => $request->input('amountDue'),
-        );
+         //Sales Revenue credit
+        $sales_dr = array_merge($data, [
+            'ChartOfAccountID' => '410100',   
+            'Dr' => $request->input('Total'),
+        ]);
+        DB::table('journal')->insertGetId($sales_dr);
 
-        $journal_entry = DB::table('journal')->insertGetId($data_sale_return);
+        // VAT  Output debit
+        $vatoutput_dr = array_merge($data, [
+            'ChartOfAccountID' => '210300',   
+            'Dr' => $request->input('TaxpercentageAmount'),
+        ]);
+        DB::table('journal')->insertGetId($vatoutput_dr);
+
+       
+
+       // A/R
+        $ar_cr = array_merge($data, [
+            'ChartOfAccountID' => '110400',   
+            'Cr' => $request->input('Grandtotal'),
+        ]);
+        DB::table('journal')->insertGetId($ar_cr);
 
 
-        // 4. Tax -> VAT-OUTPUT TAX
-
-        // VAT-OUTPUT TAX -> Debit
-
-        if ($request->input('TaxTotal') > 0) { // if tax item is present in invoice
-
-
-            $data_vat_out = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '230100',   //VAT-OUTPUT TAX
-                'PartyID' => $request->input('PartyID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Dr' => $request->input('TaxTotal'),
-                'Trace' => 212346, // for debugging for reverse engineering
-
-                // 'SubTotal' => $request->input('SubTotal'),
-                // 'TotalTax' => $request->input('TaxTotal'),
-                // 'DiscountAmount' => $request->input('DiscountAmount'),
-                // 'Total' => $request->input('Total'),
-                // 'Paid' => $request->input('amountPaid'),
-                // 'Balance' => $request->input('amountDue'),
-            );
-
-            $journal_entry = DB::table('journal')->insertGetId($data_vat_out);
-        }
+        
 
 
 
-        // 2. Sale discount
+       
 
-        // Sales-Discount -> credit
+      
 
-        if ($request->input('DiscountAmount') > 0) { // if dis is given
-
-
-            $data_saledis = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '410155',   //Sales-Discount
-                'PartyID' => $request->input('PartyID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Cr' => $request->input('DiscountAmount'),
-                'Trace' => 21234, // for debugging for reverse engineering
-
-                // 'SubTotal' => $request->input('SubTotal'),
-                // 'TotalTax' => $request->input('TaxTotal'),
-                // 'DiscountAmount' => $request->input('DiscountAmount'),
-                // 'Total' => $request->input('Total'),
-                // 'Paid' => $request->input('amountPaid'),
-                // 'Balance' => $request->input('amountDue'),
-            );
-
-
-            $journal_entry = DB::table('journal')->insertGetId($data_saledis);
-        }
-
-
-
-        // 1. A/R
-
-        // A/R -> Debit
-        $data_ar = array(
-            'VHNO' => $request->input('InvoiceNo'),
-            'ChartOfAccountID' => '110400',   //A/R
-            'PartyID' => $request->input('PartyID'),
-            'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-            'Narration' => $request->input('Subject'),
-            'Date' => $request->input('Date'),
-            'Cr' => $request->input('Total'),
-            'Trace' => 2123, // for debugging for reverse engineering
-
-            // 'SubTotal' => $request->input('SubTotal'),
-            // 'TotalTax' => $request->input('TaxTotal'),
-            // 'DiscountAmount' => $request->input('DiscountAmount'),
-            // 'Total' => $request->input('Total'),
-            // 'Paid' => $request->input('amountPaid'),
-            // 'Balance' => $request->input('amountDue'),
-        );
-
-        $journal_entry = DB::table('journal')->insertGetId($data_ar);
-
-
-
-
-
-
-
-
-
+    
 
         // when payment is made by party
+        /*
         if ($request->input('amountPaid') > 0) {
 
 
@@ -6965,7 +6892,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
             $journal_entry = DB::table('journal')->insertGetId($data_cash_bank);
         }
-
+        */
         // end of if statement -> when payment is made
 
         // end of journal entries
@@ -7001,7 +6928,6 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
     public  function CreditNoteUpdate(request $request)
     {
-        // dd($request->all());
         ///////////////////////USER RIGHT & CONTROL ///////////////////////////////////////////
         // $allow= check_role(session::get('UserID'),'Invoice','Create');
         // if($allow[0]->Allow=='N')
@@ -7082,114 +7008,36 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
         // Journal Entries
 
 
-        // 3. Sale Return
-
-        // Sale Return -> Debit
-        $data_sale_return = array(
-            'VHNO' => $request->input('InvoiceNo'),
-            'ChartOfAccountID' => '410175',   //Sale Return
+        $data = [
+            'InvoiceMasterID' => $InvoiceMasterID,
+            'VHNO' => $request->input('InvoiceNo'),  
             'PartyID' => $request->input('PartyID'),
-            'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-            'Narration' => $request->input('Subject'),
+            'Narration' => $request->input('Subject'), 
             'Date' => $request->input('Date'),
-            'Dr' => $request->input('SubTotal') - $request->input('TaxTotal'),
-            'Trace' => 2123, // for debugging for reverse engineering
+        ];
 
-            // 'SubTotal' => $request->input('SubTotal'),
-            // 'TotalTax' => $request->input('TaxTotal'),
-            // 'DiscountAmount' => $request->input('DiscountAmount'),
-            // 'Total' => $request->input('Total'),
-            // 'Paid' => $request->input('amountPaid'),
-            // 'Balance' => $request->input('amountDue'),
-        );
+         //Sales Revenue credit
+        $sales_dr = array_merge($data, [
+            'ChartOfAccountID' => '410100',   
+            'Dr' => $request->input('Total'),
+        ]);
+        DB::table('journal')->insertGetId($sales_dr);
 
-        $journal_entry = DB::table('journal')->insertGetId($data_sale_return);
+        // VAT  Output debit
+        $vatoutput_dr = array_merge($data, [
+            'ChartOfAccountID' => '210300',   
+            'Dr' => $request->input('TaxpercentageAmount'),
+        ]);
+        DB::table('journal')->insertGetId($vatoutput_dr);
 
+       
 
-        // 4. Tax -> VAT-OUTPUT TAX
-
-        // VAT-OUTPUT TAX -> Debit
-
-        if ($request->input('TaxTotal') > 0) { // if tax item is present in invoice
-
-
-            $data_vat_out = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '230100',   //VAT-OUTPUT TAX
-                'PartyID' => $request->input('PartyID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Dr' => $request->input('TaxTotal'),
-                'Trace' => 212346, // for debugging for reverse engineering
-
-                // 'SubTotal' => $request->input('SubTotal'),
-                // 'TotalTax' => $request->input('TaxTotal'),
-                // 'DiscountAmount' => $request->input('DiscountAmount'),
-                // 'Total' => $request->input('Total'),
-                // 'Paid' => $request->input('amountPaid'),
-                // 'Balance' => $request->input('amountDue'),
-            );
-
-            $journal_entry = DB::table('journal')->insertGetId($data_vat_out);
-        }
-
-
-
-        // 2. Sale discount
-
-        // Sales-Discount -> credit
-
-        if ($request->input('DiscountAmount') > 0) { // if dis is given
-
-
-            $data_saledis = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '410155',   //Sales-Discount
-                'PartyID' => $request->input('PartyID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Cr' => $request->input('DiscountAmount'),
-                'Trace' => 21234, // for debugging for reverse engineering
-
-                // 'SubTotal' => $request->input('SubTotal'),
-                // 'TotalTax' => $request->input('TaxTotal'),
-                // 'DiscountAmount' => $request->input('DiscountAmount'),
-                // 'Total' => $request->input('Total'),
-                // 'Paid' => $request->input('amountPaid'),
-                // 'Balance' => $request->input('amountDue'),
-            );
-
-
-            $journal_entry = DB::table('journal')->insertGetId($data_saledis);
-        }
-
-
-
-        // 1. A/R
-
-        // A/R -> Debit
-        $data_ar = array(
-            'VHNO' => $request->input('InvoiceNo'),
-            'ChartOfAccountID' => '110400',   //A/R
-            'PartyID' => $request->input('PartyID'),
-            'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-            'Narration' => $request->input('Subject'),
-            'Date' => $request->input('Date'),
-            'Cr' => $request->input('Total'),
-            'Trace' => 2123, // for debugging for reverse engineering
-
-            // 'SubTotal' => $request->input('SubTotal'),
-            // 'TotalTax' => $request->input('TaxTotal'),
-            // 'DiscountAmount' => $request->input('DiscountAmount'),
-            // 'Total' => $request->input('Total'),
-            // 'Paid' => $request->input('amountPaid'),
-            // 'Balance' => $request->input('amountDue'),
-        );
-
-        $journal_entry = DB::table('journal')->insertGetId($data_ar);
-
+       // A/R
+        $ar_cr = array_merge($data, [
+            'ChartOfAccountID' => '110400',   
+            'Cr' => $request->input('Grandtotal'),
+        ]);
+        DB::table('journal')->insertGetId($ar_cr);
 
 
 
@@ -8008,7 +7856,6 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
     public function DebitNoteSave(Request $request)
     {
-        // dd($request->all());
         $invoice_mst = array(
             'InvoiceNo' => $request->InvoiceNo,
             'Date' => $request->Date,
@@ -8059,108 +7906,40 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
         // 1.
         // Debit
-        $data_ar = array(
-            'VHNO' => $request->input('InvoiceNo'),
-            'ChartOfAccountID' => '110400',   //A/R
-            'SupplierID' => $request->input('SupplierID'),
-            'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-            'Narration' => $request->input('Subject'),
+
+
+        $data = [
+            'InvoiceMasterID' => $InvoiceMasterID,
+            'VHNO' => $request->input('InvoiceNo'),  
+            'SupplierID' => $request->input('SupplierID'),  
+            'Narration' => $request->input('Subject'), 
             'Date' => $request->input('Date'),
-            'Dr' => $request->input('Total'),
-            'Trace' => 22221, // for debugging for reverse engineering
+        ];
 
-            // 'SubTotal' => $request->input('SubTotal'),
-            // 'TotalTax' => $request->input('TaxTotal'),
-            // 'DiscountAmount' => $request->input('DiscountAmount'),
-            // 'Total' => $request->input('Total'),
-            // 'Paid' => $request->input('amountPaid'),
-            // 'Balance' => $request->input('amountDue'),
-        );
-
-        $journal_entry = DB::table('journal')->insertGetId($data_ar);
+        // Acc Payable  ->debit
+        $ap_dr = array_merge($data, [
+            'ChartOfAccountID' => '210100',   
+            'Dr' => $request->input('Grandtotal'),
+        ]);
+        DB::table('journal')->insertGetId($ap_dr);
 
 
+        $purchaseTax_cr = array_merge($data, [
+            'ChartOfAccountID' => '110800',   // TAX ON PURCHASES
+            'Cr' => $request->input('TaxpercentageAmount'),
+        ]);
+        DB::table('journal')->insertGetId($purchaseTax_cr);
 
-        // 2. Purchase discount
+        //inventory credit
+        $inventory_cr = array_merge($data, [
+            'ChartOfAccountID' => '510102',   //Stock inventory
+            'Cr' => $request->input('Total'),
+        ]);
 
+        DB::table('journal')->insertGetId($inventory_cr);
 
-        if ($request->input('DiscountAmount') > 0) {
-            // if dis is given
-
-
-            $data_saledis = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '410155',   //Sales-Discount
-                'SupplierID' => $request->input('SupplierID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Dr' => $request->input('DiscountAmount'),
-                'Trace' => 22222, // for debugging for reverse engineering
-
-                // 'SubTotal' => $request->input('SubTotal'),
-                // 'TotalTax' => $request->input('TaxTotal'),
-                // 'DiscountAmount' => $request->input('DiscountAmount'),
-                // 'Total' => $request->input('Total'),
-                // 'Paid' => $request->input('amountPaid'),
-                // 'Balance' => $request->input('amountDue'),
-            );
-
-
-            $journal_entry = DB::table('journal')->insertGetId($data_saledis);
-        }
-
-        // 3. Tax -> VAT-INPUT TAX
-
-        if ($request->input('TaxTotal') > 0) { // if tax item is present in invoice
-
-
-            $data_vat_out = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '230100',   //VAT-OUTPUT TAX
-                'SupplierID' => $request->input('SupplierID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Cr' => $request->input('TaxTotal'),
-                'Trace' => 22224, // for debugging for reverse engineering
-
-                // 'SubTotal' => $request->input('SubTotal'),
-                // 'TotalTax' => $request->input('TaxTotal'),
-                // 'DiscountAmount' => $request->input('DiscountAmount'),
-                // 'Total' => $request->input('Total'),
-                // 'Paid' => $request->input('amountPaid'),
-                // 'Balance' => $request->input('amountDue'),
-            );
-
-            $journal_entry = DB::table('journal')->insertGetId($data_vat_out);
-        }
-
-        // 4. total stock in hand
-
-        $data_sale = array(
-            'VHNO' => $request->input('InvoiceNo'),
-            'ChartOfAccountID' => '410100',   //Sales
-            'SupplierID' => $request->input('SupplierID'),
-            'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-            'Narration' => $request->input('Subject'),
-            'Date' => $request->input('Date'),
-            'Dr' => $request->input('SubTotal') - $request->input('TaxTotal'),
-            'Trace' => 22223, // for debugging for reverse engineering
-
-            // 'SubTotal' => $request->input('SubTotal'),
-            // 'TotalTax' => $request->input('TaxTotal'),
-            // 'DiscountAmount' => $request->input('DiscountAmount'),
-            // 'Total' => $request->input('Total'),
-            // 'Paid' => $request->input('amountPaid'),
-            // 'Balance' => $request->input('amountDue'),
-        );
-
-        $journal_entry = DB::table('journal')->insertGetId($data_sale);
-
-
-
-
+    
+        /*
         if ($request->input('amountPaid') > 0) {
 
             // 5. Cash/Bank ->Debit
@@ -8210,7 +7989,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
             $journal_entry = DB::table('journal')->insertGetId($data_ar_credit);
         }
 
-
+        */
 
         return redirect('DebitNote')->with('error', 'Invoice Saved')->with('class', 'success');
     }
@@ -8341,7 +8120,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
         $items = DB::table('item')->get();
 
         $invoice_master = DB::table('v_invoice_master_supplier')->where('InvoiceMasterID', $id)->get();
-        $invoice_detail = DB::table('v_invoice_detail')->where('InvoiceMasterID', $id)->get();
+        $invoice_detail = DB::table('invoice_detail')->where('InvoiceMasterID', $id)->get();
 
         $item = json_encode($items);
         // dd($item);
@@ -8366,7 +8145,6 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
     {
 
-        // dd($request->all());
         $invoice_mst = array(
             'InvoiceNo' => $request->InvoiceNo,
             'InvoiceType' => $request->InvoiceType,
@@ -8406,134 +8184,38 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
         // delete from journal too
 
-
-
-        // END OF SALE RETURN
-
-        //  start for item array from invoice
-        for ($i = 0; $i < count($request->ItemID); $i++) {
-
-            $invoice_det = array(
-                'InvoiceMasterID' => $request->InvoiceMasterID,
-                'InvoiceNo' => $request->InvoiceNo,
-                'ItemID' => $request->ItemID[$i],
-                'PartyID' => $request->input('PartyID'),
-                'Qty' => $request->Qty[$i],
-                'Rate' => $request->Price[$i],
-                'Description' => $request->Description[$i],
-
-                'Total' => $request->ItemTotal[$i],
-
-            );
-
-            $id = DB::table('invoice_detail')->insertGetId($invoice_det);
-        }
-
-        // end foreach
-        // 1.
-        // Debit
-        $data_ar = array(
-            'VHNO' => $request->input('InvoiceNo'),
-            'ChartOfAccountID' => '110400',   //A/R
-            'SupplierID' => $request->input('SupplierID'),
-            'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-            'Narration' => $request->input('Subject'),
+          $data = [
+            'InvoiceMasterID' => $InvoiceMasterID,
+            'VHNO' => $request->input('InvoiceNo'),  
+            'SupplierID' => $request->input('SupplierID'),  
+            'Narration' => $request->input('Subject'), 
             'Date' => $request->input('Date'),
-            'Dr' => $request->input('Total'),
-            'Trace' => 22221, // for debugging for reverse engineering
+        ];
 
-            // 'SubTotal' => $request->input('SubTotal'),
-            // 'TotalTax' => $request->input('TaxTotal'),
-            // 'DiscountAmount' => $request->input('DiscountAmount'),
-            // 'Total' => $request->input('Total'),
-            // 'Paid' => $request->input('amountPaid'),
-            // 'Balance' => $request->input('amountDue'),
-        );
-
-        $journal_entry = DB::table('journal')->insertGetId($data_ar);
+         // Acc Payable  ->debit
+        $ap_dr = array_merge($data, [
+            'ChartOfAccountID' => '210100',   
+            'Dr' => $request->input('Grandtotal'),
+        ]);
+        DB::table('journal')->insertGetId($ap_dr);
 
 
+        $purchaseTax_cr = array_merge($data, [
+            'ChartOfAccountID' => '110800',   // TAX ON PURCHASES
+            'Cr' => $request->input('TaxpercentageAmount'),
+        ]);
+        DB::table('journal')->insertGetId($purchaseTax_cr);
 
-        // 2. Purchase discount
+        //inventory credit
+        $inventory_cr = array_merge($data, [
+            'ChartOfAccountID' => '510102',   //Stock inventory
+            'Cr' => $request->input('Total'),
+        ]);
 
-
-        if ($request->input('DiscountAmount') > 0) {
-            // if dis is given
-
-
-            $data_saledis = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '410155',   //Sales-Discount
-                'SupplierID' => $request->input('SupplierID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Dr' => $request->input('DiscountAmount'),
-                'Trace' => 22222, // for debugging for reverse engineering
-
-                // 'SubTotal' => $request->input('SubTotal'),
-                // 'TotalTax' => $request->input('TaxTotal'),
-                // 'DiscountAmount' => $request->input('DiscountAmount'),
-                // 'Total' => $request->input('Total'),
-                // 'Paid' => $request->input('amountPaid'),
-                // 'Balance' => $request->input('amountDue'),
-            );
+        DB::table('journal')->insertGetId($inventory_cr);
 
 
-            $journal_entry = DB::table('journal')->insertGetId($data_saledis);
-        }
-
-        // 3. Tax -> VAT-INPUT TAX
-
-        if ($request->input('TaxTotal') > 0) { // if tax item is present in invoice
-
-
-            $data_vat_out = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '230100',   //VAT-OUTPUT TAX
-                'SupplierID' => $request->input('SupplierID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Cr' => $request->input('TaxTotal'),
-                'Trace' => 22224, // for debugging for reverse engineering
-
-                // 'SubTotal' => $request->input('SubTotal'),
-                // 'TotalTax' => $request->input('TaxTotal'),
-                // 'DiscountAmount' => $request->input('DiscountAmount'),
-                // 'Total' => $request->input('Total'),
-                // 'Paid' => $request->input('amountPaid'),
-                // 'Balance' => $request->input('amountDue'),
-            );
-
-            $journal_entry = DB::table('journal')->insertGetId($data_vat_out);
-        }
-
-        // 4. total stock in hand
-
-        $data_sale = array(
-            'VHNO' => $request->input('InvoiceNo'),
-            'ChartOfAccountID' => '410100',   //Sales
-            'SupplierID' => $request->input('SupplierID'),
-            'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-            'Narration' => $request->input('Subject'),
-            'Date' => $request->input('Date'),
-            'Dr' => $request->input('SubTotal') - $request->input('TaxTotal'),
-            'Trace' => 22223, // for debugging for reverse engineering
-
-            // 'SubTotal' => $request->input('SubTotal'),
-            // 'TotalTax' => $request->input('TaxTotal'),
-            // 'DiscountAmount' => $request->input('DiscountAmount'),
-            // 'Total' => $request->input('Total'),
-            // 'Paid' => $request->input('amountPaid'),
-            // 'Balance' => $request->input('amountDue'),
-        );
-
-        $journal_entry = DB::table('journal')->insertGetId($data_sale);
-
-
-
-
+        /*
         if ($request->input('amountPaid') > 0) {
 
             // 5. Cash/Bank ->Debit
@@ -8582,7 +8264,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
             $journal_entry = DB::table('journal')->insertGetId($data_ar_credit);
         }
-
+        */
         return redirect('DebitNote')->with('error', 'Invoice Saved')->with('class', 'success');
     }
 
@@ -10382,6 +10064,7 @@ $pagetitle='Purchase Order';
     
     
     //show plus and minus values in aging report
+    /*
     public function PartyAgingPDF()
     {
         $today = Carbon::today();
@@ -10395,11 +10078,13 @@ $pagetitle='Purchase Order';
 
             // Fetch journal entries for this specific party
             $journals = DB::table('journal')
-                ->whereNotIn('ChartOfAccountID', ['110400'])
+                ->where('ChartOfAccountID', '110400')
                 ->where('PartyID', $party->PartyID)
                 ->whereDate('Date', '<=', $today)
                 ->orderBy('Date', 'asc')
                 ->get();
+
+
 
             // Initialize aging buckets for this party
             $agingBuckets = [
@@ -10413,7 +10098,7 @@ $pagetitle='Purchase Order';
             foreach ($journals as $journal) {
 
                 $days = Carbon::parse($journal->Date)->diffInDays($today);
-                $amount = ($journal->Dr ?? 0) - ($journal->Cr ?? 0);
+                $amount =  $journal->Dr - $journal->Cr;
 
                 if ($amount == 0) continue;
 
@@ -10444,7 +10129,114 @@ $pagetitle='Purchase Order';
             'allAging' => $allAging,
         ]);
     }
+    */
 
+    public function PartyAgingPDF()
+{
+    $today = Carbon::today()->startOfDay();
+
+    // Fetch all parties (you can add ->where('status', 'active') etc. if needed)
+    $parties = DB::table('party')->get();
+
+    $allAging = [];
+
+    foreach ($parties as $party) {
+
+        // Get all ledger entries for this party, sorted by date ASC (very important!)
+        $journals = DB::table('journal')
+            ->where('ChartOfAccountID', '110400')
+            ->where('PartyID', $party->PartyID)
+            ->whereDate('Date', '<=', $today)
+            ->orderBy('Date')
+            ->orderBy('JournalID') // extra safety for same-day entries
+            ->select('Date', 'Dr', 'Cr')
+            ->get();
+
+        // This will hold remaining unpaid debit items (FIFO queue)
+        $outstanding = collect();
+
+        foreach ($journals as $entry) {
+            $netAmount = $entry->Dr - $entry->Cr; // positive = invoice, negative = payment
+
+            if ($netAmount == 0) {
+                continue;
+            }
+
+            if ($netAmount > 0) {
+                // New receivable — push to the end of the queue
+                $outstanding->push([
+                    'date'   => Carbon::parse($entry->Date)->startOfDay(),
+                    'amount' => $netAmount,
+                ]);
+            } else {
+                // Payment — apply to oldest outstanding first
+                $paymentRemaining = abs($netAmount);
+
+                while ($paymentRemaining > 0 && $outstanding->isNotEmpty()) {
+                    $oldest = $outstanding->first();
+
+                    if ($oldest['amount'] <= $paymentRemaining) {
+                        // Fully settles this old invoice
+                        $paymentRemaining -= $oldest['amount'];
+                        $outstanding->shift(); // remove it
+                    } else {
+                        // Partially settles the oldest invoice
+                        $oldest['amount'] -= $paymentRemaining;
+                        $outstanding[0] = $oldest; // update the collection
+                        $paymentRemaining = 0;
+                    }
+                }
+            }
+        }
+
+        // Now calculate aging buckets from whatever is still unpaid
+        $buckets = [
+            '0-30'   => 0.0,
+            '31-60'  => 0.0,
+            '61-90'  => 0.0,
+            '91-120' => 0.0,
+            '121+'   => 0.0,
+        ];
+
+        foreach ($outstanding as $item) {
+            $daysOld = $item['date']->diffInDays($today);
+
+            if ($daysOld <= 30) {
+                $buckets['0-30'] += $item['amount'];
+            } elseif ($daysOld <= 60) {
+                $buckets['31-60'] += $item['amount'];
+            } elseif ($daysOld <= 90) {
+                $buckets['61-90'] += $item['amount'];
+            } elseif ($daysOld <= 120) {
+                $buckets['91-120'] += $item['amount'];
+            } else {
+                $buckets['121+'] += $item['amount'];
+            }
+        }
+
+        $totalOutstanding = array_sum($buckets);
+
+        // Only include parties that actually have outstanding balance (optional)
+        if ($totalOutstanding != 0 || true) { // remove "|| true" if you want only non-zero
+            $allAging[] = [
+                'party'  => $party,
+                'aging'  => $buckets,
+                'total'  => $totalOutstanding,
+            ];
+        }
+    }
+
+    // Optional: sort by party name or total descending
+    usort($allAging, function ($a, $b) {
+        return $b['total'] <=> $a['total']; // highest balance first
+        // return $a['party']->PartyName <=> $b['party']->PartyName; // alphabetical
+    });
+
+    return view('party_aging', [
+        'today'     => $today->format('d-M-Y'),
+        'allAging'  => $allAging,
+    ]);
+}
    
 
 
