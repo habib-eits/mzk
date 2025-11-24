@@ -38,7 +38,7 @@
  
             @endif
 
-            
+            <h4>Party SOA</h4>
   <div class="card shadow-sm mt-5">
       <div class="card-body">
           <!-- enctype="multipart/form-data" -->
@@ -46,7 +46,7 @@
 
             {{csrf_field()}} 
 
- 
+            
     
  
           
@@ -68,7 +68,7 @@
 
 
 
-                      <div class="col-md-4 mt-2">
+                      <div class="col-md-4 mt-2 d-none">
              <div class="mb-0">
                 <label for="basicpill-firstname-input">Branch</label>
                  <select name="BranchID" id="BranchID" class="select2 form-select" id="select2-basic" required="">
