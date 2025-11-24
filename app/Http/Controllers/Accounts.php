@@ -3371,7 +3371,7 @@ class Accounts extends Controller
         $branch = DB::table('branch')->get();
 
         return view('partywise_sale', compact('pagetitle', 'invoice_type', 'party','branch'));
-    }
+    } /*
     public function PartyWiseSale1(request $request)
     {
         ///////////////////////USER RIGHT & CONTROL ///////////////////////////////////////////
@@ -3401,7 +3401,121 @@ class Accounts extends Controller
         //   // $pdf->setpaper('A4', 'portiate');
         //       return $pdf->stream();
         return View('partywise_sale1', compact('party_wise', 'pagetitle'));
+    } 
+    */
+
+    public function PartyWiseSale1(request $request)
+    {
+       
+        // ---------------------- USER RIGHT & CONTROL ----------------------
+        $allow = check_role(session::get('UserID'), 'Party Ledger', 'View');
+        if ($allow == 0) {
+            return redirect()->back()
+                ->with('error', 'Your access is limited')
+                ->with('class', 'danger');
+        }
+
+        // ---------------------- session & PAGE SETUP ----------------------
+        session::put('menu', 'PartyLedger');
+        $pagetitle = 'Party Ledger';
+
+        session::put('StartDate', $request->StartDate);
+        session::put('EndDate', $request->EndDate);
+
+
+
+        // ---------------------- OPENING BALANCE ----------------------
+        $sql = DB::table('journal')
+            ->selectRaw('SUM(IFNULL(Dr,0) - IFNULL(Cr,0)) AS Balance')
+            ->where('PartyID', $request->PartyID)
+            ->where('ChartOfAccountID', 110400) // Accounts Receivable
+            ->where('Date', '<', $request->StartDate)
+            ->first();
+
+        $openingBalance = $sql->Balance ?? 0;
+
+        // ---------------------- PARTY INFO ----------------------
+        $party = DB::table('party')
+            ->where('PartyID', $request->PartyID)
+            ->first();
+
+        // ---------------------- JOURNAL ENTRIES ----------------------
+        $journal = DB::table('v_journal')
+            ->where('PartyID', $request->PartyID)
+            ->whereBetween('Date', [$request->StartDate, $request->EndDate])
+                ->where('PartyID', $request->PartyID)
+            ->where('ChartOfAccountID', 110400) // Accounts Receivable
+            ->orderBy('Date', 'asc')
+            ->get();
+
+        // ---------------------- RETURN VIEW ----------------------
+
+
+        return view('party_soa1', [
+            'journal' => $journal,
+            'pagetitle' => $pagetitle,
+            'sql' => ['Balance' => $openingBalance],
+            'party' => $party
+        ]);
+
+
+    }   
+
+    public function PartyWiseSale1PDF(request $request)
+    {
+          // ---------------------- USER RIGHT & CONTROL ----------------------
+        $allow = check_role(session::get('UserID'), 'Party Ledger', 'View');
+        if ($allow == 0) {
+            return redirect()->back()
+                ->with('error', 'Your access is limited')
+                ->with('class', 'danger');
+        }
+
+        // ---------------------- session & PAGE SETUP ----------------------
+        session::put('menu', 'PartyLedger');
+        $pagetitle = 'Party Ledger';
+
+        session::put('StartDate', $request->StartDate);
+        session::put('EndDate', $request->EndDate);
+
+
+
+        // ---------------------- OPENING BALANCE ----------------------
+        $sql = DB::table('journal')
+            ->selectRaw('SUM(IFNULL(Dr,0) - IFNULL(Cr,0)) AS Balance')
+            ->where('PartyID', $request->PartyID)
+            ->where('ChartOfAccountID', 110400) // Accounts Receivable
+            ->where('Date', '<', $request->StartDate)
+            ->first();
+
+        $openingBalance = $sql->Balance ?? 0;
+
+        // ---------------------- PARTY INFO ----------------------
+        $party = DB::table('party')
+            ->where('PartyID', $request->PartyID)
+            ->first();
+
+        // ---------------------- JOURNAL ENTRIES ----------------------
+        $journal = DB::table('v_journal')
+            ->where('PartyID', $request->PartyID)
+            ->whereBetween('Date', [$request->StartDate, $request->EndDate])
+                ->where('PartyID', $request->PartyID)
+            ->where('ChartOfAccountID', 110400) // Accounts Receivable
+            ->orderBy('Date', 'asc')
+            ->get();
+
+        // ---------------------- RETURN VIEW ----------------------
+
+
+        return view('party_soa1PDF', [
+            'journal' => $journal,
+            'pagetitle' => $pagetitle,
+            'sql' => ['Balance' => $openingBalance],
+            'party' => $party
+        ]);
     }
+
+    /*
     public function PartyWiseSale1PDF(request $request)
     {
 
@@ -3432,6 +3546,7 @@ class Accounts extends Controller
         //   // $pdf->setpaper('A4', 'portiate');
         return $pdf->stream();
     }
+        */
     public function PartyBalance()
     {
         session::put('menu', 'PartyLedger');

@@ -295,7 +295,7 @@
                                     <!-- <input type="text" class="form-control" id="TotalTaxAmount" name="TaxTotal" placeholder="TaxTotal" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"> -->
                                     <form class="form-inline">
                                         <div class="form-group mt-1">
-                                            <label>Sub Total1: &nbsp;</label>
+                                            <label>Sub Total: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
@@ -314,14 +314,14 @@
                                                 <input type="text" class="form-control" value="0"
                                                     id="discountper" name="DiscountPer" placeholder="Tax"
                                                     onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                    onpaste="return false;" value="0">
+                                                    onpaste="return false;" value="0" readonly>
 
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
 
                                                 <input type="text" name="DiscountAmount" class="form-control"
                                                     id="discountAmount" onkeypress="return IsNumeric(event);"
-                                                    ondrop="return false;" onpaste="return false;" value="0">
+                                                    ondrop="return false;" onpaste="return false;" value="0" readonly>
                                             </div>
                                         </div>
 
@@ -347,7 +347,7 @@
                                                 <input type="text" class="form-control" id="taxpercentage"
                                                     name="Taxpercentage" placeholder="tax %"
                                                     onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                    onpaste="return false;" value="0">
+                                                    onpaste="return false;" value="5">
 
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
@@ -358,7 +358,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group mt-1">
+                                        <div class="form-group mt-1 d-none">
 
                                             <label>Shipping: &nbsp;</label>
                                             <div class="input-group">
@@ -386,7 +386,7 @@
 
 
 
-                                        <div class="form-group mt-1">
+                                        <div class="form-group mt-1 d-none">
                                             <label>Amount Paid: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
@@ -398,7 +398,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group mt-1">
+                                        <div class="form-group mt-1 d-none">
 
                                             <label>Amount Due: &nbsp;</label>
                                             <div class="input-group">

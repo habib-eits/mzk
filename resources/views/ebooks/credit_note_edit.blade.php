@@ -302,16 +302,16 @@
                                                 <input type="text" class="form-control" id="taxpercentage"
                                                     name="Taxpercentage" placeholder="tax %"
                                                     onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                    onpaste="return false;" value="{{ $invoice_master[0]->TaxPer }}">
+                                                    onpaste="return false;" value="{{ $invoice_master[0]->TaxPer }}" readonly>
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
                                                 <input type="text" name="TaxpercentageAmount" class="form-control"
                                                     id="taxpercentageAmount" onkeypress="return IsNumeric(event);"
                                                     ondrop="return false;" onpaste="return false;"
-                                                    value="{{ $invoice_master[0]->Tax }}">
+                                                    value="{{ $invoice_master[0]->Tax }}" readonly>
                                             </div>
                                         </div>
-                                        <div class="form-group mt-1">
+                                        <div class="form-group mt-1 d-none">
                                             <label>Shipping: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
@@ -333,7 +333,7 @@
                                                     onpaste="return false;" value="{{ $invoice_master[0]->GrandTotal }}">
                                             </div>
                                         </div>
-                                        <div class="form-group mt-1">
+                                        <div class="form-group mt-1 d-none">
                                             <label>Amount Paid: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
@@ -345,7 +345,7 @@
                                                     value="{{ $invoice_master[0]->Paid }}">
                                             </div>
                                         </div>
-                                        <div class="form-group mt-1">
+                                        <div class="form-group mt-1 d-none">
                                             <label>Amount Due: &nbsp;</label>
                                             <div class="input-group">
                                                 <span

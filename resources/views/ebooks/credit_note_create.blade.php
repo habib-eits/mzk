@@ -234,7 +234,7 @@
                                 <div class="col-lg-4 col-12 ">
                                     <form class="form-inline">
                                         <div class="form-group mt-1">
-                                            <label>Sub Total1: &nbsp;</label>
+                                            <label>Sub Total: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
@@ -279,15 +279,15 @@
                                                 <input type="text" class="form-control" id="taxpercentage"
                                                     name="Taxpercentage" placeholder="tax %"
                                                     onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                    onpaste="return false;" value="0">
+                                                    onpaste="return false;" value="5" readonly>
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
                                                 <input type="text" name="TaxpercentageAmount" class="form-control"
                                                     id="taxpercentageAmount" onkeypress="return IsNumeric(event);"
-                                                    ondrop="return false;" onpaste="return false;" value="0">
+                                                    ondrop="return false;" onpaste="return false;" value="0" readonly>
                                             </div>
                                         </div>
-                                        <div class="form-group mt-1">
+                                        <div class="form-group mt-1 d-none">
                                             <label>Shipping: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
@@ -309,7 +309,7 @@
                                                     onpaste="return false;" value="0">
                                             </div>
                                         </div>
-                                        <div class="form-group mt-1">
+                                        <div class="form-group mt-1 d-none">
                                             <label>Amount Paid: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
@@ -320,7 +320,7 @@
                                                     onpaste="return false;" step="0.01" value="0">
                                             </div>
                                         </div>
-                                        <div class="form-group mt-1">
+                                        <div class="form-group mt-1 d-none">
                                             <label>Amount Due: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
