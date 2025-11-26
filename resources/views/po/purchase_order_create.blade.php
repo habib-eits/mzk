@@ -567,18 +567,20 @@
                                                     </select></td>
 
                                                 <td valign="top" class="">
-                                                    <input type="number" name="UnitQty[]" id="UnitQty_1"
-                                                        class=" form-control changesNo  " autocomplete="off"
+                                                     <input type="number" name="Qty[]" id="Qty_1"
+                                                        class=" form-control changesNo QtyTotal" autocomplete="off"
                                                         onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                        onpaste="return false;" step="0.01" value="">
+                                                        onpaste="return false;" step="0.01" value="1">
+                                                   
                                                 </td>
 
 
                                                 <td valign="top">
-                                                    <input type="number" name="Qty[]" id="Qty_1"
-                                                        class=" form-control changesNo QtyTotal d-none" autocomplete="off"
+                                                     <input type="number" name="UnitQty[]" id="UnitQty_1"
+                                                        class=" form-control changesNo  d-none" autocomplete="off"
                                                         onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                        onpaste="return false;" step="0.01" value="1"> <select
+                                                        onpaste="return false;" step="0.01" value="">
+                                                    <select
                                                         class="form-select mt-1" name="LS[]" id="LS_1">
                                                         <option value="YES"> L/S YES</option>
                                                         <option value="NO">LS / NO</option>
@@ -865,65 +867,214 @@
 
         var i = $('table tr').length;
 
-        $(".addmore").on('click', function() {
+        $(".addmore").on('click', function () {
 
-            html = '<tr class= borde-1 border-light">';
-            html += '<td valign="top" class="text-left"><input class="case" type="checkbox"/></td>';
-            html += '<td><select name="ItemID0[]" id="ItemID0_' + i +
-                '"  style="width: 100% !important;" class="form-select select2  changesNoo" onchange="km(this.value,' +
-                i +
-                ');" > <option value="">select</option>}@foreach ($items as $key => $value) <option value="{{ $value->ItemID }}|{{ $value->Percentage }}">{{ $value->ItemCode }}-{{ $value->ItemName }}-{{ $value->Percentage }}</option>@endforeach</select><input type="hidden" name="ItemID[]" id="ItemID_' +
-                i +
-                '"> <textarea name="Description[]" id="Description[]" rows="2" class="form-control mt-1" style="width: 100% !important;"></textarea></td>';
+    html = '<tr class="borde-1 border-light">';
 
+    html += `
+        <td valign="top" class="text-left">
+            <input class="case" type="checkbox"/>
+        </td>
+    `;
 
-            html += ' <td valign="top"><select name="UnitName[]" id="UnitName_' + i +
-                '" class="form-select">                                          @foreach ($unit as $value)     <option value="{{ $value->UnitName }}">{{ $value->UnitName }}</option>                                              @endforeach                                          </select></td>                                             ';
+    html += `
+        <td>
+            <select 
+                name="ItemID0[]" 
+                id="ItemID0_${i}"
+                style="width: 100% !important;" 
+                class="form-select select2 changesNoo" 
+                onchange="km(this.value, ${i});"
+            >
+                <option value="">select</option>
+                @foreach ($items as $key => $value)
+                    <option value="{{ $value->ItemID }}|{{ $value->Percentage }}">
+                        {{ $value->ItemCode }}-{{ $value->ItemName }}-{{ $value->Percentage }}
+                    </option>
+                @endforeach
+            </select>
 
-            html += '<td valign="top" > <input type="number" name="UnitQty[]" id="UnitQty_' + i +
-                '" class=" form-control changesNo " autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" step="0.01" value="">                                            </td>';
+            <input type="hidden" name="ItemID[]" id="ItemID_${i}">
+            <textarea 
+                name="Description[]" 
+                id="Description[]" 
+                rows="2" 
+                class="form-control mt-1" 
+                style="width: 100% !important;"
+            ></textarea>
+        </td>
+    `;
 
+    html += `
+        <td valign="top">
+            <select name="UnitName[]" id="UnitName_${i}" class="form-select">
+                @foreach ($unit as $value)
+                    <option value="{{ $value->UnitName }}">{{ $value->UnitName }}</option>
+                @endforeach
+            </select>
+        </td>
+    `;
 
-            html += '<td valign="top"><input type="text" name="Qty[]" id="Qty_' + i +
-                '" class="form-control changesNo QtyTotal d-none" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" value="1"> <select  class="form-select mt-1" name="LS[]" id="LS_' +
-                i +
-                '"><option value="YES"> L/S YES</option>        <option value="NO">LS / NO</option>    </select></td>';
+    html += `
+        <td valign="top">
+            <input 
+                type="text" 
+                name="Qty[]" 
+                id="Qty_${i}"
+                class="form-control changesNo QtyTotal" 
+                autocomplete="off" 
+                onkeypress="return IsNumeric(event);" 
+                ondrop="return false;" 
+                onpaste="return false;" 
+                value="1"
+            >
 
-            html += '<td valign="top"><input type="text" name="Price[]" id="Price_' + i +
-                '" class="form-control changesNo " autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"></td>';
-            html +=
-                '<td valign="top" class="d-none"><div class="input-group"><input type="text" name="Discount[]" id="Discount_' +
-                i +
-                '" class=" form-control changesNo" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" step="0.01" value="0"><span ><div class="col-sm-9 input-group"><select name="DiscountType[]" id="DiscountType_' +
-                i +
-                '" class="form-select  changesNo bg-light"  ><option  value="1">%</option><option  value="2">{{ session::get('Currency') }}</option></select><input type="hidden" name="DiscountAmountItem[]" value="0" id="DiscountAmount_' +
-                i + '"></div></span></div></td>';
+            <input 
+                type="number" 
+                name="UnitQty[]" 
+                id="UnitQty_${i}"
+                class="form-control changesNo d-none"
+                autocomplete="off" 
+                onkeypress="return IsNumeric(event);" 
+                ondrop="return false;" 
+                onpaste="return false;" 
+                step="0.01"
+                value=""
+            >
+        </td>
+    `;
 
-            html += '<td  valign="top"> <input type="number" name="Gross[]" id="Gross_' + i +
-                '" class=" form-control changesNo" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" step="0.01">  </td>';
+    html += `
+        <td valign="top">
+            <select class="form-select mt-1" name="LS[]" id="LS_${i}">
+                <option value="YES">L/S YES</option>
+                <option value="NO">LS / NO</option>
+            </select>
+        </td>
+    `;
 
-            html += '<td  valign="top"><select name="Tax[]" id="TaxID_' + i +
-                '" class="form-control changesNo exclusive_cal bg-light"><?php foreach ($tax as $key => $valueX1) : ?><option value="{{ $valueX1->TaxPer }}">{{ $valueX1->Description }}</option><?php endforeach ?></select></td>';
+    html += `
+        <td valign="top">
+            <input 
+                type="text" 
+                name="Price[]" 
+                id="Price_${i}"
+                class="form-control changesNo"
+                autocomplete="off" 
+                onkeypress="return IsNumeric(event);" 
+                ondrop="return false;" 
+                onpaste="return false;"
+            >
+        </td>
+    `;
 
+    html += `
+        <td valign="top" class="d-none">
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    name="Discount[]" 
+                    id="Discount_${i}"
+                    class="form-control changesNo"
+                    autocomplete="off" 
+                    onkeypress="return IsNumeric(event);" 
+                    ondrop="return false;" 
+                    onpaste="return false;" 
+                    step="0.01" 
+                    value="0"
+                >
 
-            html += '<td  valign="top"><input type="number" name="TaxVal[]" id="TaxVal_' + i +
-                '" class=" form-control totalLinePrice2 "autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;" step="0.01" value="0"></td>';
+                <span>
+                    <div class="col-sm-9 input-group">
+                        <select 
+                            name="DiscountType[]" 
+                            id="DiscountType_${i}" 
+                            class="form-select changesNo bg-light"
+                        >
+                            <option value="1">%</option>
+                            <option value="2">{{ session::get('Currency') }}</option>
+                        </select>
 
+                        <input 
+                            type="hidden" 
+                            name="DiscountAmountItem[]" 
+                            value="0" 
+                            id="DiscountAmount_${i}"
+                        >
+                    </div>
+                </span>
+            </div>
+        </td>
+    `;
 
+    html += `
+        <td valign="top">
+            <input 
+                type="number" 
+                name="Gross[]" 
+                id="Gross_${i}"
+                class="form-control changesNo"
+                autocomplete="off" 
+                onkeypress="return IsNumeric(event);" 
+                ondrop="return false;" 
+                onpaste="return false;" 
+                step="0.01"
+            >
+        </td>
+    `;
 
+    html += `
+        <td valign="top">
+            <select 
+                name="Tax[]" 
+                id="TaxID_${i}" 
+                class="form-control changesNo exclusive_cal bg-light"
+            >
+                <?php foreach ($tax as $key => $valueX1) : ?>
+                    <option value="{{ $valueX1->TaxPer }}">{{ $valueX1->Description }}</option>
+                <?php endforeach ?>
+            </select>
+        </td>
+    `;
 
-            html += '<td  valign="top"><input type="text" name="ItemTotal[]" id="ItemTotal_' + i +
-                '" class="form-control totalLinePrice" autocomplete="off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"></td>';
+    html += `
+        <td valign="top">
+            <input 
+                type="number" 
+                name="TaxVal[]" 
+                id="TaxVal_${i}"
+                class="form-control totalLinePrice2"
+                autocomplete="off" 
+                onkeypress="return IsNumeric(event);" 
+                ondrop="return false;" 
+                onpaste="return false;" 
+                step="0.01" 
+                value="0"
+            >
+        </td>
+    `;
 
-            html += '</tr>';
-            i++;
-            $('table').append(html);
-            $('.select2', 'table').select2();
+    html += `
+        <td valign="top">
+            <input 
+                type="text" 
+                name="ItemTotal[]" 
+                id="ItemTotal_${i}"
+                class="form-control totalLinePrice"
+                autocomplete="off" 
+                onkeypress="return IsNumeric(event);" 
+                ondrop="return false;" 
+                onpaste="return false;"
+            >
+        </td>
+    `;
 
+    html += '</tr>';
 
-
-
-        });
+    i++;
+    $('table').append(html);
+    $('.select2', 'table').select2();
+});
 
 
 
@@ -985,7 +1136,8 @@
             var Price = $('#Price_' + id[1]).val();
 
             var UnitName = json["UnitName"];
-            var UnitQty = json["UnitQty"];
+            // var UnitQty = json["UnitQty"];
+            var UnitQty = 1;
 
 
             if (UnitName == 'pcs') {
@@ -996,7 +1148,8 @@
 
 
             $('#UnitName_' + id[1]).val(json["UnitName"]).change();
-            $('#UnitQty_' + id[1]).val(json["UnitQty"]).change();
+            // $('#UnitQty_' + id[1]).val(json["UnitQty"]).change();
+            $('#UnitQty_' + id[1]).val(1);
 
 
             var QtyRate = parseFloat(Price) * parseFloat(UnitQty);
