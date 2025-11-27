@@ -4337,7 +4337,7 @@ public function NoticeBoardView($id)
 
 public function Attendance()
      {
-
+  
 
       $pagetitle='Attendance';
 
@@ -4356,7 +4356,8 @@ public function Attendance()
 
 public function ajax_attendance(Request $request)
     {
-
+      $data = AttendanceMaster::with(['job','user'])->get();
+      
         $title = 'Attendance';
           
          try{
@@ -4366,6 +4367,18 @@ public function ajax_attendance(Request $request)
                 return Datatables::of($data)
                     ->addIndexColumn()
                     // Status toggle column
+                    ->addColumn('JobNo', function ($row) {
+                        return $row->job->JobNo ?? '';
+                       
+                    })
+                    ->addColumn('JobLocation', function ($row) {
+                        return $row->job->JobLocation ?? '';
+                       
+                    })
+                    ->addColumn('ShiftType', function ($row) {
+                        return $row->job->ShiftType ?? '';
+                       
+                    })
                    
                     ->addColumn('employee_full_name', function ($row) {
                         if ($row->employee) {

@@ -139,12 +139,12 @@
 
 
                         {
-                            data: 'job.JobNo'
+                            data: 'JobNo'
                         },
                         {
-                            data: 'job.JobLocation'
+                            data: 'JobLocation'
                         }, {
-                            data: 'job.ShiftType'
+                            data: 'ShiftType'
                         },
 
                         {
