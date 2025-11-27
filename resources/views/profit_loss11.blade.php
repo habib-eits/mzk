@@ -134,7 +134,7 @@
                                                 <td>
 
                                                 </td>
-                                                <td> <STRONG> TOTAL {{ $value1->ChartOfAccountName }}</STRONG>
+                                                <td> <STRONG> {{ $value->ChartOfAccountName }}</STRONG>
 
                                                 </td>
                                                 <td>
