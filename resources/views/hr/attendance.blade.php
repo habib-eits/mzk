@@ -73,11 +73,12 @@
                                 
                             
                             <div class="col-md-3">
-                                <div class="card shadow-sm" style="height: 120px;">
+                                <div class="card shadow-sm" style="height: 130px;">
                                     <div class="card-body">
                                       <a href="{{route('attendance.create',['jobid' => $item->JobID])}}"> {{$item->JobNo}}<br>
                                        {{$item->JobLocation}}<br>
-                                       <strong>{{$item->ShiftType}}</strong></a>
+                                       <strong>{{$item->ShiftType}}</strong></a><br>
+                                       <strong>{{$item->party->PartyName}}</strong>
                                     </div>
                                 </div>
                             </div>
@@ -173,13 +174,27 @@
             });
 
 function view_attendance(MonthName, JobID) {
-    alert(MonthName+JobID);
+    // alert(MonthName+JobID);
     console.log(MonthName, JobID);
 
     let url = "{{ route('attendance.view', [':month', ':job']) }}";
     url = url.replace(':month', MonthName).replace(':job', JobID);
     window.location.href = url;
 }
+
+
+
+function editRecord(MonthName, JobID) {
+    // alert(MonthName+JobID);
+    console.log(MonthName, JobID);
+
+    let url = "{{ route('attendance.edit', [':month', ':job']) }}";
+    url = url.replace(':month', MonthName).replace(':job', JobID);
+    window.location.href = url;
+}
+
+
+
 
                     function deleteRecord(id) {
             if (confirm("Are you sure you want to delete?")) {

@@ -4375,7 +4375,7 @@ public function ajax_attendance(Request $request)
                         })
                         
 
-                    ->addColumn('action', function ($row) {
+                   ->addColumn('action', function ($row) {
                         $btn = '
                             <div class="d-flex align-items-center col-actions">
                                 <div class="dropdown">
@@ -4584,7 +4584,6 @@ public function AttendanceView ($monthname,$jobid)
 
 public function AttendanceEdit ($monthname,$jobid)
 {
-
 
   $job = Job::where('JobID',$jobid)->first();
       
