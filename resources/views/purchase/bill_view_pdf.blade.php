@@ -402,11 +402,21 @@
                               <th class="description">Total</th>
                               <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->Total,2)}}</span></span></td>
                           </tr>
+                          @if($invoice_master[0]->DiscountAmount > 0)
                           <tr class="order_total">
                               <td class="no-borders"></td>
-                              <th class="description">Dis {{$invoice_master[0]->DiscountPer}}%</th>
+                              <th class="description">Discount</th>
                               <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->DiscountAmount,2)}}</span></span></td>
                           </tr>
+                          
+                          @endif
+                          @if($invoice_master[0]->Shipping > 0)
+                          <tr class="order_total">
+                              <td class="no-borders"></td>
+                              <th class="description">Shipping</th>
+                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->Shipping,2)}}</span></span></td>
+                          </tr>
+                          @endif
                        
                           <tr class="order_total">
                               <td class="no-borders"></td>
