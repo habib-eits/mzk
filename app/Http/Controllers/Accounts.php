@@ -7426,206 +7426,93 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
             'PaymentDetails' => $request->PaymentDetails,
             'Subject' => $request->Subject,
             'SubTotal' => $request->SubTotal,
-            'DiscountPer' => $request->DiscountPer,
+             // 'DiscountPer' => $request->DiscountPer,
             'DiscountAmount' => $request->DiscountAmount,
             'Total' => $request->Total,
-            'TaxPer' => $request->grandtotaltax == 0 ? 0 : 5,
-            'Tax' => $request->grandtotaltax,
+            'TaxPer' => $request->TaxTotal == 0 ? 0 : 5,
+            'Tax' => $request->TaxTotal,
             'Shipping' => $request->Shipping,
-            'GrandTotal' => $request->Grandtotal,
-            'Paid' => $request->amountPaid,
-            'Balance' => $request->amountDue,
+            'GrandTotal' => $request->GrandTotal,
+            // 'Paid' => $request->amountPaid,
+            // 'Balance' => $request->amountDue,
             'CustomerNotes' => $request->CustomerNotes,
             'DescriptionNotes' => $request->DescriptionNotes,
             'UserID' => session::get('UserID'),
         );
-        // dd($challan_mst);
-        // $id= DB::table('')->insertGetId($data);
-
+      
         $InvoiceMasterID = DB::table('invoice_master')->insertGetId($invoice_mst);
         // END OF SALE RETURN
 
         //  start for item array from invoice
         for ($i = 0; $i < count($request->ItemID); $i++) {
             $invoice_det = array(
-                'InvoiceMasterID' =>  $InvoiceMasterID, 
-                'InvoiceNo' => $request->InvoiceNo, 
-                 'ItemID' => $request->ItemID[$i],
-                 'SupplierID' => $request->input('SupplierID'), 
-
-
+                'InvoiceMasterID' => $InvoiceMasterID,
+                'InvoiceNo' => $request->InvoiceNo,
+                'ItemID' => $request->ItemID[$i],
+                'PartyID' => $request->input('PartyID'),
                 'UnitName' => $request->UnitName[$i],
-                'UnitQty' => $request->UnitQty[$i],
-
                 'Qty' => $request->Qty[$i],
+                'Rate' => $request->Rate[$i],
                 'Description' => $request->Description[$i],
                 'TaxPer' => $request->Tax[$i],
                 'Tax' => $request->TaxVal[$i],
-
-                'Rate' => $request->Price[$i],
                 'Total' => $request->ItemTotal[$i],
-
             );
 
             $id = DB::table('invoice_detail')->insertGetId($invoice_det);
         }
         // Journal Entries
 
-        // 1. stock inventory
+        $data = [
+            'InvoiceMasterID' => $InvoiceMasterID,
+            'VHNO' => $request->input('InvoiceNo'),  
+            'SupplierID' => $request->input('SupplierID'),  
+            'Narration' => $request->input('Subject'), 
+            'Date' => $request->input('Date'),
+        ];
 
-        // Stock inventory
+        /**
+         * TaxTotal = 5
+         * SubTotal = 100
+         * Total = 105
+         * shipping = 5
+         * grandtotal = 110
+         */
 
-        $data_stock_inventory = array(
-            'VHNO' => $request->input('InvoiceNo'),
+
+
+        //inventory debit
+        $inventory_dr = array_merge($data, [
             'ChartOfAccountID' => '510102',   //Stock inventory
-            'SupplierID' => $request->input('SupplierID'),
-            'JobID' => $request->input('JobID'),
-            'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-            'Narration' => $request->input('Subject'),
-            'Date' => $request->input('Date'),
             'Dr' => $request->input('SubTotal'),
-            'Trace' => 111, // for debugging for reverse engineering
+        ]);
 
-        );
-
-        $journal_entry = DB::table('journal')->insertGetId($data_stock_inventory);
+        DB::table('journal')->insertGetId($inventory_dr);
 
 
+        //Shipping debit
+        $shipping_dr = array_merge($data, [
+            'ChartOfAccountID' => '590215',   //Shipping Exp
+            'Dr' => $request->input('Shipping'),
+        ]);
+        DB::table('journal')->insertGetId($shipping_dr);
 
-        // 2. Sale discount
+       
 
+        $purchaseTax_dr = array_merge($data, [
+            'ChartOfAccountID' => '110800',   // TAX ON PURCHASES
+            'Dr' => $request->input('TaxTotal'),
+        ]);
+        DB::table('journal')->insertGetId($purchaseTax_dr);
 
-        if ($request->input('DiscountAmount') > 0) {
-            // if dis is given
-
-
-            $data_saledis = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '410155',   //Sales-Discount
-                'SupplierID' => $request->input('SupplierID'),
-                'JobID' => $request->input('JobID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Cr' => $request->input('DiscountAmount'),
-                'Trace' => 1111, // for debugging for reverse engineering
-
-            );
-
-
-            $journal_entry = DB::table('journal')->insertGetId($data_saledis);
-        }
-
-
-        if ($request->input('grandtotaltax') > 0) {
-            // 3. TAX ON PURCHASES
-
-            $data_tax_dis = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '110800',   // TAX ON PURCHASES
-                'SupplierID' => $request->input('SupplierID'),
-                'JobID' => $request->input('JobID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Dr' => $request->input('grandtotaltax'),
-                'Trace' => 11112, // for debugging for reverse engineering
-
-            );
-
-            $journal_entry = DB::table('journal')->insertGetId($data_tax_dis);
-        }
-
-        // 4. Shipping Expenses
-
-        if ($request->input('Shipping') > 0) { // if tax item is present in invoice
-
-
-            $data_shipping = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '500100',   //Shipping Expenses
-                'SupplierID' => $request->input('SupplierID'),
-                'JobID' => $request->input('JobID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Dr' => $request->input('Shipping'),
-                'Trace' => 11113, // for debugging for reverse engineering
-
-            );
-
-            $journal_entry = DB::table('journal')->insertGetId($data_shipping);
-        }
-
-
-        // 5. Acc Payable  ->credit
-
-        $data_ac_payable = array(
-            'VHNO' => $request->input('InvoiceNo'),
-            'ChartOfAccountID' => '210100',   // Acc Payable  ->Credit
-            'SupplierID' => $request->input('SupplierID'),
-            'JobID' => $request->input('JobID'),
-            'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-            'Narration' => $request->input('Subject'),
-            'Date' => $request->input('Date'),
-            'Cr' => $request->input('Grandtotal'),
-            'Trace' => 11114, // for debugging for reverse engineering
-
-        );
-
-        $journal_entry = DB::table('journal')->insertGetId($data_ac_payable);
-
-
-
-
-
-        // // when payment is made by us
-        // if ($request->input('amountPaid') > 0) {
-
-
-
-
-        //   // 6. Acc Payable  ->Debit
-
-        //   $data_ap_credit = array(
-        //     'VHNO' => $request->input('InvoiceNo'),
-        //     'ChartOfAccountID' => '210100',   //A/Payable credit
-        //     'SupplierID' => $request->input('SupplierID'),
-        //     'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-        //     'Narration' => $request->input('Subject'),
-        //     'Date' => $request->input('Date'),
-        //     'Dr' => $request->input('amountPaid'),
-        //     'Trace' => 11116, // for debugging for reverse engineering
-
-
-        //   );
-
-        //   $journal_entry = DB::table('journal')->insertGetId($data_ap_credit);
-
-
-        //   // 5. Cash/Bank ->Credit
-
-
-
-
-        //   $data_cash_bank = array(
-        //     'VHNO' => $request->input('InvoiceNo'),
-        //     'ChartOfAccountID' => '110201',   //bank / cash Debit
-        //     'SupplierID' => $request->input('SupplierID'),
-        //     'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-        //     'Narration' => $request->input('Subject'),
-        //     'Date' => $request->input('Date'),
-        //     'Cr' => $request->input('amountPaid'),
-        //     'Trace' => 11115, // for debugging for reverse engineering
-
-
-        //   );
-
-        //   $journal_entry = DB::table('journal')->insertGetId($data_cash_bank);
-
-
-
-        // }
+       
+        // Acc Payable  ->credit
+        $ap_cr = array_merge($data, [
+            'ChartOfAccountID' => '210100',   
+            'Cr' => $request->input('GrandTotal'),
+        ]);
+        DB::table('journal')->insertGetId($ap_cr);
+        
 
         return redirect('Bill')->with('error', 'Bill Saved')->with('class', 'success');
     }
@@ -7699,28 +7586,34 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
     }
     public function BillUpdate(Request $request)
     {
-        // dd($request->all());
+        
+        
+        
+        
+        
         $invoice_mst = array(
             'InvoiceNo' => $request->InvoiceNo,
-            'InvoiceType' => $request->InvoiceType,
+             'JobID' => $request->JobID,
+              'PONo' => $request->PONo,
+            'InvoiceType' => 'Bill',
             'Date' => $request->Date,
             'DueDate' => $request->DueDate,
-            'PartyID' => $request->PartyID,
+            'SupplierID' => $request->SupplierID,
             'WalkinCustomerName' => $request->WalkinCustomerName,
             'ReferenceNo' => $request->ReferenceNo,
             'PaymentMode' => $request->PaymentMode,
             'PaymentDetails' => $request->PaymentDetails,
             'Subject' => $request->Subject,
             'SubTotal' => $request->SubTotal,
-            'DiscountPer' => $request->DiscountPer,
+            // 'DiscountPer' => $request->DiscountPer,
             'DiscountAmount' => $request->DiscountAmount,
             'Total' => $request->Total,
-            'TaxPer' => $request->grandtotaltax == 0 ? 0 : 5,
-            'Tax' => $request->grandtotaltax,
+            'TaxPer' => $request->TaxTotal == 0 ? 0 : 5,
+            'Tax' => $request->TaxTotal,
             'Shipping' => $request->Shipping,
-            'GrandTotal' => $request->Grandtotal,
-            'Paid' => $request->amountPaid,
-            'Balance' => $request->amountDue,
+            'GrandTotal' => $request->GrandTotal,
+            // 'Paid' => $request->amountPaid,
+            // 'Balance' => $request->amountDue,
             'CustomerNotes' => $request->CustomerNotes,
             'DescriptionNotes' => $request->DescriptionNotes,
             'UserID' => session::get('UserID'),
@@ -7750,12 +7643,13 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
                 'InvoiceMasterID' => $request->InvoiceMasterID,
                 'InvoiceNo' => $request->InvoiceNo,
                 'ItemID' => $request->ItemID[$i],
-                'PartyID' => $request->input('PartyID'),
+                'SupplierID' => $request->input('SupplierID'),
+                'UnitName' => $request->UnitName[$i],
                 'Qty' => $request->Qty[$i],
-                'Rate' => $request->Price[$i],
+                'Rate' => $request->Rate[$i],
                 'Description' => $request->Description[$i],
-                // 'TaxPer' => $request->Tax[$i],
-                // 'Tax' => $request->TaxVal[$i],
+                'TaxPer' => $request->Tax[$i],
+                'Tax' => $request->TaxVal[$i],
                 'Total' => $request->ItemTotal[$i],
 
             );
@@ -7766,169 +7660,58 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
         DB::table('journal')->where('InvoiceMasterID', $InvoiceMasterID)->delete();
         // Journal Entries
 
-        // 1. purchases
+        //Habib
 
-        // purchases
-
-        $data_stock_inventory = array(
-            'VHNO' => $request->input('InvoiceNo'),
-            'ChartOfAccountID' => '510102',   //purchases
-            'SupplierID' => $request->input('SupplierID'),
-            'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-            'Narration' => $request->input('Subject'),
+        $data = [
+            'InvoiceMasterID' => $InvoiceMasterID,
+            'VHNO' => $request->input('InvoiceNo'),  
+            'SupplierID' => $request->input('SupplierID'),  
+            'Narration' => $request->input('Subject'), 
             'Date' => $request->input('Date'),
+        ];
+
+        /**
+         * TaxTotal = 5
+         * SubTotal = 100
+         * Total = 105
+         * shipping = 5
+         * grandtotal = 110
+         */
+
+
+
+        //inventory debit
+        $inventory_dr = array_merge($data, [
+            'ChartOfAccountID' => '510102',   //Stock inventory
             'Dr' => $request->input('SubTotal'),
-            'Trace' => 111, // for debugging for reverse engineering
+        ]);
 
-        );
-
-        $journal_entry = DB::table('journal')->insertGetId($data_stock_inventory);
+        DB::table('journal')->insertGetId($inventory_dr);
 
 
+        //Shipping debit
+        $shipping_dr = array_merge($data, [
+            'ChartOfAccountID' => '590215',   //Shipping Exp
+            'Dr' => $request->input('Shipping'),
+        ]);
+        DB::table('journal')->insertGetId($shipping_dr);
 
-        // 2. Sale discount
+       
 
+        $purchaseTax_dr = array_merge($data, [
+            'ChartOfAccountID' => '110800',   // TAX ON PURCHASES
+            'Dr' => $request->input('TaxTotal'),
+        ]);
+        DB::table('journal')->insertGetId($purchaseTax_dr);
 
-        if ($request->input('DiscountAmount') > 0) {
-            // if dis is given
-
-
-            $data_saledis = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '410155',   //Sales-Discount
-                'SupplierID' => $request->input('SupplierID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Cr' => $request->input('DiscountAmount'),
-                'Trace' => 1111, // for debugging for reverse engineering
-
-            );
-
-
-            $journal_entry = DB::table('journal')->insertGetId($data_saledis);
-        }
-
-
-        if ($request->input('grandtotaltax') > 0) {
-            // 3. TAX ON PURCHASES
-
-            $data_tax_dis = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '110800',   // TAX ON PURCHASES
-                'SupplierID' => $request->input('SupplierID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Dr' => $request->input('grandtotaltax'),
-                'Trace' => 11112, // for debugging for reverse engineering
-
-            );
-
-            $journal_entry = DB::table('journal')->insertGetId($data_tax_dis);
-        }
-
-        // 4. Shipping Expenses
-
-        if ($request->input('Shipping') > 0) { // if tax item is present in invoice
-
-
-            $data_shipping = array(
-                'VHNO' => $request->input('InvoiceNo'),
-                'ChartOfAccountID' => '500100',   //Shipping Expenses
-                'SupplierID' => $request->input('SupplierID'),
-                'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-                'Narration' => $request->input('Subject'),
-                'Date' => $request->input('Date'),
-                'Dr' => $request->input('Shipping'),
-                'Trace' => 11113, // for debugging for reverse engineering
-
-            );
-
-            $journal_entry = DB::table('journal')->insertGetId($data_shipping);
-        }
-
-
-        // 5. Acc Payable  ->credit
-
-        $data_ac_payable = array(
-            'VHNO' => $request->input('InvoiceNo'),
-            'ChartOfAccountID' => '210100',   // Acc Payable  ->Credit
-            'SupplierID' => $request->input('SupplierID'),
-            'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-            'Narration' => $request->input('Subject'),
-            'Date' => $request->input('Date'),
-            'Cr' => $request->input('Grandtotal'),
-            'Trace' => 11114, // for debugging for reverse engineering
-
-        );
-
-        $journal_entry = DB::table('journal')->insertGetId($data_ac_payable);
-
-
-
-
-
-        // // when payment is made by us
-        // if ($request->input('amountPaid') > 0) {
-
-
-
-
-        //   // 6. Acc Payable  ->Debit
-
-        //   $data_ap_credit = array(
-        //     'VHNO' => $request->input('InvoiceNo'),
-        //     'ChartOfAccountID' => '210100',   //A/R credit
-        //     'SupplierID' => $request->input('SupplierID'),
-        //     'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-        //     'Narration' => $request->input('Subject'),
-        //     'Date' => $request->input('Date'),
-        //     'Dr' => $request->input('amountPaid'),
-        //     'Trace' => 111116, // for debugging for reverse engineering
-
-        //     // 'SubTotal' => $request->input('SubTotal'),
-        //     // 'TotalTax' => $request->input('TaxTotal'),
-        //     // 'DiscountAmount' => $request->input('DiscountAmount'),
-        //     // 'Total' => $request->input('Total'),
-        //     // 'Paid' => $request->input('amountPaid'),
-        //     // 'Balance' => $request->input('amountDue'),
-        //   );
-
-        //   $journal_entry = DB::table('journal')->insertGetId($data_ap_credit);
-
-
-        //   // 5. Cash/Bank ->Credit
-
-
-        //   $data_cash_bank = array(
-        //     'VHNO' => $request->input('InvoiceNo'),
-        //     'ChartOfAccountID' => '110200',   //bank / cash Debit
-        //     'SupplierID' => $request->input('SupplierID'),
-        //     'InvoiceMasterID' => $InvoiceMasterID, #7A7A7A
-        //     'Narration' => $request->input('Subject'),
-        //     'Date' => $request->input('Date'),
-        //     'Cr' => $request->input('amountPaid'),
-        //     'Trace' => 111115, // for debugging for reverse engineering
-
-        //     // 'SubTotal' => $request->input('SubTotal'),
-        //     // 'TotalTax' => $request->input('TaxTotal'),
-        //     // 'DiscountAmount' => $request->input('DiscountAmount'),
-        //     // 'Total' => $request->input('Total'),
-        //     // 'Paid' => $request->input('amountPaid'),
-        //     // 'Balance' => $request->input('amountDue'),
-        //   );
-
-        //   $journal_entry1 = DB::table('journal')->insertGetId($data_cash_bank);
-
-
-
-        // }
-
-
-
-        // end foreach
-
+       
+        // Acc Payable  ->credit
+        $ap_cr = array_merge($data, [
+            'ChartOfAccountID' => '210100',   
+            'Cr' => $request->input('GrandTotal'),
+        ]);
+        DB::table('journal')->insertGetId($ap_cr);
+        
 
         return redirect('Bill')->with('error', 'Invoice Saved')->with('class', 'success');
     }
