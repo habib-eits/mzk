@@ -616,7 +616,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group mt-1 d-none">
+                                        <div class="form-group mt-1">
                                             <label>Discount: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
@@ -666,6 +666,7 @@
 
 
                         </div>
+
 
 
 
