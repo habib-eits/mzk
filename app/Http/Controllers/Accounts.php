@@ -7411,7 +7411,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
     public function BillSave(Request $request)
     {
-
+        
         $invoice_mst = array(
             'InvoiceNo' => $request->InvoiceNo,
             'JobID' => $request->JobID,
@@ -7471,26 +7471,25 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
             'Date' => $request->input('Date'),
         ];
 
-        /**
-         * TaxTotal = 5
-         * SubTotal = 100
-         * Total = 105
-         * shipping = 5
-         * grandtotal = 110
-         */
+      
 
-
-
-        //inventory debit
+        //Purchases / Inventory
         $inventory_dr = array_merge($data, [
-            'ChartOfAccountID' => '510102',   //Stock inventory
+            'ChartOfAccountID' => '110700',   //Stock inventory
             'Dr' => $request->input('SubTotal'),
         ]);
-
         DB::table('journal')->insertGetId($inventory_dr);
 
+        //Purchase Discount
+         $discount_cr = array_merge($data, [
+            'ChartOfAccountID' => '510105',   //Purchase Discount
+            'Cr' => $request->input('DiscountAmount'),
+        ]);
+        DB::table('journal')->insertGetId($discount_cr);
 
-        //Shipping debit
+
+
+        //Shipping Expense / Freight-In 
         $shipping_dr = array_merge($data, [
             'ChartOfAccountID' => '590215',   //Shipping Exp
             'Dr' => $request->input('Shipping'),
@@ -7498,7 +7497,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
         DB::table('journal')->insertGetId($shipping_dr);
 
        
-
+        //Input Tax
         $purchaseTax_dr = array_merge($data, [
             'ChartOfAccountID' => '110800',   // TAX ON PURCHASES
             'Dr' => $request->input('TaxTotal'),
@@ -7541,6 +7540,8 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
     public  function BillViewPDF($id)
     {
+        
+        
         $pagetitle = 'Purchase Invoice';
 
 
@@ -7556,7 +7557,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
         // $pdf->setpaper('A4', 'portiate');
         return $pdf->stream();
 
-        return view('sale_invoice_view_pdf', compact('invoice_type', 'items', 'party', 'pagetitle', 'item', 'user', 'invoice_master', 'invoice_detail', 'company'));
+        // return view('sale_invoice_view_pdf', compact('invoice_type', 'items', 'party', 'pagetitle', 'item', 'user', 'invoice_master', 'invoice_detail', 'company'));
     }
 
 
@@ -7670,26 +7671,24 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
             'Date' => $request->input('Date'),
         ];
 
-        /**
-         * TaxTotal = 5
-         * SubTotal = 100
-         * Total = 105
-         * shipping = 5
-         * grandtotal = 110
-         */
-
-
-
-        //inventory debit
+        
+        //Purchases / Inventory
         $inventory_dr = array_merge($data, [
-            'ChartOfAccountID' => '510102',   //Stock inventory
+            'ChartOfAccountID' => '110700',   //Stock inventory
             'Dr' => $request->input('SubTotal'),
         ]);
-
         DB::table('journal')->insertGetId($inventory_dr);
 
+        //Purchase Discount
+         $discount_cr = array_merge($data, [
+            'ChartOfAccountID' => '510105',   //Purchase Discount
+            'Cr' => $request->input('DiscountAmount'),
+        ]);
+        DB::table('journal')->insertGetId($discount_cr);
 
-        //Shipping debit
+
+
+        //Shipping Expense / Freight-In 
         $shipping_dr = array_merge($data, [
             'ChartOfAccountID' => '590215',   //Shipping Exp
             'Dr' => $request->input('Shipping'),
@@ -7697,7 +7696,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
         DB::table('journal')->insertGetId($shipping_dr);
 
        
-
+        //Input Tax
         $purchaseTax_dr = array_merge($data, [
             'ChartOfAccountID' => '110800',   // TAX ON PURCHASES
             'Dr' => $request->input('TaxTotal'),

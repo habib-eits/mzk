@@ -91,23 +91,20 @@
                             <table style="width:100%;margin-top:30px;table-layout:fixed;">
                                 <tbody>
                                     <tr>
-                                        <td style="width:60%;vertical-align:bottom;word-wrap: break-word;">
-                                            <div style="clear:both;width:50%;margin-top: 20px;">
-                                                <label style="font-size: 10pt;" class="pcs-label"
-                                                    id="tmp_shipping_address_label">Deliver To</label>
-                                                <br>
-                                                <span style="white-space: pre-wrap;" id="tmp_shipping_address"><strong><span
-                                                            class="pcs-customer-name" id="zb-pdf-customer-detail"><a
-                                                                href="#">{{ $invoice_master[0]->SupplierID == 1 ? $invoice_master[0]->WalkinCustomerName : $invoice_master[0]->SupplierName }}</a></span></strong><br>
-                                                    TRN # {{ $invoice_master[0]->TRN }},<br>
-                                                    {{ $invoice_master[0]->Address }}
-                                                    {{ $invoice_master[0]->Phone }}
-                                                    {{ $invoice_master[0]->Email }}
-
-                                                </span>
-                                            </div>
-
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <b>{{$invoice_master[0]->SupplierName }} </b><br> 
+                                                    {{$invoice_master[0]->TRN }} <br> 
+                                                    {{$invoice_master[0]->Address }} <br> 
+                                                    {{$invoice_master[0]->Phone }} <br> 
+                                                    {{$invoice_master[0]->Email }}<br>  
+                                                    </td>
+                                                </tr>    
+                                            </table>
                                         </td>
+                                       
                                         <td align="right" style="vertical-align:bottom;width: 40%;">
                                             <table
                                                 style="float:right;table-layout: fixed;word-wrap: break-word;width: 100%;"
