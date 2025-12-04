@@ -7475,7 +7475,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
         //Purchases / Inventory
         $inventory_dr = array_merge($data, [
-            'ChartOfAccountID' => '110700',   //Stock inventory
+            'ChartOfAccountID' => '510102',   //Purchase
             'Dr' => $request->input('SubTotal'),
         ]);
         DB::table('journal')->insertGetId($inventory_dr);
@@ -7674,7 +7674,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
         
         //Purchases / Inventory
         $inventory_dr = array_merge($data, [
-            'ChartOfAccountID' => '110700',   //Stock inventory
+            'ChartOfAccountID' => '510102',   //Purchase
             'Dr' => $request->input('SubTotal'),
         ]);
         DB::table('journal')->insertGetId($inventory_dr);
