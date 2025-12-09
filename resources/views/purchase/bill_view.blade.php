@@ -323,45 +323,13 @@
 
                                             <tr class="pcs-balance">
                                                 <td width="474" height="25" align="right" valign="middle">
-                                                    [Exclusive Tax] <b>SubTotal</b></td>
+                                                    <b>SubTotal</b></td>
                                                 <td width="289" height="25" align="right" valign="middle"
                                                     id="tmp_total" style="width:120px;;padding: 10px 10px 10px 5px;">
-                                                    <div align="right"><b>{{ $invoice_master[0]->Total }}</b></div>
+                                                    <div align="right"><b>{{ $invoice_master[0]->SubTotal }}</b></div>
                                                 </td>
                                             </tr>
 
-                                            <tr class="pcs-balance">
-                                                <td height="25" align="right" valign="middle"><b>Tax %</b></td>
-                                                <td height="25" align="right" valign="middle" id="tmp_total"
-                                                    style="width:120px;;padding: 10px 10px 10px 5px;">
-                                                    <div align="right"><b>{{ $invoice_master[0]->TaxPer }}</b></div>
-                                                </td>
-                                            </tr>
-
-                                            <tr class="pcs-balance">
-                                                <td height="25" align="right" valign="middle"><b>Tax </b></td>
-                                                <td height="25" align="right" valign="middle" id="tmp_total"
-                                                    style="width:120px;;padding: 10px 10px 10px 5px;">
-                                                    <div align="right"><b>{{ $invoice_master[0]->Tax }}</b></div>
-                                                </td>
-                                            </tr>
-
-                                            <tr class="pcs-balance">
-                                                <td height="25" align="right" valign="middle">[Inclusive Tax]<b>Total
-                                                    </b></td>
-                                                <td height="25" align="right" valign="middle" id="tmp_total"
-                                                    style="width:120px;;padding: 10px 10px 10px 5px;">
-                                                    <div align="right"><b>{{ $invoice_master[0]->Total }}</b></div>
-                                                </td>
-                                            </tr>
-
-                                            <tr class="pcs-balance">
-                                                <td height="25" align="right" valign="middle"><b>Discount %</b></td>
-                                                <td height="25" align="right" valign="middle" id="tmp_total"
-                                                    style="width:120px;;padding: 10px 10px 10px 5px;">
-                                                    <div align="right"><b>{{ $invoice_master[0]->DiscountPer }}</b></div>
-                                                </td>
-                                            </tr>
                                             <tr class="pcs-balance">
                                                 <td height="25" align="right" valign="middle"><b>Discount</b></td>
                                                 <td height="25" align="right" valign="middle" id="tmp_total"
@@ -370,12 +338,21 @@
                                                     </div>
                                                 </td>
                                             </tr>
-
                                             <tr class="pcs-balance">
-                                                <td height="25" align="right" valign="middle"><b>Shipping</b></td>
+                                                <td height="25" align="right" valign="middle"><b>Total
+                                                    </b></td>
                                                 <td height="25" align="right" valign="middle" id="tmp_total"
                                                     style="width:120px;;padding: 10px 10px 10px 5px;">
-                                                    <div align="right"><b>{{ $invoice_master[0]->Shipping }}</b></div>
+                                                    <div align="right"><b>{{ $invoice_master[0]->Total }}</b></div>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr class="pcs-balance">
+                                                <td height="25" align="right" valign="middle"><b>Tax </b></td>
+                                                <td height="25" align="right" valign="middle" id="tmp_total"
+                                                    style="width:120px;;padding: 10px 10px 10px 5px;">
+                                                    <div align="right"><b>{{ $invoice_master[0]->Tax }}</b></div>
                                                 </td>
                                             </tr>
 

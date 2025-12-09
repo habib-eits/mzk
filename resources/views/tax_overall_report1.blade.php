@@ -181,7 +181,7 @@
 
                             </tr>
                             @foreach ($input_vat as $key => $value)
-                                <?php $inputSubTotal = $inputSubTotal + $value->SubTotal;
+                                <?php $inputSubTotal = $inputSubTotal + $value->Total;
                                 $inputTax = $inputTax + $value->Tax;
                                 $inputGrandTotal = $inputGrandTotal + $value->GrandTotal;
                                 
@@ -199,7 +199,7 @@
                                     </td>
                                     <td>{{ $value->PartyID != null ? $value->PartyName : $value->SupplierName }}</td>
                                     <td>
-                                        <div align="center">{{ number_format($value->SubTotal, 2) }}</div>
+                                        <div align="center">{{ number_format($value->Total, 2) }}</div>
                                     </td>
                                     <td>
                                         <div align="right">{{ number_format($value->Tax, 2) }}</div>

@@ -7429,8 +7429,8 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
              // 'DiscountPer' => $request->DiscountPer,
             'DiscountAmount' => $request->DiscountAmount,
             'Total' => $request->Total,
-            'TaxPer' => $request->TaxTotal == 0 ? 0 : 5,
-            'Tax' => $request->TaxTotal,
+            'TaxPer' => $request->TaxPer,
+            'Tax' => $request->Tax,
             'Shipping' => $request->Shipping,
             'GrandTotal' => $request->GrandTotal,
             // 'Paid' => $request->amountPaid,
@@ -7454,8 +7454,8 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
                 'Qty' => $request->Qty[$i],
                 'Rate' => $request->Rate[$i],
                 'Description' => $request->Description[$i],
-                'TaxPer' => $request->Tax[$i],
-                'Tax' => $request->TaxVal[$i],
+                'TaxPer' => 0,
+                'Tax' => 0,
                 'Total' => $request->ItemTotal[$i],
             );
 
@@ -7481,26 +7481,30 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
         DB::table('journal')->insertGetId($inventory_dr);
 
         //Purchase Discount
-         $discount_cr = array_merge($data, [
-            'ChartOfAccountID' => '510105',   //Purchase Discount
-            'Cr' => $request->input('DiscountAmount'),
-        ]);
-        DB::table('journal')->insertGetId($discount_cr);
-
-
-
+        if($request->input('DiscountAmount') > 0)
+        {   
+            $discount_cr = array_merge($data, [
+                'ChartOfAccountID' => '510105',   //Purchase Discount
+                'Cr' => $request->input('DiscountAmount'),
+            ]);
+            DB::table('journal')->insertGetId($discount_cr);
+        }
+         
         //Shipping Expense / Freight-In 
-        $shipping_dr = array_merge($data, [
-            'ChartOfAccountID' => '590215',   //Shipping Exp
-            'Dr' => $request->input('Shipping'),
-        ]);
-        DB::table('journal')->insertGetId($shipping_dr);
-
-       
+        if($request->input('Shipping') > 0)
+        {
+            $shipping_dr = array_merge($data, [
+                'ChartOfAccountID' => '590215',   //Shipping Exp
+                'Dr' => $request->input('Shipping'),
+            ]);
+            DB::table('journal')->insertGetId($shipping_dr);
+        }
+        
+    
         //Input Tax
         $purchaseTax_dr = array_merge($data, [
             'ChartOfAccountID' => '110800',   // TAX ON PURCHASES
-            'Dr' => $request->input('TaxTotal'),
+            'Dr' => $request->input('Tax'),
         ]);
         DB::table('journal')->insertGetId($purchaseTax_dr);
 
@@ -7606,11 +7610,11 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
             'PaymentDetails' => $request->PaymentDetails,
             'Subject' => $request->Subject,
             'SubTotal' => $request->SubTotal,
-            // 'DiscountPer' => $request->DiscountPer,
+             // 'DiscountPer' => $request->DiscountPer,
             'DiscountAmount' => $request->DiscountAmount,
             'Total' => $request->Total,
-            'TaxPer' => $request->TaxTotal == 0 ? 0 : 5,
-            'Tax' => $request->TaxTotal,
+            'TaxPer' => $request->TaxPer,
+            'Tax' => $request->Tax,
             'Shipping' => $request->Shipping,
             'GrandTotal' => $request->GrandTotal,
             // 'Paid' => $request->amountPaid,
@@ -7649,8 +7653,8 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
                 'Qty' => $request->Qty[$i],
                 'Rate' => $request->Rate[$i],
                 'Description' => $request->Description[$i],
-                'TaxPer' => $request->Tax[$i],
-                'Tax' => $request->TaxVal[$i],
+                'TaxPer' => 0,
+                'Tax' => 0,
                 'Total' => $request->ItemTotal[$i],
 
             );
@@ -7680,26 +7684,32 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
         DB::table('journal')->insertGetId($inventory_dr);
 
         //Purchase Discount
-         $discount_cr = array_merge($data, [
-            'ChartOfAccountID' => '510105',   //Purchase Discount
-            'Cr' => $request->input('DiscountAmount'),
-        ]);
-        DB::table('journal')->insertGetId($discount_cr);
+        if($request->input('DiscountAmount') > 0)
+        {   
+            $discount_cr = array_merge($data, [
+                'ChartOfAccountID' => '510105',   //Purchase Discount
+                'Cr' => $request->input('DiscountAmount'),
+            ]);
+            DB::table('journal')->insertGetId($discount_cr);
+        }
 
 
 
         //Shipping Expense / Freight-In 
-        $shipping_dr = array_merge($data, [
-            'ChartOfAccountID' => '590215',   //Shipping Exp
-            'Dr' => $request->input('Shipping'),
-        ]);
-        DB::table('journal')->insertGetId($shipping_dr);
+        if($request->input('Shipping') > 0)
+        {
+            $shipping_dr = array_merge($data, [
+                'ChartOfAccountID' => '590215',   //Shipping Exp
+                'Dr' => $request->input('Shipping'),
+            ]);
+            DB::table('journal')->insertGetId($shipping_dr);
+        }
 
        
         //Input Tax
         $purchaseTax_dr = array_merge($data, [
             'ChartOfAccountID' => '110800',   // TAX ON PURCHASES
-            'Dr' => $request->input('TaxTotal'),
+            'Dr' => $request->input('Tax'),
         ]);
         DB::table('journal')->insertGetId($purchaseTax_dr);
 

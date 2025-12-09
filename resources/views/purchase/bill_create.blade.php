@@ -5,11 +5,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- <script src="{{ asset('assets/invoice/js/jquery-1.11.2.min.js') }}"></script>
-        <script src="{{ asset('assets/invoice/js/jquery-ui.min.js') }}"></script>
-        <script src="js/ajax.js"></script> -->
+            <script src="{{ asset('assets/invoice/js/jquery-ui.min.js') }}"></script>
+            <script src="js/ajax.js"></script> -->
     <!--
-        <script src="{{ asset('assets/invoice/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('assets/invoice/js/bootstrap-datepicker.js') }}"></script>  -->
+            <script src="{{ asset('assets/invoice/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('assets/invoice/js/bootstrap-datepicker.js') }}"></script>  -->
 
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -472,8 +472,7 @@
                                                 <th width="1%" class="d-none">UNIT/Qty</th>
                                                 <th width="4%">QUANTITY</th>
                                                 <th width="4%">RATE</th>
-                                                <th width="4%">Tax</th>
-                                                <th width="4%">Tax Val</th>
+                                              
                                                 <th width="4%">AMOUNT</th>
                                             </tr>
                                         </thead>
@@ -514,33 +513,20 @@
                                                 </td>
 
                                                 <td>
-                                                    <input type="number" step="0.01" name="Qty[]" class="row-qty form-control"
-                                                        value="">
+                                                    <input type="number" step="0.01" name="Qty[]"
+                                                        class="row-qty form-control" value="">
                                                 </td>
 
                                                 <td>
-                                                    <input type="number" step="0.01" name="Rate[]" class="row-rate form-control"
-                                                        value="">
+                                                    <input type="number" step="0.01" name="Rate[]"
+                                                        class="row-rate form-control" value="">
                                                 </td>
 
-                                                <td>
-                                                    <select name="Tax[]" class="form-control unit-name-select select2"
-                                                        style="width:100%">
-                                                        @foreach ($tax as $t)
-                                                            <option value="{{ $t->TaxPer }}">{{ $t->Description }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-
-                                                <td>
-                                                    <input type="number" step="0.01" name="TaxVal[]"
-                                                        class="row-tax-value form-control" value="">
-                                                </td>
+                                              
 
                                                 <td>
                                                     <input type="number" step="0.01" name="ItemTotal[]"
-                                                        class="row-item-total form-control" value="">
+                                                        class="row-item-total form-control" value="" readonly>
                                                 </td>
                                             </tr>
 
@@ -595,22 +581,14 @@
                                 <div class="col-lg-4 col-12 ">
                                     <!-- <input type="text" class="form-control" id="TotalTaxAmount" name="TaxTotal" placeholder="TaxTotal" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"> -->
                                     <form class="form-inline">
-                                        <div class="form-group mt-1">
-                                            <label>Total Tax: &nbsp;</label>
-                                            <div class="input-group">
-                                                <span
-                                                    class="input-group-text bg-light">{{ session::get('Currency') }}</span>
-                                                <input type="number" step="0.01" class="form-control" id="TaxTotal"
-                                                    name="TaxTotal">
-                                            </div>
-                                        </div>
+
                                         <div class="form-group mt-1">
                                             <label>Sub Total: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
                                                 <input type="number" step="0.01" class="form-control" id="SubTotal"
-                                                    name="SubTotal" />
+                                                    name="SubTotal" readonly/>
 
 
                                             </div>
@@ -621,8 +599,8 @@
                                             <div class="input-group">
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
-                                                <input type="number" step="0.01" class="form-control" id="DiscountAmount"
-                                                    name="DiscountAmount" />
+                                                <input type="number" step="0.01" class="form-control"
+                                                    id="DiscountAmount" name="DiscountAmount" />
 
 
                                             </div>
@@ -634,11 +612,34 @@
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
                                                 <input type="number" step="0.01" class="form-control" id="Total"
-                                                    name="Total" />
+                                                    name="Total" readonly/>
                                             </div>
                                         </div>
 
                                         <div class="form-group mt-1">
+                                            <label>Tax: &nbsp;</label>
+                                            <div class="input-group">
+                                                <select id="TaxPer" name="TaxPer" class="form-control"
+                                                    style="width:100%">
+                                                    @foreach ($tax as $t)
+                                                        <option value="{{ $t->TaxPer }}">{{ $t->Description }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group mt-1">
+                                            <label>Tax Amount: &nbsp;</label>
+                                            <div class="input-group">
+                                                <span
+                                                    class="input-group-text bg-light">{{ session::get('Currency') }}</span>
+                                                <input type="number" step="0.01" class="form-control" id="Tax"
+                                                    name="Tax" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group mt-1 d-none">
                                             <label>Shipping: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
@@ -653,8 +654,8 @@
                                             <div class="input-group">
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
-                                                <input type="number" step="0.01" class="form-control" id="GrandTotal"
-                                                    name="GrandTotal" />
+                                                <input type="number" step="0.01" class="form-control"
+                                                    id="GrandTotal" name="GrandTotal" readonly />
                                             </div>
                                         </div>
 
@@ -674,12 +675,12 @@
 
 
                         <!--  <div class='row'>
-                  <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
-                    <div class="well text-center">
-                  <h2>Back TO Tutorial: <a href="#"> Invoice System </a> </h2>
-                </div>
-                  </div>
-                </div>   -->
+                      <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                        <div class="well text-center">
+                      <h2>Back TO Tutorial: <a href="#"> Invoice System </a> </h2>
+                    </div>
+                      </div>
+                    </div>   -->
 
 
 
@@ -699,140 +700,132 @@
     </div>
 
     <script>
+        $(document).ready(function() {
 
-    $(document).ready(function () {
+            // =================== ROW CALCULATION ===================
+            $(document).on('input change', '.row-qty, .row-rate', function() {
 
-    // =================== ROW CALCULATION ===================
-    $(document).on('input change', '.row-qty, .row-rate, select[name="Tax[]"]', function () {
+                let tr = $(this).closest('tr');
 
-        let tr = $(this).closest('tr');
+                let qty = parseFloat(tr.find('.row-qty').val()) || 0;
+                let rate = parseFloat(tr.find('.row-rate').val()) || 0;
+                // let taxPer = parseFloat(tr.find('select[name="Tax[]"]').val()) || 0;
 
-        let qty = parseFloat(tr.find('.row-qty').val()) || 0;
-        let rate = parseFloat(tr.find('.row-rate').val()) || 0;
-        let taxPer = parseFloat(tr.find('select[name="Tax[]"]').val()) || 0;
+                let itemTotal = qty * rate;
+                // let taxValue = (itemTotal * taxPer) / 100;
+                // let total = itemTotal + taxValue;
+                let total = itemTotal;
 
-        let itemTotal = qty * rate;
-        let taxValue = (itemTotal * taxPer) / 100;
-        let total = itemTotal + taxValue;
+                // tr.find('.row-tax-value').val(taxValue.toFixed(2));
+                tr.find('.row-item-total').val(total.toFixed(2));
 
-        tr.find('.row-tax-value').val(taxValue.toFixed(2));
-        tr.find('.row-item-total').val(total.toFixed(2));
+                calculateSummary();
+            });
 
-        calculateSummary();
-    });
+            // =================== SUMMARY CALCULATION ===================
+            $(document).on('input change', '#DiscountAmount, #Shipping, #TaxPer', function(e) {
+                calculateSummary();
+            });
 
-    // =================== SUMMARY CALCULATION ===================
-    $(document).on('input', '#DiscountAmount, #Shipping', function () {
-        calculateSummary();
-    });
+            function calculateSummary() {
 
-    function calculateSummary() {
+                let subtotal = 0;
+                let taxPer = parseFloat($('#TaxPer').val()) || 0;
+                let total = 0;
+                let tax = 0;
 
-        let subtotal = 0;
-        let totaltax = 0;
+                $('table tbody tr').each(function() {
+                    let rowItemTotal = parseFloat($(this).find('.row-item-total').val()) || 0;
+                    subtotal += rowItemTotal;
+                });
 
-        $('table tbody tr').each(function () {
-            let tax = parseFloat($(this).find('.row-tax-value').val()) || 0;
-            let rowTotal = parseFloat($(this).find('.row-item-total').val()) || 0;
-            let beforeTax = rowTotal - tax;
+                $('#SubTotal').val(subtotal.toFixed(2));
+                let discount = parseFloat($('#DiscountAmount').val()) || 0;
 
-            subtotal += beforeTax;
-            totaltax += tax;
+                total = subtotal - discount;
+                $('#Total').val(total.toFixed(2));
+
+                if(taxPer > 0)
+                {
+                    tax = (taxPer/100) * total;
+                }
+                $('#Tax').val(tax.toFixed(2));
+
+                let shipping = parseFloat($('#Shipping').val()) || 0;
+
+                let grandTotal = total + shipping + tax;
+                $('#GrandTotal').val(grandTotal.toFixed(2));
+            }
+
+            calculateSummary();
+
+
+            // =================== ADD NEW EMPTY ROW ===================
+            $("#addRow").on("click", function() {
+
+                let newRow = `
+                <tr class="p-3">
+                    <td class="p-1"><input class="case" type="checkbox" /></td>
+
+                    <td>
+                        <select name="ItemID[]" class="form-control item-select select2" style="width:100%">
+                            <option value="">select</option>
+                            @foreach ($items as $item)
+                                <option value="{{ $item->ItemID }}">{{ $item->ItemName }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+
+                    <td class="d-none">
+                        <input type="text" name="Description[]" class="row-description form-control" value="">
+                    </td>
+
+                    <td>
+                        <select name="UnitName[]" class="form-control unit-name-select select2" style="width:100%">
+                            <option value="">select</option>
+                            @foreach ($unit as $u)
+                                <option value="{{ $u->UnitName }}">{{ $u->UnitName }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+
+                    <td class="d-none">
+                        <input type="number" step="0.01" name="UnitQty[]" class="row-unit-qty form-control" value="">
+                    </td>
+
+                    <td>
+                        <input type="number" step="0.01" name="Qty[]" class="row-qty form-control" value="">
+                    </td>
+
+                    <td>
+                        <input type="number" step="0.01" name="Rate[]" class="row-rate form-control" value="">
+                    </td>
+
+                    
+
+                    <td>
+                        <input type="number" step="0.01" name="ItemTotal[]" class="row-item-total form-control" value="">
+                    </td>
+                </tr>
+                `;
+
+                $("table tbody").append(newRow);
+
+                $("table tbody tr:last").find("select.select2").select2();
+            });
+
+
+
+            // =================== DELETE SELECTED ROWS ===================
+            $("#deleteRow").on("click", function() {
+
+                $(".case:checked").closest("tr").remove();
+
+                calculateSummary();
+            });
+
         });
-
-        $('#SubTotal').val(subtotal.toFixed(2));
-        $('#TaxTotal').val(totaltax.toFixed(2));
-
-        let discount = parseFloat($('#DiscountAmount').val()) || 0;
-        let shipping = parseFloat($('#Shipping').val()) || 0;
-
-        let total = subtotal + totaltax - discount;
-        $('#Total').val(total.toFixed(2));
-
-        let grandTotal = total + shipping;
-        $('#GrandTotal').val(grandTotal.toFixed(2));
-    }
-
-    calculateSummary();
-
-
-    // =================== ADD NEW EMPTY ROW ===================
-    $("#addRow").on("click", function () {
-
-        let newRow = `
-        <tr class="p-3">
-            <td class="p-1"><input class="case" type="checkbox" /></td>
-
-            <td>
-                <select name="ItemID[]" class="form-control item-select select2" style="width:100%">
-                    <option value="">select</option>
-                    @foreach ($items as $item)
-                        <option value="{{ $item->ItemID }}">{{ $item->ItemName }}</option>
-                    @endforeach
-                </select>
-            </td>
-
-            <td class="d-none">
-                <input type="text" name="Description[]" class="row-description form-control" value="">
-            </td>
-
-            <td>
-                <select name="UnitName[]" class="form-control unit-name-select select2" style="width:100%">
-                    <option value="">select</option>
-                    @foreach ($unit as $u)
-                        <option value="{{ $u->UnitName }}">{{ $u->UnitName }}</option>
-                    @endforeach
-                </select>
-            </td>
-
-            <td class="d-none">
-                <input type="number" step="0.01" name="UnitQty[]" class="row-unit-qty form-control" value="">
-            </td>
-
-            <td>
-                <input type="number" step="0.01" name="Qty[]" class="row-qty form-control" value="">
-            </td>
-
-            <td>
-                <input type="number" step="0.01" name="Rate[]" class="row-rate form-control" value="">
-            </td>
-
-            <td>
-                <select name="Tax[]" class="form-control unit-name-select select2" style="width:100%">
-                    @foreach ($tax as $t)
-                        <option value="{{ $t->TaxPer }}">{{ $t->Description }}</option>
-                    @endforeach
-                </select>
-            </td>
-
-            <td>
-                <input type="number" step="0.01" name="TaxVal[]" class="row-tax-value form-control" value="">
-            </td>
-
-            <td>
-                <input type="number" step="0.01" name="ItemTotal[]" class="row-item-total form-control" value="">
-            </td>
-        </tr>
-        `;
-
-        $("table tbody").append(newRow);
-
-        $("table tbody tr:last").find("select.select2").select2();
-    });
-
-
-
-    // =================== DELETE SELECTED ROWS ===================
-    $("#deleteRow").on("click", function () {
-
-        $(".case:checked").closest("tr").remove();
-
-        calculateSummary();
-    });
-
-});
-
-   </script>
+    </script>
 
 
 

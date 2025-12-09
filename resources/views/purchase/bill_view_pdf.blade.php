@@ -344,7 +344,6 @@
                 <th width="10%" class="quantity">Unit/Qty</th>
                 <th width="10%" class="quantity">Qty</th>
                 <th width="10%" class="price">Rate</th>
-                <th width="10%" class="price">Tax</th>
                 <th width="10%" class="price">Amount</th>
             </tr>
         </thead>
@@ -357,7 +356,6 @@
                 <td>{{$value->UnitName}}</td>
                 <td>{{$value->Qty}}</td>
                 <td>{{number_format($value->Rate,2)}}</td>
-                <td>{{number_format($value->Tax,2)}}</td>
                 <td>{{number_format($value->Total,2)}}</td>
       </tr>
             @endforeach
@@ -370,14 +368,13 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
             </tr>
 
             <?php } ?>
         </tbody>
         <tfoot>
             <tr class="no-borders">
-                  <td colspan="4" class="no-borders">
+                  <td colspan="3" class="no-borders">
                   <div class="customer-notes"><strong>Customer Notes: </strong>{{$invoice_master[0]->CustomerNotes}}. </div>                    
                   <div class="customer-notes"><strong>Description Notes: </strong>{{$invoice_master[0]->DescriptionNotes}}. </div>
 
@@ -390,26 +387,31 @@
                           <tr class="cart_subtotal">
                               <td class="no-borders"></td>
                               <th class="description">Subtotal</th>
-                              <td class="price"><span class="totals-price"><span class="amount"> {{number_format($invoice_master[0]->SubTotal-$invoice_master[0]->Tax,2)}}</span></span></td>
+                              <td class="price"><span class="totals-price"><span class="amount"> {{number_format($invoice_master[0]->SubTotal)}}</span></span></td>
                           </tr>
-                          <tr class="order_total">
-                              <td class="no-borders"></td>
-                              <th class="description">Tax @ {{$invoice_master[0]->TaxPer}} %</th>
-                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->Tax,2)}}</span></span></td>
-                          </tr>
-                          <tr class="order_total">
-                              <td class="no-borders"></td>
-                              <th class="description">Total</th>
-                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->Total,2)}}</span></span></td>
-                          </tr>
-                          @if($invoice_master[0]->DiscountAmount > 0)
+                           @if($invoice_master[0]->DiscountAmount > 0)
                           <tr class="order_total">
                               <td class="no-borders"></td>
                               <th class="description">Discount</th>
                               <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->DiscountAmount,2)}}</span></span></td>
                           </tr>
+
+                            <tr class="order_total">
+                              <td class="no-borders"></td>
+                              <th class="description">Total</th>
+                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->Total,2)}}</span></span></td>
+                          </tr>
                           
                           @endif
+
+                          
+                          <tr class="order_total">
+                              <td class="no-borders"></td>
+                              <th class="description">Tax @ {{$invoice_master[0]->TaxPer}} %</th>
+                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->Tax,2)}}</span></span></td>
+                          </tr>
+                        
+                         
                           @if($invoice_master[0]->Shipping > 0)
                           <tr class="order_total">
                               <td class="no-borders"></td>
