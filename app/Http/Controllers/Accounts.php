@@ -4019,24 +4019,43 @@ class Accounts extends Controller
 
 
             $invoices = DB::table('invoice_master')
-            ->select('InvoiceMasterID','PartyID','Date','InvoiceNo','ReferenceNo','Total','Tax','GrandTotal')
-            ->where('InvoiceType', 'invoice')
-            ->whereBetween('Date', array($request->StartDate, $request->EndDate))
-            ->leftJoin('Party','invoice_master.PartyID','=','Party.PartyID')
-            ->select('invoice_master.*', 'Party.PartyName as PartyName')
-            ->orderBy('InvoiceMasterID')
-            ->orderBy('Date')
+            ->leftJoin('party', 'invoice_master.PartyID', '=', 'party.PartyID')
+            ->select(
+                'invoice_master.InvoiceMasterID',
+                'invoice_master.PartyID',
+                'invoice_master.Date',
+                'invoice_master.InvoiceNo',
+                'invoice_master.ReferenceNo',
+                'invoice_master.Total',
+                'invoice_master.Tax',
+                'invoice_master.GrandTotal',
+                DB::raw("COALESCE(party.PartyName, '') as PartyName")
+            )
+            ->where('invoice_master.InvoiceType', 'invoice')
+            ->whereBetween('invoice_master.Date', [$request->StartDate, $request->EndDate])
+            ->orderBy('invoice_master.InvoiceMasterID')
+            ->orderBy('invoice_master.Date')
             ->get();
 
+
             $purchases = DB::table('invoice_master')
-            ->select('InvoiceMasterID','SupplierID','Date','InvoiceNo','ReferenceNo','Total','Tax','GrandTotal')
-            ->where('InvoiceType', 'Bill')
-            ->whereBetween('Date', array($request->StartDate, $request->EndDate))
-            ->leftJoin('Party','invoice_master.SupplierID','=','Party.PartyID')
-            ->select('invoice_master.*', 'Party.PartyName as PartyName')
-            ->orderBy('InvoiceMasterID')
-            ->orderBy('Date')
-            ->get();
+                ->leftJoin('party', 'invoice_master.SupplierID', '=', 'party.PartyID')
+                ->select(
+                    'invoice_master.InvoiceMasterID',
+                    'invoice_master.SupplierID',
+                    'invoice_master.Date',
+                    'invoice_master.InvoiceNo',
+                    'invoice_master.ReferenceNo',
+                    'invoice_master.Total',
+                    'invoice_master.Tax',
+                    'invoice_master.GrandTotal',
+                    DB::raw("COALESCE(party.PartyName, '') AS PartyName")
+                )
+                ->where('invoice_master.InvoiceType', 'Bill')
+                ->whereBetween('invoice_master.Date', [$request->StartDate, $request->EndDate])
+                ->orderBy('invoice_master.InvoiceMasterID')
+                ->orderBy('invoice_master.Date')
+                ->get();
 
            
             $expenses = DB::table('v_expense_detail')
