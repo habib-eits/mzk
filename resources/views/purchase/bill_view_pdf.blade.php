@@ -339,7 +339,7 @@
     <table class="order-details">
         <thead>
             <tr>
-                  <th width="5%" class="sno">S#</th>
+                <th width="5%" class="sno">S#</th>
                 <th width="20%" class="product">Item</th>
                 <th width="10%" class="quantity">Unit/Qty</th>
                 <th width="10%" class="quantity">Qty</th>
@@ -427,7 +427,8 @@
                           </tr>  
                         
                         </tfoot>
-                    </table>                </td>
+                    </table>    
+                </td>
             </tr>
         </tfoot>
     </table>

@@ -346,59 +346,6 @@
 
                                         </div>
                                     </div>
-                                    <div class="mb-1 row d-none">
-                                        <div class="col-sm-3">
-                                            <label class="col-form-label" for="password">Tax</label>
-                                        </div>
-
-                                        <div class="col-sm-9">
-                                            <select name="UserI D" id="seletedVal" class="form-select select2"
-                                                onchange="GetSelectedTextValue(this.value)" style="width: 100%;">
-                                                <?php foreach ($tax as $key => $valueX1) : ?>
-                                                <option value="{{ $valueX1->TaxPer }}">{{ $valueX1->Description }}
-                                                </option>
-                                                <?php endforeach ?>
-
-                                            </select>
-                                        </div>
-
-
-
-                                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                    <div class="mb-1 row">
-                                        <div class="col-sm-3">
-                                            <label class="col-form-label" for="password">Item Rates Are </label>
-                                        </div>
-
-                                        <div class="col-sm-9">
-                                            <select name="TaxType" id="TaxType" class="form-select">
-                                                }
-                                                }
-                                                <option value="TaxInclusive"
-                                                    {{ $invoice_master[0]->TaxType == 'TaxInclusive' ? 'selected=selected' : '' }}>
-                                                    Tax Inclusive</option>
-                                                <option value="TaxExclusive"
-                                                    {{ $invoice_master[0]->TaxType == 'TaxExclusive' ? 'selected=selected' : '' }}>
-                                                    Tax Exclusive</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
                                 </div>
                                 <div class="col-md-6">
 
@@ -429,7 +376,7 @@
                                             <div class="col-sm-9">
                                                 <div id="invoict_type"> <input type="text" name="InvoiceNo"
                                                         autocomplete="off" id="InvoiceNo" class="form-control"
-                                                        required="" value="{{ $invoice_master[0]->InvoiceNo }}"></div>
+                                                        required="" readonly  value="{{ $invoice_master[0]->InvoiceNo }}"></div>
 
 
                                             </div>
@@ -508,200 +455,113 @@
                             </div>
                             <div class='row'>
                                 <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
-                                    <table class="table table-bordered table-sm table-hover" id="invoiceItem">
-
+                                    <table>
                                         <thead>
-
-                                            <tr class=" borde-1 border-light bg-light " style="height: 40px;">
-
-                                                <th width="15" align="center"><input id="check_all"
+                                            <tr class="bg-light borde-1 border-light " style="height: 40px;">
+                                                <th width="2%" class="text-center"><input id="check_all"
                                                         type="checkbox" /></th>
+                                                <th width="15%">ITEM DETAILS </th>
+                                                <th width="25%" >DESCRIPTION </th>
+                                                <th width="5%">LS</th>
+                                                <th width="5%">UNIT</th>
+                                                <th width="10%" class="d-none">UNIT/Qty</th>
+                                                <th width="10%">QUANTITY</th>
+                                                <th width="10%">RATE</th>
 
-                                                <th width="550">ITEM DETAILS </th>
-
-
-
-                                                <th width="150">UNIT</th>
-
-                                                <th width="150">QUANTITY</th>
-
-                                                <th width="150">LS</th>
-
-                                                <th width="150">RATE</th>
-
-                                                <th width="8%" class="d-none">DISCOUNT</th>
-
-                                                <th width="150">Value for Tax</th>
-
-                                                <th width="150">Tax</th>
-
-                                                <th width="150">Tax Val</th>
-
-
-
-                                                <th width="150">AMOUNT</th>
-
+                                                <th width="10%">AMOUNT</th>
                                             </tr>
-
                                         </thead>
                                         <tbody>
 
+                                            @foreach ($invoice_detail as $key => $value1)
+                                                <?php $no = $key + 1; ?>
 
-                                            <!-- start of loop -->
-                                            @foreach ($invoice_detail as $value1)
-                                             <?php $no = $key + 1; ?>
+
                                                 <tr class="p-3">
-                                                    <td bordercolor="1" valign="top" align="left"><input
-                                                            class="case" type="checkbox" /></td>
+                                                    <td class="p-1"><input class="case" type="checkbox" /></td>
+                                                    <td>
 
-                                                    <td valign="top">
 
-                                                        <select name="ItemID0[]" id="ItemID0_{{ $no }}"
-                                                            class="item form-select  form-control-sm select2   changesNoo "
-                                                            onchange="km(this.value,1);" style="width: 100% !important;">
+                                                        <select name="ItemID[]" class="form-control item-select select2"
+                                                            style="width: 100%">
                                                             <option value="">select</option>
                                                             @foreach ($items as $key => $value)
                                                                 <option value="{{ $value->ItemID }}"
                                                                     {{ $value->ItemID == $value1->ItemID ? 'selected=selected' : '' }}>
                                                                     {{ $value->ItemName }}</option>
                                                             @endforeach
+
                                                         </select>
-                                                        <input type="hidden" name="ItemID[]" id="ItemID_{{ $no }}"
-                                                            value="{{ $value1->ItemID }}">
-                                                        <textarea name="Description[]" id="Description[]" rows="2" class="form-control mt-1 "
-                                                            style="width: 100% !important;">{{ $value1->Description }}</textarea>
+                                                    </td>
+                                                    <td >
+
+                                                        <input type="text" name="Description[]"
+                                                            class="row-description form-control"
+                                                            value="{{ $value1->Description }}">
+
+                                                    </td>
+                                                     <td>
+                                                        <select class="form-select" name="LS[]">
+                                                            <option value="NO" @selected($value1->LS == 'NO' )>LS / NO</option>
+                                                            <option value="YES" @selected($value1->LS == 'YES' )> L/S YES</option>
+                                                        </select>
                                                     </td>
 
-                                                    <td valign="top"><select name="UnitName[]" id="UnitName_{{ $no }}"
-                                                            class="form-select">
-
-
+                                                    <td>
+                                                        <select name="UnitName[]"
+                                                            class="form-control unit-name-select select2"
+                                                            style="width: 100%">
                                                             @foreach ($unit as $value)
-                                                                <option value="{{ $value->UnitName }}"
-                                                                    {{ $value->UnitName == $value1->UnitName ? 'selected=selected' : '' }}>
+                                                                <option value="{{ $value->UnitName }}">
                                                                     {{ $value->UnitName }}</option>
                                                             @endforeach
+                                                        </select>
+                                                    </td>
 
-                                                        </select></td>
-
-                                                    <td valign="top">
-                                                        <input type="number" name="Qty[]" id="Qty_{{ $no }}"
-                                                            class=" form-control changesNo QtyTotal"
-                                                            autocomplete="off" onkeypress="return IsNumeric(event);"
-                                                            ondrop="return false;" onpaste="return false;" step="0.01"
-                                                            value="{{ $value1->Qty }}"> 
-                                                        <input type="number" name="UnitQty[]" id="UnitQty_{{ $no }}"
-                                                            class=" form-control changesNo  d-none" autocomplete="off"
-                                                            onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                            onpaste="return false;" step="0.01"
+                                                    <td class="d-none">
+                                                        <input type="number" step="0.01" name="UnitQty[]"
+                                                            class=" row-unit-qty form-control"
                                                             value="{{ $value1->UnitQty }}">
-                                                    </td>
-
-
-                                                    <td valign="top">
-                                                        
-                                                            <select class="form-select mt-1"
-                                                            name="LS[]" id="LS_{{ $no }}">
-                                                            <option value="YES"
-                                                                {{ $value1->LS == 'YES' ? 'selected=selected' : '' }}> L/S
-                                                                YES</option>
-                                                            <option value="NO"
-                                                                {{ $value1->LS == 'NO' ? 'selected=selected' : '' }}>LS /
-                                                                NO
-                                                            </option>
-                                                        </select>
-                                                    </td>
-
-                                                    <td valign="top">
-                                                        <input type="number" name="Price[]" id="Price_{{ $no }}"
-                                                            class=" form-control changesNo" autocomplete="off"
-                                                            onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                            onpaste="return false;" step="0.01"
-                                                            value="{{ $value1->Rate }}">
-                                                    </td>
-                                                    <td valign="top" class="d-none">
-
-
-                                                        <div class="input-group" class="d-none">
-                                                            <input type="text" name="Discount[]" id="Discount_{{ $no }}"
-                                                                class=" form-control changesNo" autocomplete="off"
-                                                                onkeypress="return IsNumeric(event);"
-                                                                ondrop="return false;" onpaste="return false;"
-                                                                step="0.01" value="0">
-                                                            <span>
-                                                                <!-- <div class="col-sm-3">
-                                                                                            <label class="col-form-label" for="password">Salesperson </label>
-                                                                                        </div> -->
-                                                                <div class="col-sm-9 input-group">
-                                                                    <select name="DiscountType[]" id="DiscountType_{{ $no }}"
-                                                                        class="form-select  changesNo bg-light">
-
-                                                                        <option value="1">%</option>
-                                                                        <option value="2">
-                                                                            {{ session::get('Currency') }}</option>
-
-                                                                    </select>
-                                                                    <input type="hidden" name="DiscountAmountItem[]"
-                                                                        id="DiscountAmount_{{ $no }}" value="0">
-                                                                </div>
-                                                            </span>
-
-                                                        </div>
-
 
                                                     </td>
-                                                    <td valign="top">
-                                                        <input type="number" name="Gross[]" id="Gross_{{ $no }}"
-                                                            class=" form-control changesNo" autocomplete="off"
-                                                            onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                            onpaste="return false;" step="0.01"
-                                                            value="{{ $value1->Gross }}">
+                                                    <td>
+                                                        <input type="number" step="0.01" name="Qty[]" class="row-qty form-control"
+                                                            value="{{ $value1->Qty }}">
+
                                                     </td>
-                                                    <td valign="top">
-                                                        <select name="Tax[]" id="TaxID_{{ $no }}" required=""
-                                                            class="form-select  changesNo tax exclusive_cal bg-light">
-                                                            <?php foreach ($tax as $key => $valueX1) : ?>
-                                                            <option value="{{ $valueX1->TaxPer }}"
-                                                                {{ $valueX1->TaxPer == $value1->TaxPer ? 'selected=selected' : '' }}>
-                                                                {{ $valueX1->Description }}</option>
-                                                            <?php endforeach ?>
-                                                        </select>
-                                                    </td>
-                                                    <td valign="top">
-                                                        <input type="number" name="TaxVal[]" id="TaxVal_{{ $no }}"
-                                                            class=" form-control totalLinePrice2" autocomplete="off"
-                                                            onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                            onpaste="return false;" step="0.01"
-                                                            value="{{ $value1->Tax }}">
+                                                    <td>
+                                                        <input type="number" step="0.01"  name="Rate[]"
+                                                            class="row-rate form-control" value="{{ $value1->Rate }}">
+
                                                     </td>
 
-                                                    <td valign="top">
-                                                        <input type="number" name="ItemTotal[]" id="ItemTotal_{{ $no }}"
-                                                            class=" form-control totalLinePrice " autocomplete="off"
-                                                            onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                            onpaste="return false;" step="0.01"
+                                                    
+                                                    <td>
+                                                        <input type="number" step="0.01" name="ItemTotal[]"
+                                                            class="row-item-total form-control"
                                                             value="{{ $value1->Total }}">
+
                                                     </td>
+
                                                 </tr>
                                             @endforeach
-                                            <!-- end of loop  -->
+                                            <!-- end of for each -->
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div class="row mt-1 mb-2" style="margin-left: 55px;">
+                            <div class="row mt-1 mb-2" style="margin-left: 29px;">
                                 <div class='col-xs-5 col-sm-3 col-md-3 col-lg-3  '>
-                                    <button class="btn btn-danger delete" type="button"><i
+                                    <button class="btn btn-danger delete" id="deleteRow" type="button"><i
                                             class="bx bx-trash align-middle font-medium-3 me-25"></i>Delete</button>
-                                    <button class="btn btn-success addmore" type="button"><i
+                                    <button class="btn btn-success addmore" id="addRow" type="button"><i
                                             class="bx bx-list-plus align-middle font-medium-3 me-25"></i> Add More</button>
 
                                 </div>
 
                                 <div class='col-xs-5 col-sm-3 col-md-3 col-lg-3  '>
                                     <div id="result"></div>
-                                    <div id="QtyTotal" class="form-control"
-                                        style="border: 1px dashed red; width: 112px;"></div>
 
                                 </div>
                                 <br>
@@ -715,27 +575,19 @@
                                     <h6>Customer Notes: </h6>
 
 
-                                    <textarea class="form-control tinymce" rows='5' name="CustomerNotes" id="note" placeholder=""> {{ $invoice_master[0]->CustomerNotes }}</textarea>
+                                    <textarea class="form-control" rows='5' name="CustomerNotes" id="note" placeholder="">{{ $invoice_master[0]->CustomerNotes }}</textarea>
 
-                                    {{-- <label for="" class="mt-2">Description</label>
-                                    <textarea class="form-control tinymce " rows='5' name="DescriptionNotes" id="note"> {{ $invoice_master[0]->DescriptionNotes }}</textarea>
- --}}
-
-
-
-
-
+                                    <label for="" class="mt-2">Description</label>
+                                    <textarea class="form-control" rows='5' name="DescriptionNotes" id="note"
+                                        placeholder="Description notes if any.">{{ $invoice_master[0]->DescriptionNotes }}</textarea>
+                                    <br>
+                                   
                                     <div class="mt-2"><button type="submit"
                                             class="btn btn-success w-md float-right">Save</button>
-                                        <a href="{{ URL('/PurchaseOrder') }}"
+                                        <a href="{{ URL('/Estimate') }}"
                                             class="btn btn-secondary w-md float-right">Cancel</a>
 
                                     </div>
-
-
-
-
-
 
 
                                 </div>
@@ -745,1106 +597,222 @@
                                     <!-- <input type="text" class="form-control" id="TotalTaxAmount" name="TaxTotal" placeholder="TaxTotal" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"> -->
                                     <form class="form-inline">
                                         <div class="form-group mt-1">
-                                            <label>Grand Total Tax: &nbsp;</label>
+                                            <label>Sub Total: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
-
-                                                <input type="text" class="form-control" id="grandtotaltax"
-                                                    name="grandtotaltax" placeholder="Subtotal"
-                                                    onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                    onpaste="return false;" value="{{ $invoice_master[0]->Tax }}">
+                                                    <input type="number" step="0.01" class="form-control" id="SubTotal" name="SubTotal" value="{{ $invoice_master[0]->SubTotal }}" readonly/>
                                             </div>
                                         </div>
-                                        <div class="form-group mt-1">
-                                            <label>Sub Total1: &nbsp;</label>
-                                            <div class="input-group">
-                                                <span
-                                                    class="input-group-text bg-light">{{ session::get('Currency') }}</span>
 
-                                                <input type="text" class="form-control" id="subTotal"
-                                                    name="SubTotal" placeholder="Subtotal"
-                                                    onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                    onpaste="return false;" value="{{ $invoice_master[0]->SubTotal }}">
-                                            </div>
-                                        </div>
                                         <div class="form-group mt-1">
                                             <label>Discount: &nbsp;</label>
                                             <div class="input-group">
-                                                <span class="input-group-text bg-light">%</span>
-
-                                                <input type="text" class="form-control" value="0"
-                                                    id="discountper" name="DiscountPer" placeholder="Tax"
-                                                    onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                    onpaste="return false;"
-                                                    value="{{ $invoice_master[0]->DiscountPer }}">
-
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
-
-                                                <input type="text" name="DiscountAmount" class="form-control" readonly
-                                                    id="discountAmount" onkeypress="return IsNumeric(event);"
-                                                    ondrop="return false;" onpaste="return false;"
-                                                    value="{{ $invoice_master[0]->DiscountAmount }}">
+                                                    <input type="number" step="0.01" class="form-control" id="DiscountAmount" name="DiscountAmount" value="{{ $invoice_master[0]->DiscountAmount }}" />
                                             </div>
                                         </div>
 
-
-
                                         <div class="form-group mt-1">
-
                                             <label>Total: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
-                                                <input type="number" name="Total" id="Total" class="form-control"
-                                                    step="0.01" id="totalafterdisc" placeholder="Total"
-                                                    onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                    onpaste="return false;" value="{{ $invoice_master[0]->Total }}">
+                                                    <input type="number" step="0.01" class="form-control" id="Total" name="Total" value="{{ $invoice_master[0]->Total }}" readonly />
                                             </div>
                                         </div>
 
 
-                                        <div class="form-group mt-1 d-none ">
+                                        <div class="form-group mt-1">
+                                            <label>Tax: &nbsp;</label>
+                                            <div class="input-group">
+                                                <select id="TaxPer" name="TaxPer" class="form-control"
+                                                    style="width:100%">
+                                                    @foreach ($tax as $t)
+                                                        <option @selected($invoice_master[0]->TaxPer == $t->TaxPer  ) value="{{ $t->TaxPer }}">{{ $t->Description }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mt-1">
+                                            <label>Tax Amount: &nbsp;</label>
+                                            <div class="input-group">
+                                                <span
+                                                    class="input-group-text bg-light">{{ session::get('Currency') }}</span>
+                                                <input type="number" step="0.01" class="form-control" id="Tax" value="{{$invoice_master[0]->Tax}}"
+                                                    name="Tax" readonly>
+                                            </div>
+                                        </div>
 
+                                        
+
+                                       
+                                      
+                                        <div class="form-group mt-1 d-none">
                                             <label>Shipping: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
-                                                <input type="number" name="Shipping" class="form-control"
-                                                    step="0.01" id="shipping" placeholder="Grand Total"
-                                                    onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                    onpaste="return false;" value="0">
+                                                    <input type="number" step="0.01" class="form-control" id="Shipping" name="Shipping" value="{{ $invoice_master[0]->Shipping }}" />
                                             </div>
                                         </div>
 
                                         <div class="form-group mt-1">
-
                                             <label>Grand Total: &nbsp;</label>
                                             <div class="input-group">
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
-                                                <input type="number" name="Grandtotal" id="Grandtotal"
-                                                    class="form-control" step="0.01" id="grandtotal"
-                                                    placeholder="Grand Total" onkeypress="return IsNumeric(event);"
-                                                    ondrop="return false;" onpaste="return false;"
-                                                    value="{{ $invoice_master[0]->GrandTotal }}">
+                                                    <input type="number" step="0.01" class="form-control" id="GrandTotal" name="GrandTotal" value="{{ $invoice_master[0]->GrandTotal }}" readonly/>
                                             </div>
-                                        </div>
-
-
-
-                                        <div class="form-group mt-1 d-none">
-                                            <label>Amount Paid: &nbsp;</label>
-                                            <div class="input-group">
-                                                <span
-                                                    class="input-group-text bg-light">{{ session::get('Currency') }}</span>
-                                                <input type="number" class="form-control" id="amountPaid"
-                                                    name="amountPaid" placeholder="Amount Paid"
-                                                    onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                    onpaste="return false;" step="0.01" value="0">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group mt-1 d-none">
-
-                                            <label>Amount Due: &nbsp;</label>
-                                            <div class="input-group">
-                                                <span
-                                                    class="input-group-text bg-light">{{ session::get('Currency') }}</span>
-                                                <input type="number" class="form-control amountDue" name="amountDue"
-                                                    id="amountDue" placeholder="Amount Due"
-                                                    onkeypress="return IsNumeric(event);" ondrop="return false;"
-                                                    onpaste="return false;" step="0.01">
-                                            </div>
-                                        </div>
-
+                                        </div>   
+                                      
+                                    </div>
                                 </div>
-                            </div>
                             <div>
-
-
-
-                            </div>
-
-
-
-
+                        </div>
+                    </div>
+                    
 
                 </form>
-
-                <!--  <div class='row'>
-                                                              <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
-                                                                <div class="well text-center">
-                                                              <h2>Back TO Tutorial: <a href="#"> Invoice System </a> </h2>
-                                                            </div>
-                                                              </div>
-                                                            </div>   -->
-
-
 
             </div>
         </div>
     </div>
-
-
-
-
-    <script>
-        $('input[name=tax_action]').change(function(e) {
-            $('.exclusive_cal').val(e.target.value)
-        })
-
-
-        /**
-         * Site : http:www.smarttutorials.net
-         * @author muni
-         */
-
-        var i = $('table tr').length;
-
-        $(".addmore").on('click', function () {
-
-    html = '<tr class="borde-1 border-light">';
-
-    html += `
-        <td valign="top" class="text-left">
-            <input class="case" type="checkbox"/>
-        </td>
-    `;
-
-    html += `
-        <td>
-            <select 
-                name="ItemID0[]" 
-                id="ItemID0_${i}"
-                style="width: 100% !important;" 
-                class="form-select select2 changesNoo" 
-                onchange="km(this.value, ${i});"
-            >
-                <option value="">select</option>
-                @foreach ($items as $key => $value)
-                    <option value="{{ $value->ItemID }}|{{ $value->Percentage }}">
-                        {{ $value->ItemCode }}-{{ $value->ItemName }}-{{ $value->Percentage }}
-                    </option>
-                @endforeach
-            </select>
-
-            <input type="hidden" name="ItemID[]" id="ItemID_${i}">
-            <textarea 
-                name="Description[]" 
-                id="Description[]" 
-                rows="2" 
-                class="form-control mt-1" 
-                style="width: 100% !important;"
-            ></textarea>
-        </td>
-    `;
-
-    html += `
-        <td valign="top">
-            <select name="UnitName[]" id="UnitName_${i}" class="form-select">
-                @foreach ($unit as $value)
-                    <option value="{{ $value->UnitName }}">{{ $value->UnitName }}</option>
-                @endforeach
-            </select>
-        </td>
-    `;
-
-    html += `
-        <td valign="top">
-            <input 
-                type="text" 
-                name="Qty[]" 
-                id="Qty_${i}"
-                class="form-control changesNo QtyTotal" 
-                autocomplete="off" 
-                onkeypress="return IsNumeric(event);" 
-                ondrop="return false;" 
-                onpaste="return false;" 
-                value="1"
-            >
-
-            <input 
-                type="number" 
-                name="UnitQty[]" 
-                id="UnitQty_${i}"
-                class="form-control changesNo d-none"
-                autocomplete="off" 
-                onkeypress="return IsNumeric(event);" 
-                ondrop="return false;" 
-                onpaste="return false;" 
-                step="0.01"
-                value=""
-            >
-        </td>
-    `;
-
-    html += `
-        <td valign="top">
-            <select class="form-select mt-1" name="LS[]" id="LS_${i}">
-                <option value="YES">L/S YES</option>
-                <option value="NO">LS / NO</option>
-            </select>
-        </td>
-    `;
-
-    html += `
-        <td valign="top">
-            <input 
-                type="text" 
-                name="Price[]" 
-                id="Price_${i}"
-                class="form-control changesNo"
-                autocomplete="off" 
-                onkeypress="return IsNumeric(event);" 
-                ondrop="return false;" 
-                onpaste="return false;"
-            >
-        </td>
-    `;
-
-    html += `
-        <td valign="top" class="d-none">
-            <div class="input-group">
-                <input 
-                    type="text" 
-                    name="Discount[]" 
-                    id="Discount_${i}"
-                    class="form-control changesNo"
-                    autocomplete="off" 
-                    onkeypress="return IsNumeric(event);" 
-                    ondrop="return false;" 
-                    onpaste="return false;" 
-                    step="0.01" 
-                    value="0"
-                >
-
-                <span>
-                    <div class="col-sm-9 input-group">
-                        <select 
-                            name="DiscountType[]" 
-                            id="DiscountType_${i}" 
-                            class="form-select changesNo bg-light"
-                        >
-                            <option value="1">%</option>
-                            <option value="2">{{ session::get('Currency') }}</option>
-                        </select>
-
-                        <input 
-                            type="hidden" 
-                            name="DiscountAmountItem[]" 
-                            value="0" 
-                            id="DiscountAmount_${i}"
-                        >
-                    </div>
-                </span>
-            </div>
-        </td>
-    `;
-
-    html += `
-        <td valign="top">
-            <input 
-                type="number" 
-                name="Gross[]" 
-                id="Gross_${i}"
-                class="form-control changesNo"
-                autocomplete="off" 
-                onkeypress="return IsNumeric(event);" 
-                ondrop="return false;" 
-                onpaste="return false;" 
-                step="0.01"
-            >
-        </td>
-    `;
-
-    html += `
-        <td valign="top">
-            <select 
-                name="Tax[]" 
-                id="TaxID_${i}" 
-                class="form-control changesNo exclusive_cal bg-light"
-            >
-                <?php foreach ($tax as $key => $valueX1) : ?>
-                    <option value="{{ $valueX1->TaxPer }}">{{ $valueX1->Description }}</option>
-                <?php endforeach ?>
-            </select>
-        </td>
-    `;
-
-    html += `
-        <td valign="top">
-            <input 
-                type="number" 
-                name="TaxVal[]" 
-                id="TaxVal_${i}"
-                class="form-control totalLinePrice2"
-                autocomplete="off" 
-                onkeypress="return IsNumeric(event);" 
-                ondrop="return false;" 
-                onpaste="return false;" 
-                step="0.01" 
-                value="0"
-            >
-        </td>
-    `;
-
-    html += `
-        <td valign="top">
-            <input 
-                type="text" 
-                name="ItemTotal[]" 
-                id="ItemTotal_${i}"
-                class="form-control totalLinePrice"
-                autocomplete="off" 
-                onkeypress="return IsNumeric(event);" 
-                ondrop="return false;" 
-                onpaste="return false;"
-            >
-        </td>
-    `;
-
-    html += '</tr>';
-
-    i++;
-    $('table').append(html);
-    $('.select2', 'table').select2();
-});
-
-
-
-
-
-
-
-        //to check all checkboxes
-        $(document).on('change', '#check_all', function() {
-            $('input[class=case]:checkbox').prop("checked", $(this).is(':checked'));
-        });
-
-
-
-
-        function km(v, id) {
-
-            // alert(v+id);
-
-            id_arr = 'ItemID0_' + id;
-            id = id_arr.split("_");
-
-            val = $('#ItemID0_' + id[1]).val().split("|");
-
-
-            // alert($('#ItemID0_'+id[1]).val());
-            $('#ItemID_' + id[1]).val(val[0]);
-
-            // alert('val done');
-
-            var data = <?php echo $item; ?>;
-            // console.log(data);
-
-            // console.log( "readaay!" );
-
-            var data = <?php echo $item; ?> // this is dynamic data in json_encode(); from controller
-
-            // console.log($('#ItemID_' + id[1]).val());
-
-
-            var item_idd = $('#ItemID_' + id[1]).val();
-            // console.log(item_idd);
-            var index = -1;
-            var val = parseInt(item_idd);
-            var json = data.find(function(item, i) {
-                if (item.ItemID === val) {
-                    index = i + 1;
-                    return i + 1;
-                }
-            });
-
-
-
-
-
-            $('#Price_' + id[1]).val(json["SellingPrice"]);
-            $('#TaxID_' + id[1]).val(json["Percentage"]);
-
-
-            var Qty = $('#Qty_' + id[1]).val();
-            var Price = $('#Price_' + id[1]).val();
-
-            var UnitName = json["UnitName"];
-            // var UnitQty = json["UnitQty"];
-            var UnitQty = 1;
-
-
-            if (UnitName == 'pcs') {
-                UnitQty = 1;
-
-            }
-
-
-
-            $('#UnitName_' + id[1]).val(json["UnitName"]).change();
-            // $('#UnitQty_' + id[1]).val(json["UnitQty"]).change();
-            $('#UnitQty_' + id[1]).val(1);
-
-
-            var QtyRate = parseFloat(Price) * parseFloat(UnitQty);
-
-
-
-
-
-            var DiscountType = $('#DiscountType_' + id[1]).val();
-
-
-
-            var Discount = $('#Discount_' + id[1]).val();
-
-
-
-
-            if (DiscountType == 1) {
-
-
-                var DiscountCalculated = (parseFloat(QtyRate) * parseFloat(Discount) / 100);
-            } else {
-                var DiscountCalculated = parseFloat(Discount) * parseFloat(Qty);
-            }
-
-            $('#DiscountAmount_' + id[1]).val(DiscountCalculated);
-
-
-            var Gross = parseFloat(QtyRate) - parseFloat(DiscountCalculated);
-
-            $('#Gross_' + id[1]).val(Gross);
-
-
-            var TaxID = $('#TaxID_' + id[1]).val();
-
-            var TaxCalculation = ((parseFloat(Gross) * parseFloat(TaxID)) / 100).toFixed(2);
-
-            $('#TaxVal_' + id[1]).val(TaxCalculation);
-
-
-            var ItemTotal = parseFloat(Gross) - parseFloat(TaxCalculation);
-
-            $('#ItemTotal_' + id[1]).val(ItemTotal);
-
-
-
-            var grandtotaltax = 0;
-
-            $('.totalLinePrice2').each(function() {
-                if ($(this).val() != '') grandtotaltax += parseFloat($(this).val());
-            });
-
-            $('#grandtotaltax').val((parseFloat(grandtotaltax)).toFixed(2));
-
-
-            TaxIncExc();
-
-
-
-            calculateTotal();
-
-            if (isNaN($('#discountAmount').val())) {
-                $('#discountAmount').val(0);
-            }
-
-            calculatediscount();
-            calculateTotal();
-            TaxIncExc();
-
-
-        }
-
-
-
-
-
-
-
-        //deletes the selected table rows
-        $(".delete").on('click', function() {
-            $('.case:checkbox:checked').parents("tr").remove();
-            $('#check_all').prop("checked", false);
-            calculatediscount();
-            calculateTotal();
-            TaxIncExc();
-        });
-
-
-        //Calculate qty
-        $(document).on('change keyup blur ', '.QtyTotal', function() {
-
-
-            CalculateQtyTotal();
-
-        });
-
-
-        function CalculateQtyTotal() {
-            QtyTotal = 0;
-            $('.QtyTotal').each(function() {
-                if ($(this).val() != '') QtyTotal += parseFloat($(this).val());
-            });
-
-
-            $('#QtyTotal').text(QtyTotal);
-
-
-        }
-
-
-        //price change
-        $(document).on('change keyup blur ', '.changesNo', function() {
-
-
-
-            singlerowcalculation($(this).attr('id'));
-
-
-
-
-
-            calculatediscount();
-            calculateTotal();
-            TaxIncExc();
-        });
-
-        //////////
-
-        function singlerowcalculation(idd) {
-            TaxIncExc();
-            id_arr = idd;
-            id = id_arr.split("_");
-
-            Qty = $('#Qty_' + id[1]).val();
-
-            TaxPer = $('#TaxID_' + id[1]).val();
-
-            Price = $('#Price_' + id[1]).val();
-            UnitQty = $('#UnitQty_' + id[1]).val();
-
-
-
-
-            var Qty = $('#Qty_' + id[1]).val();
-            var Price = $('#Price_' + id[1]).val();
-            var QtyRate = parseFloat(Price) * parseFloat(UnitQty * Qty);
-
-
-
-
-
-
-
-            var DiscountType = $('#DiscountType_' + id[1]).val();
-
-
-
-            var Discount = $('#Discount_' + id[1]).val();
-
-
-
-
-            if (DiscountType == 1) {
-
-
-                var DiscountCalculated = (parseFloat(QtyRate) * parseFloat(Discount) / 100);
-            } else {
-                var DiscountCalculated = parseFloat(Discount) * parseFloat(Qty);
-            }
-
-            $('#DiscountAmount_' + id[1]).val(DiscountCalculated);
-
-
-            var Gross = parseFloat(QtyRate) - parseFloat(DiscountCalculated);
-
-            $('#Gross_' + id[1]).val(Gross);
-
-
-            var TaxID = $('#TaxID_' + id[1]).val();
-
-            var TaxCalculation = (parseFloat(Gross) * parseFloat(TaxID)) / 100;
-
-            $('#TaxVal_' + id[1]).val(TaxCalculation);
-
-
-            $('#ItemTotal_' + id[1]).val(Gross - TaxCalculation);
-
-            var grandtotaltax = 0;
-
-            $('.totalLinePrice2').each(function() {
-                if ($(this).val() != '') grandtotaltax += parseFloat($(this).val());
-            });
-
-            $('#grandtotaltax').val(parseFloat(grandtotaltax));
-
-
-            TaxIncExc();
-
-
-
-
-        }
-
-        // 
-
-        function TaxIncExc() {
-            var TaxType = $('#TaxType').val();
-            // var subTotal = $('#subTotal').val();
-            var DiscountAmount = $('#discountAmount').val();
-            var grandtotaltax = 0;
-
-            var shipping = $('#shipping').val();
-
-
-
-            var table_lenght = $('table tr').length - 1;
-
-
-            var Qty = 0
-            var Price = 0;
-            var TaxVal = 0;
-            var Gross = 0;
-            for (let i = 1; i <= table_lenght; i++) {
-
-                Qty = $('#Qty_' + i).val();
-                Price = $('#Price_' + i).val();
-                TaxVal = $('#TaxVal_' + i).val();
-                Gross = $('#Gross_' + i).val();
-
-                $('#ItemTotal_' + i).val(parseFloat(Gross));
-
-            }
-
-
-
-            $('.totalLinePrice2').each(function() {
-                if ($(this).val() != '') grandtotaltax += parseFloat($(this).val());
-            });
-
-            subTotal = 0;
-            $('.totalLinePrice').each(function() {
-                if ($(this).val() != '') subTotal += parseFloat($(this).val());
-            });
-
-
-
-            if (TaxType == 'TaxInclusive') {
-
-                subTotal1 = parseFloat(subTotal) - parseFloat(TaxVal);
-                $('#subTotal').val(subTotal1);
-
-                var Total = parseFloat(subTotal1) - parseFloat(DiscountAmount).toFixed(2);
-
-                $('#Total').val(parseFloat(Total));
-                $('#Grandtotal').val(parseFloat(Total) + parseFloat(grandtotaltax));
-
-            } else {
-
-                $('#subTotal').val(parseFloat(subTotal));
-
-                var Total = parseFloat(subTotal) - parseFloat(DiscountAmount).toFixed(2);
-                var Grandtotal = ((parseFloat(Total) + parseFloat(grandtotaltax))).toFixed(2);
-
-
-                $('#Total').val(Total);
-                $('#Grandtotal').val(Grandtotal);
-
-            }
-
-
-            $('#Grandtotal').val(parseFloat($('#Grandtotal').val()) + parseFloat(shipping));
-
-
-
-
-
-        }
-
-
-        $(document).on('change', '.changesNoo', function() {
-
-
-
-            id_arr = $(this).attr('id');
-            id = id_arr.split("_");
-
-            val = $('#ItemID0_' + id[1]).val().split("|");
-
-
-            // alert($('#ItemID0_'+id[1]).val());
-            $('#ItemID_' + id[1]).val(val[0]);
-
-
-            calculatediscount();
-
-        });
-
-        ////////////////////////////////////////////
-
-        function calculatediscount() {
-
-            subTotal = parseFloat($('#subTotal').val());
-
-
-            discountper = $('#discountper').val();
-
-            if (discountper != '' && typeof(discountper) != "undefined") {
-
-                discountamount = parseFloat(subTotal) * (parseFloat(discountper) / 100);
-
-                $('#discountAmount').val(parseFloat(discountamount.toFixed(2)));
-                total = subTotal - discountamount;
-                $('#Total').val(total.toFixed(2));
-                $('#Grandtotal').val(total.toFixed(2) + parseFloat($('#grandtotaltax').val()));
-
-
-            } else {
-                $('#discountper').val(0);
-                // alert('dd');
-                $('#DiscountAmount').val(0);
-
-
-                total = subTotal - discountamount;
-                $('#Total').val(total.toFixed(2));
-                $('#Grandtotal').val(total.toFixed(2) + parseFloat($('#grandtotaltax').val()));
-
-
-            }
-
-            calculateTotal();
-        }
-
-
-        $(document).on('blur', '#discountAmount', function() {
-
-
-            // calculatediscountper();
-
-
-        });
-
-        function calculatediscountper() {
-
-            subTotal = parseFloat($('#subTotal').val());
-
-
-            discountAmount = $('#discountAmount').val();
-            // totalafterdisc = $('#totalAftertax').val();
-            // console.log('testing'.totalAftertax);
-            if (discountAmount != '' && typeof(discountAmount) != "undefined") {
-                discountper = (parseFloat(discountAmount) / parseFloat(subTotal)) * 100;
-
-                $('#discountper').val(parseFloat(discountper.toFixed(2)));
-
-                total = subTotal - discountAmount;
-                $('#Total').val(total.toFixed(2));
-
-                // $('#grandtotal').val(total.toFixed(2));
-
-            } else {
-                $('#discountper').val(0);
-                // alert('dd');
-                // $('#discountper').val(0);
-                total = subTotal;
-                $('#Total').val(total.toFixed(2));
-
-            }
-
-            $('#Grandtotal').val(total + parseFloat($('#grandtotaltax').val()));
-
-        }
-
-        //////////////////
-
-        // discount percentage
-        $(document).on(' blur ', '#discountper', function() {
-            calculatediscount();
-
-
-        });
-        $(document).on('change keyup blur   onclick', '#taxpercentage', function() {
-            calculateTotal();
-        });
-
-
-        $(document).on('change keyup blur   onclick', '#shipping', function() {
-            calculateTotal();
-        });
-
-
-
-        //total price calculation 
-        function calculateTotal() {
-
-            // grand_tax = 0;
-
-
-            subTotal = $('#subTotal').val();
-            grandtotaltax = $('#grandtotaltax').val();
-            discountAmount = $('#discountAmount').val();
-            shipping = $('#shipping').val();
-            Total = parseFloat(subTotal) - parseFloat(discountAmount);
-
-
-            Grandtotal = parseFloat(Total) + parseFloat(grandtotaltax) + parseFloat(shipping);
-
-            $('#Total').val(Total);
-            $('#Grandtotal').val(Grandtotal);
-
-
-
-        }
-
-
-
-
-        $(document).on('change keyup blur', '#amountPaid', function() {
-            calculateAmountDue();
-        });
-
-        //due amount calculation
-        function calculateAmountDue() {
-            amountPaid = $('#amountPaid').val();
-            total = $('#grandtotal').val();
-            if (amountPaid != '' && typeof(amountPaid) != "undefined") {
-                amountDue = parseFloat(total) - parseFloat(amountPaid);
-                $('.amountDue').val(amountDue.toFixed(2));
-            } else {
-                total = parseFloat(total).toFixed(2);
-                $('.amountDue').val(total);
-            }
-        }
-
-
-        //It restrict the non-numbers
-        var specialKeys = new Array();
-        specialKeys.push(8, 46); //Backspace
-        function IsNumeric(e) {
-            var keyCode = e.which ? e.which : e.keyCode;
-            // console.log(keyCode);
-            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
-            return ret;
-        }
-
-        //datepicker
-        $(function() {
-            $.fn.datepicker.defaults.format = "dd-mm-yyyy";
-            $('#invoiceDate').datepicker({
-                startDate: '-3d',
-                autoclose: true,
-                clearBtn: true,
-                todayHighlight: true
-            });
-        });
-    </script>
-
-    <script src="{{ asset('assets/js/jquery-3.6.0.js') }}" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-        crossorigin="anonymous"></script>
-
-    <script type="text/javascript">
-        //<![CDATA[
-
-
-        $(function() {
-            $('#WalkinCustomer').hide();
-            $('#PartyID').change(function() {
-
-                if (this.options[this.selectedIndex].value == '1') {
-                    // alert('dd');
-
-                    $('#WalkinCustomer').show();
-                    $('#1WalkinCustomerName').focus();
-
-                } else {
-                    $('#WalkinCustomer').hide();
-                    $('#1WalkinCustomerName').val(0);
-                }
-            });
-        });
-
-
-        //]]>
-    </script>
-    <script type="text/javascript">
-        //<![CDATA[
-
-
-        $(function() {
-            $('#paymentdetails').hide();
-            $('#PaymentMode').change(function() {
-
-                if (this.options[this.selectedIndex].value == 'Cheque') {
-                    // alert('dd');
-
-                    $('#paymentdetails').show();
-                    $('#PaymentDetails').focus();
-
-                } else {
-                    $('#paymentdetails').hide();
-                    $('#PaymentDetails').val('');
-                }
-            });
-        });
-
-
-        //]]>
-    </script>
-    <!-- ajax trigger -->
-
-
-
-
-
-
-    <script>
-        $("#BranchID").change(function() {
-
-
-            var BranchID = $('#BranchID').val();
-
-            console.log(BranchID);
-            if (BranchID != "") {
-                /*  $("#butsave").attr("disabled", "disabled"); */
-                // alert('next stage if else');
-                // console.log(InvoiceType);
-
-                $.ajax({
-
-                    url: "{{ URL('/ajax_invoice_vhno') }}",
-                    type: "POST",
-                    data: {
-                        // _token: p3WhH7hWcpfbcxtNskY1ZrCROfa3dpKp3MfEJwXu,
-                        "_token": $("#csrf").val(),
-                        BranchID: BranchID,
-                        InvoiceTyp: 'PO',
-
-                    },
-                    cache: false,
-
-                    success: function(data) {
-
-                        // alert(data.vhno);
-                        $('#InvoiceNo').val(data.vhno);
-
-
-
-                    }
-                });
-            }
-
-
-        });
-    </script>
-
-
-
-
-
-    <script>
-        $("#TaxType").change(function() {
-
-            TaxIncExc();
-
-        });
-    </script>
-
-
-
-
-
-    <script type="text/javascript">
-        function GetSelectedTextValue(seletedVal) {
-            gTotalVal = $('#grandtotal').val();
-            if (gTotalVal) {
-
-
-                var txt;
-                if (confirm("Are you sure you want to update tax of complete invoice!")) {
-                    txt = "You pressed OK!";
-
-                    var TaxValue = seletedVal.value;
-
-                    var table_lenght = $('table tr').length;
-                    let discountamount = 0;
-
-
-                    var grandsum = 0
-                    var taxsum = 0;
-                    for (let i = 1; i < table_lenght; i++) {
-                        Qty = $('#Qty_' + i).val();
-                        Price = $('#Price_' + i).val();
-
-
-                        $('#TaxID_' + i).val(TaxValue);
-                        disPerLine = parseFloat(Price) * (TaxValue / 100);
-                        $('#TaxVal_' + i).val(parseFloat(disPerLine));
-
-                        grandsum += (Qty * Price) + disPerLine;
-                        taxsum += disPerLine;
-
-                        $('#ItemTotal_' + i).val((Qty * Price) + disPerLine);
-
-                    }
-                    $('#grandtotaltax').val(parseFloat(taxsum));
-                    // assigning subtotal value
-                    $('#subTotal').val(parseFloat(grandsum));
-
-
-                    // fetching discount percentage
-                    var discountper = $('#discountper').val();
-                    // calculating discount amount
-                    discountamount = parseFloat(grandsum) * (parseFloat(discountper) / 100);
-                    $('#discountAmount').val(parseFloat(discountamount));
-                    //amount after discount
-                    $('#totalafterdisc').val(parseFloat(grandsum) - parseFloat(discountamount));
-
-                    // fetching percentage of tax
-                    var taxper = $('#taxpercentage').val();
-                    // calculating percentage amount
-                    taxamount = parseFloat(grandsum) * (parseFloat(taxper) / 100);
-                    $('#taxpercentageAmount').val(parseFloat(taxamount));
-
-                    //calculating shiping cost
-                    var shipping = $('#shipping').val();
-
-
-
-                    var grandtotal = (parseFloat(grandsum) + parseFloat(taxamount) + parseFloat(shipping)) - parseFloat(
-                        discountamount);
-                    // Calculating grandtotal
-                    $('#grandtotal').val(grandtotal);
-                    // alert(discountamount);
-                } else {
-                    $('#seletedVal').val('select');
-                }
-
-            } else {
-                return alert("Please create invoice first");
-            }
-
-            calculatediscount();
-            calculateTotal();
-
-
-        }
-    </script>
-
-
     <script>
         $(document).ready(function() {
-            $('body').addClass('sidebar-enable vertical-collpsed')
+
+            // =================== ROW CALCULATION ===================
+            $(document).on('input change', '.row-qty, .row-rate', function() {
+
+                let tr = $(this).closest('tr');
+
+                let qty = parseFloat(tr.find('.row-qty').val()) || 0;
+                let rate = parseFloat(tr.find('.row-rate').val()) || 0;
+                // let taxPer = parseFloat(tr.find('select[name="Tax[]"]').val()) || 0;
+
+                let itemTotal = qty * rate;
+                // let taxValue = (itemTotal * taxPer) / 100;
+                // let total = itemTotal + taxValue;
+                let total = itemTotal;
+
+                // tr.find('.row-tax-value').val(taxValue.toFixed(2));
+                tr.find('.row-item-total').val(total.toFixed(2));
+
+                calculateSummary();
+            });
+
+            // =================== SUMMARY CALCULATION ===================
+            $(document).on('input change', '#DiscountAmount, #Shipping, #TaxPer', function(e) {
+                calculateSummary();
+            });
+
+            function calculateSummary() {
+
+                let subtotal = 0;
+                let taxPer = parseFloat($('#TaxPer').val()) || 0;
+                let total = 0;
+                let tax = 0;
+
+                $('table tbody tr').each(function() {
+                    let rowItemTotal = parseFloat($(this).find('.row-item-total').val()) || 0;
+                    subtotal += rowItemTotal;
+                });
+
+                $('#SubTotal').val(subtotal.toFixed(2));
+                let discount = parseFloat($('#DiscountAmount').val()) || 0;
+
+                total = subtotal - discount;
+                $('#Total').val(total.toFixed(2));
+
+                if(taxPer > 0)
+                {
+                    tax = (taxPer/100) * total;
+                }
+                $('#Tax').val(tax.toFixed(2));
+
+                let shipping = parseFloat($('#Shipping').val()) || 0;
+
+                let grandTotal = total + shipping + tax;
+                $('#GrandTotal').val(grandTotal.toFixed(2));
+            }
+
+            calculateSummary();
+
+
+            // =================== ADD NEW EMPTY ROW ===================
+            $("#addRow").on("click", function() {
+
+                let newRow = `
+                <tr class="p-3">
+                    <td class="p-1"><input class="case" type="checkbox" /></td>
+
+                    <td>
+                        <select name="ItemID[]" class="form-control item-select select2" style="width:100%">
+                            <option value="">select</option>
+                            @foreach ($items as $item)
+                                <option value="{{ $item->ItemID }}">{{ $item->ItemName }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+
+                    <td>
+                        <input type="text" name="Description[]" class="row-description form-control" value="">
+                    </td>
+
+                     <td>
+                        <select class="form-select" name="LS[]">
+                            <option value="YES"> L/S YES</option>
+                            <option value="NO">LS / NO</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select name="UnitName[]" class="form-control unit-name-select select2" style="width:100%">
+                            <option value="">select</option>
+                            @foreach ($unit as $u)
+                                <option value="{{ $u->UnitName }}">{{ $u->UnitName }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+
+                    <td class="d-none">
+                        <input type="number" step="0.01" name="UnitQty[]" class="row-unit-qty form-control" value="">
+                    </td>
+
+                    <td>
+                        <input type="number" step="0.01" name="Qty[]" class="row-qty form-control" value="">
+                    </td>
+
+                    <td>
+                        <input type="number" step="0.01" name="Rate[]" class="row-rate form-control" value="">
+                    </td>
+
+                    
+
+                    <td>
+                        <input type="number" step="0.01" name="ItemTotal[]" class="row-item-total form-control" value="">
+                    </td>
+                </tr>
+                `;
+
+                $("table tbody").append(newRow);
+
+                $("table tbody tr:last").find("select.select2").select2();
+            });
+
+
+
+            // =================== DELETE SELECTED ROWS ===================
+            $("#deleteRow").on("click", function() {
+
+                $(".case:checked").closest("tr").remove();
+
+                calculateSummary();
+            });
 
         });
     </script>
-
-    <script src="{{ asset('assets/js/myapp.js') }}" type="text/javascript"></script>
-
-    <!-- END: Content-->
 
 @endsection

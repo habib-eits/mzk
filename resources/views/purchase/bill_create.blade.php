@@ -5,11 +5,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- <script src="{{ asset('assets/invoice/js/jquery-1.11.2.min.js') }}"></script>
-            <script src="{{ asset('assets/invoice/js/jquery-ui.min.js') }}"></script>
-            <script src="js/ajax.js"></script> -->
+                <script src="{{ asset('assets/invoice/js/jquery-ui.min.js') }}"></script>
+                <script src="js/ajax.js"></script> -->
     <!--
-            <script src="{{ asset('assets/invoice/js/bootstrap.min.js') }}"></script>
-            <script src="{{ asset('assets/invoice/js/bootstrap-datepicker.js') }}"></script>  -->
+                <script src="{{ asset('assets/invoice/js/bootstrap.min.js') }}"></script>
+                <script src="{{ asset('assets/invoice/js/bootstrap-datepicker.js') }}"></script>  -->
 
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -472,7 +472,7 @@
                                                 <th width="1%" class="d-none">UNIT/Qty</th>
                                                 <th width="4%">QUANTITY</th>
                                                 <th width="4%">RATE</th>
-                                              
+
                                                 <th width="4%">AMOUNT</th>
                                             </tr>
                                         </thead>
@@ -522,7 +522,7 @@
                                                         class="row-rate form-control" value="">
                                                 </td>
 
-                                              
+
 
                                                 <td>
                                                     <input type="number" step="0.01" name="ItemTotal[]"
@@ -588,7 +588,7 @@
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
                                                 <input type="number" step="0.01" class="form-control" id="SubTotal"
-                                                    name="SubTotal" readonly/>
+                                                    name="SubTotal" readonly />
 
 
                                             </div>
@@ -612,7 +612,7 @@
                                                 <span
                                                     class="input-group-text bg-light">{{ session::get('Currency') }}</span>
                                                 <input type="number" step="0.01" class="form-control" id="Total"
-                                                    name="Total" readonly/>
+                                                    name="Total" readonly />
                                             </div>
                                         </div>
 
@@ -622,7 +622,7 @@
                                                 <select id="TaxPer" name="TaxPer" class="form-control"
                                                     style="width:100%">
                                                     @foreach ($tax as $t)
-                                                        <option value="{{ $t->TaxPer }}">{{ $t->Description }}
+                                                        <option @selected($t->TaxPer == '5') value="{{ $t->TaxPer }}">{{ $t->Description }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -662,43 +662,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-
-
-
-                        </div>
-
-
-
-
-
-
-
-                        <!--  <div class='row'>
-                      <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
-                        <div class="well text-center">
-                      <h2>Back TO Tutorial: <a href="#"> Invoice System </a> </h2>
+                       
                     </div>
-                      </div>
-                    </div>   -->
-
-
-
-                    </div>
+                </form>
             </div>
         </div>
-
-
-
-
-
-        </form>
-
-
     </div>
-    </div>
-    </div>
-
+   
     <script>
         $(document).ready(function() {
 
@@ -745,9 +715,8 @@
                 total = subtotal - discount;
                 $('#Total').val(total.toFixed(2));
 
-                if(taxPer > 0)
-                {
-                    tax = (taxPer/100) * total;
+                if (taxPer > 0) {
+                    tax = (taxPer / 100) * total;
                 }
                 $('#Tax').val(tax.toFixed(2));
 

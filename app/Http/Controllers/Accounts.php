@@ -8579,6 +8579,8 @@ $pagetitle='Purchase Order';
             ->select(DB::raw('LPAD(IFNULL(MAX(right(InvoiceNo,5)),0)+1,5,0) as VHNO '))
             ->where('InvoiceType','PO')->get();
 
+           
+
  
  
         $tax = DB::table('tax')->where('Section', 'SaleOrder')->get();
@@ -8603,23 +8605,20 @@ $pagetitle='Purchase Order';
             'BranchID' => $request->input('BranchID'),
             'SupplierID' => $request->input('SupplierID'),
             'JobID' => $request->input('JobID'),
-             'ReferenceNo' => $request->input('ReferenceNo'),
+            'ReferenceNo' => $request->input('ReferenceNo'),
             'InvoiceType' => 'PO',
             'Date' => $request->input('Date'),
             'DueDate' => $request->input('DueDate'),
-             'SubTotal' => $request->input('SubTotal'),
-            'DiscountAmount' => $request->input('DiscountAmount'),
-            'DiscountPer' => $request->input('DiscountPer'),
-
-            'TaxType' => $request->input('TaxType'),
-            'TaxPer' => $request->input('grandtotaltax') == 0 ? 0 : 5,
-            'Tax' => $request->input('grandtotaltax'),
-            'Shipping' => $request->input('Shipping'),
-            'Total' => $request->input('Total'),
-            'GrandTotal' => $request->input('Grandtotal'),
-            'CustomerNotes' => $request->input('CustomerNotes'),
-            'DescriptionNotes' => $request->input('DescriptionNotes'),
-            'UserID' => Session::get('UserID'),
+            'SubTotal' => $request->SubTotal,
+            'DiscountAmount' => $request->DiscountAmount,
+            'Total' => $request->Total,
+            'TaxPer' => $request->TaxPer,
+            'Tax' => $request->Tax,
+            'Shipping' => $request->Shipping,
+            'GrandTotal' => $request->GrandTotal,
+            'CustomerNotes' => $request->CustomerNotes,
+            'DescriptionNotes' => $request->DescriptionNotes,
+            'UserID' => session::get('UserID'),
  
         );
         $InvoiceMasterID = DB::table('invoice_master')->insertGetId($invoice_mst);
@@ -8627,28 +8626,19 @@ $pagetitle='Purchase Order';
         //  start for item array from invoice
         for ($i = 0; $i < count($request->ItemID); $i++) {
             $invoice_det = array(
-                'InvoiceMasterID' =>  $InvoiceMasterID,
-                'InvoiceNo' => $request->input('InvoiceNo'),
-                'Date' => $request->input('Date'),
+                'InvoiceMasterID' => $InvoiceMasterID,
+                'InvoiceNo' => $request->InvoiceNo,
                 'ItemID' => $request->ItemID[$i],
                 'Description' => $request->Description[$i],
-                 'TaxPer' => $request->Tax[$i],
-                 'Tax' => $request->TaxVal[$i],
+                'PartyID' => $request->input('PartyID'),
+                'UnitName' => $request->UnitName[$i],
                 'LS' => $request->LS[$i],
                 'Qty' => $request->Qty[$i],
-                'Rate' => $request->Price[$i],
+                'Rate' => $request->Rate[$i],
+                'Description' => $request->Description[$i],
+                'TaxPer' => 0,
+                'Tax' => 0,
                 'Total' => $request->ItemTotal[$i],
-                // 'Discount' => $request->Discount[$i],
-                // 'DiscountType' => $request->DiscountType[$i],
-                'Gross' => $request->Gross[$i],
-                // 'DiscountAmountItem' => $request->DiscountAmountItem[$i],
-
-                 'TaxPer' => $request->Tax[$i],
-                 'Tax' => $request->TaxVal[$i],
-
-
-                'UnitName' => $request->UnitName[$i],
-                'UnitQty' => $request->UnitQty[$i],
             );
 
             $id = DB::table('invoice_detail')->insertGetId($invoice_det);
@@ -8712,19 +8702,16 @@ $pagetitle='Purchase Order';
             'InvoiceType' => 'PO',
             'Date' => $request->input('Date'),
             'DueDate' => $request->input('DueDate'),
-             'SubTotal' => $request->input('SubTotal'),
-            'DiscountAmount' => $request->input('DiscountAmount'),
-            'DiscountPer' => $request->input('DiscountPer'),
-
-            'TaxType' => $request->input('TaxType'),
-            'TaxPer' => $request->input('grandtotaltax') == 0 ? 0 : 5,
-            'Tax' => $request->input('grandtotaltax'),
-            'Shipping' => $request->input('Shipping'),
-            'Total' => $request->input('Total'),
-            'GrandTotal' => $request->input('Grandtotal'),
-            'CustomerNotes' => $request->input('CustomerNotes'),
-            'DescriptionNotes' => $request->input('DescriptionNotes'),
-            'UserID' => Session::get('UserID'),
+             'SubTotal' => $request->SubTotal,
+            'DiscountAmount' => $request->DiscountAmount,
+            'Total' => $request->Total,
+            'TaxPer' => $request->TaxPer,
+            'Tax' => $request->Tax,
+            'Shipping' => $request->Shipping,
+            'GrandTotal' => $request->GrandTotal,
+            'CustomerNotes' => $request->CustomerNotes,
+            'DescriptionNotes' => $request->DescriptionNotes,
+            'UserID' => session::get('UserID'),
 
         );
 
@@ -8737,32 +8724,23 @@ $pagetitle='Purchase Order';
          $id2 = DB::table('invoice_detail')->where('InvoiceMasterID', $request->InvoiceMasterID)->delete();
         ////////
 
-        
+         $InvoiceMasterID = $request->InvoiceMasterID;
 
         for ($i = 0; $i < count($request->ItemID); $i++) {
             $purchase_det = array(
-           'InvoiceMasterID' =>  $request->InvoiceMasterID,
-                'InvoiceNo' => $request->input('InvoiceNo'),
-                'Date' => $request->input('Date'),
+                'InvoiceMasterID' => $InvoiceMasterID,
+                'InvoiceNo' => $request->InvoiceNo,
                 'ItemID' => $request->ItemID[$i],
                 'Description' => $request->Description[$i],
-                 'TaxPer' => $request->Tax[$i],
-                 'Tax' => $request->TaxVal[$i],
+                'PartyID' => $request->input('PartyID'),
+                'UnitName' => $request->UnitName[$i],
                 'LS' => $request->LS[$i],
                 'Qty' => $request->Qty[$i],
-                'Rate' => $request->Price[$i],
+                'Rate' => $request->Rate[$i],
+                'Description' => $request->Description[$i],
+                'TaxPer' => 0,
+                'Tax' => 0,
                 'Total' => $request->ItemTotal[$i],
-                // 'Discount' => $request->Discount[$i],
-                // 'DiscountType' => $request->DiscountType[$i],
-                'Gross' => $request->Gross[$i],
-                // 'DiscountAmountItem' => $request->DiscountAmountItem[$i],
-
-                 'TaxPer' => $request->Tax[$i],
-                 'Tax' => $request->TaxVal[$i],
-
-
-                'UnitName' => $request->UnitName[$i],
-                'UnitQty' => $request->UnitQty[$i],
             );
 
 

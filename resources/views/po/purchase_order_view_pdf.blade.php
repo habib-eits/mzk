@@ -418,36 +418,12 @@
 
                 <tr valign="top">
                     <td height="13px" style="border-right: 1px solid black; border-left: 1px solid black;"></td>
-                    <td
-                        style="border-right: 1px solid black; border-left: 1px solid black; padding-top: 25px; padding-bottom: 25px;">
-                        @if ($value->ItemName == 'Heading')
-                            @php
-                                echo '<Br>';
-                                $lines = explode("\n", $value->Description);
-
-                                // Remove empty lines (optional)
-                                $lines = array_filter(array_map('trim', $lines));
-                            @endphp
-
-
-                            @foreach ($lines as $line)
-                                <u> <strong>
-                                        <li
-                                            style="line-height:0.1%; margin-bottom: 0px; margin-left: 0px;list-style-type: none; ">
-                                            {{ $line }}</li>
-                                    </strong></u>
-                            @endforeach
-
-                            <div style="padding-top: 25px;">
-                                ----
-                            </div>
-                        @else
-                            <li
-                                style="line-height:0.1%; margin-bottom: 0px; margin-left: 0px;list-style-type: afar; list-style-position: inside;padding-left: 20px;">
-                                {{ $value->ItemName . ' ' . $value->Description }}</li>
-                        @endif
-
+                    <td>
+                        {{ $value->ItemName . ' ' . $value->Description }}
                     </td>
+                       
+
+                   
 
                     <td
                         style="border-right: 1px solid black; border-left: 1px solid black; text-align: center; line-height:0.1%; padding-top: 25px; padding-bottom: 25px;">
@@ -479,12 +455,7 @@
                     <div style="padding-top: 10px;"><strong>In words </strong>:
                         <em>{{ ucwords(convert_number_to_words($invoice_master[0]->GrandTotal)) }} only/-</em>
                     </div>
-
-
-
-
                 </td>
-
             </tr>
         </tfoot>
     </table>
@@ -493,82 +464,61 @@
 
 
         <tbody>
-            <tr>
-                <td width="50%">
-                    <div class="customer-notes"><strong><u>
-                                {{-- <h2>GENERAL TERM & CONDITIONS:</h2> --}}
-                            </u></strong><br><br>
-                        <?php echo $invoice_master[0]->CustomerNotes; ?>
-                    </div>
-                </td>
-                <td>
-                    <table class="noborder" width="100%" style="float: right; margin-top: 20px;">
+            <tr class="no-borders">
+                  <td colspan="3" class="no-borders">
+                  <div class="customer-notes"><strong>Customer Notes: </strong>{{$invoice_master[0]->CustomerNotes}}. </div>                    
+                  <div class="customer-notes"><strong>Description Notes: </strong>{{$invoice_master[0]->DescriptionNotes}}. </div>
+
+                  <div style="padding-top: 10px;"><strong>In words </strong>: <em>{{ucwords(convert_number_to_words($invoice_master[0]->GrandTotal))}} only/-</em></div>
+
+                        </td>
+                <td class="no-borders" colspan="3">
+                    <table class="totals">
                         <tfoot>
-                            <tr class="cart_subtotal">
-                                <td class="no-borders"></td>
-                                <th class="description">Subtotal</th>
-                                <td class="price"><span class="totals-price"><span class="amount">
-                                            {{ number_format($invoice_master[0]->SubTotal, 2) }}</span></span>
-                                </td>
-                            </tr>
-                            <tr class="order_total">
-                                <td class="no-borders"></td>
-                                <th class="description">Dis {{ $invoice_master[0]->DiscountPer }}%</th>
-                                <td class="price"><span class="totals-price"><span
-                                            class="amount">{{ number_format($invoice_master[0]->DiscountAmount, 2) }}</span></span>
-                                </td>
-                            </tr>
-                            <tr class="order_total">
-                                <td class="no-borders"></td>
-                                <th class="description">Total</th>
-                                <td class="price"><span class="totals-price"><span
-                                            class="amount">{{ number_format($invoice_master[0]->Total, 2) }}</span></span>
-                                </td>
-                            </tr>
-                            <!--    <tr class="order_total">
-                                <td class="no-borders"></td>
-                                <th class="description">Tax @ {{ $invoice_master[0]->TaxPer }} %</th>
-                                <td class="price"><span class="totals-price"><span
-                                            class="amount">{{ number_format($invoice_master[0]->Tax, 2) }}</span></span></td>
-                            </tr> -->
-                            <!--    <tr class="order_total">
-                                <td class="no-borders"></td>
-                                <th class="description">Shipping</th>
-                                <td class="price"><span class="totals-price"><span
-                                            class="amount">{{ number_format($invoice_master[0]->Shipping, 2) }}</span></span>
-                                </td>
-                            </tr> -->
+                          <tr class="cart_subtotal">
+                              <td class="no-borders"></td>
+                              <th class="description">Subtotal</th>
+                              <td class="price"><span class="totals-price"><span class="amount"> {{number_format($invoice_master[0]->SubTotal)}}</span></span></td>
+                          </tr>
+                           @if($invoice_master[0]->DiscountAmount > 0)
+                          <tr class="order_total">
+                              <td class="no-borders"></td>
+                              <th class="description">Discount</th>
+                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->DiscountAmount,2)}}</span></span></td>
+                          </tr>
 
                             <tr class="order_total">
-                                <td class="no-borders"></td>
-                                <th class="description">Tax <span
-                                        style="font-size: 10px;">({{ substr($invoice_master[0]->TaxType, 3, 10) }})</span>
-                                </th>
-                                <td class="price"><span class="totals-price"><span
-                                            class="amount">{{ number_format($invoice_master[0]->Tax, 2) }}</span></span>
-                                </td>
-                            </tr>
+                              <td class="no-borders"></td>
+                              <th class="description">Total</th>
+                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->Total,2)}}</span></span></td>
+                          </tr>
+                          
+                          @endif
 
-
-                            <!--       <tr class="order_total d-none">
-                                <td class="no-borders"></td>
-                                <th class="description">Shipping</th>
-                                <td class="price"><span class="totals-price"><span
-                                            class="amount">{{ number_format($invoice_master[0]->Shipping, 2) }}</span></span>
-                                </td>
-                            </tr> -->
-
-
-                            <tr class="order_total">
-                                <td class="no-borders"></td>
-                                <th class="description">Grand Total</th>
-                                <td class="price"><span class="totals-price"><span
-                                            class="amount">{{ number_format($invoice_master[0]->GrandTotal, 2) }}</span></span>
-                                </td>
-                            </tr>
-
+                          
+                          <tr class="order_total">
+                              <td class="no-borders"></td>
+                              <th class="description">Tax @ {{$invoice_master[0]->TaxPer}} %</th>
+                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->Tax,2)}}</span></span></td>
+                          </tr>
+                        
+                         
+                          @if($invoice_master[0]->Shipping > 0)
+                          <tr class="order_total">
+                              <td class="no-borders"></td>
+                              <th class="description">Shipping</th>
+                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->Shipping,2)}}</span></span></td>
+                          </tr>
+                          @endif
+                       
+                          <tr class="order_total">
+                              <td class="no-borders"></td>
+                              <th class="description">Grand Total</th>
+                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->GrandTotal,2)}}</span></span></td>
+                          </tr>  
+                        
                         </tfoot>
-                    </table>
+                    </table>    
                 </td>
             </tr>
         </tbody>
