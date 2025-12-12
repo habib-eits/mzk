@@ -111,7 +111,7 @@
                                                     <td class="text-center">{{ dateformatman($value->Date) }}</td>
                                                     <td class="text-center">{{ $value->VHNO }}</td>
                                                     <td class="text-center">{{ $value->ChartOfAccountName }}</td>
-                                                    <td>{{ $value->Narration }}</td>
+                                                    <td class="text-wrap">{{ $value->Narration }}</td>
                                                     <td class="text-end">
                                                         <div> {{ $value->Dr == 0 ? '' : number_format($value->Dr, 2) }}
                                                         </div>
@@ -143,7 +143,7 @@
 
 
                                                     </td>
-                                                    <td class="text-center">{{ $value->BankReconcile }}</td>
+                                                    <td class="text-center">{{ $value->ReconcileDate ? date('d-m-Y', strtotime($value->ReconcileDate)) : ''}}</td>
                                                     <td class="text-center"><a 
                                                             href="{{ URL('/ReconcileUpdate/YES') }}/{{ $value->JournalID }}">YES</a>
                                                         / <a 

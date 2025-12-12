@@ -9103,12 +9103,20 @@ $pagetitle='Purchase Order';
     public function ReconcileUpdate($status, $id)
     {
 
+        if($status == 'YES'){
+             DB::table('journal')->where('JournalID', $id)->update([
+            'BankReconcile' => $status,
+            'ReconcileDate' => date('Y-m-d'),
+        ]);
+        }else{
+             DB::table('journal')->where('JournalID', $id)->update([
+            'BankReconcile' => $status,
+            'ReconcileDate' => null,
+        ]);
 
-        $data = array('BankReconcile' => $status);
+        }
 
-
-
-        $id = DB::table('journal')->where('JournalID', $id)->update($data);
+       
          return back()->with('success', 'Updated successfully!');
 
 
