@@ -4018,35 +4018,61 @@ class Accounts extends Controller
         
 
 
-            $output_vat = DB::table('v_invoice_both')
-                ->where('InvoiceType', 'invoice')
-                ->where('PartyID', '<>', 'null')
-                ->whereBetween('Date', array($request->StartDate, $request->EndDate))
-                ->orderBy('InvoiceMasterID')
-                ->orderBy('Date')
-                ->get();
-     
-
-
-          
-            $input_vat = DB::table('v_invoice_both')
-                ->where('SupplierID', '<>', 'null')
-
-                ->whereBetween('Date', array($request->StartDate, $request->EndDate))
-                ->orderBy('InvoiceMasterID')
-                ->orderBy('Date')
-                ->get();
-
-                 $expense_vat = DB::table('v_expense_detail')
+            $invoices = DB::table('invoice_master')
+            ->select('InvoiceMasterID','PartyID','Date','InvoiceNo','ReferenceNo','Total','Tax','GrandTotal')
+            ->where('InvoiceType', 'invoice')
             ->whereBetween('Date', array($request->StartDate, $request->EndDate))
+            ->leftJoin('Party','invoice_master.PartyID','=','Party.PartyID')
+            ->select('invoice_master.*', 'Party.PartyName as PartyName')
+            ->orderBy('InvoiceMasterID')
+            ->orderBy('Date')
+            ->get();
 
+            $purchases = DB::table('invoice_master')
+            ->select('InvoiceMasterID','SupplierID','Date','InvoiceNo','ReferenceNo','Total','Tax','GrandTotal')
+            ->where('InvoiceType', 'Bill')
+            ->whereBetween('Date', array($request->StartDate, $request->EndDate))
+            ->leftJoin('Party','invoice_master.SupplierID','=','Party.PartyID')
+            ->select('invoice_master.*', 'Party.PartyName as PartyName')
+            ->orderBy('InvoiceMasterID')
+            ->orderBy('Date')
+            ->get();
+
+           
+            $expenses = DB::table('v_expense_detail')
+            ->whereBetween('Date', array($request->StartDate, $request->EndDate))
                 ->where('Tax', '>', 0)
                 ->orderBy('ExpenseMasterID')
                 ->orderBy('Date')
                 ->get();
-       
 
-        return View('tax_overall_report1', compact('output_vat','expense_vat','input_vat', 'pagetitle', 'company'));
+
+        $data = [
+            'invoice' => [
+                'Total' => $invoices->sum('Total'),
+                'Tax' => $invoices->sum('Tax'),
+                'GrandTotal' => $invoices->sum('GrandTotal'),
+            ],
+            'purchase' => [
+                'Total' => $purchases->sum('Total'),
+                'Tax' => $purchases->sum('Tax'),
+                'GrandTotal' => $purchases->sum('GrandTotal'),
+            ],
+            'expense' => [
+                'Total' => $expenses->sum('Amount') - $expenses->sum('Tax'),
+                'Tax' => $expenses->sum('Tax'),
+                'GrandTotal' => $expenses->sum('Amount'),
+            ],
+        ]; 
+
+
+        $summary = [
+            'output' => $data['invoice']['Tax'],
+            'input' => $data['purchase']['Tax'] + $data['expense']['Tax'],
+            'payable' => $data['invoice']['Tax'] - ($data['purchase']['Tax'] + $data['expense']['Tax']),
+        ];
+
+        return View('tax_overall_report1', compact('invoices','purchases','expenses','summary','pagetitle', 'company','data'));
         //return $pdf->download('pdfview.pdf');
         // $pdf->setpaper('A4', 'portiate');
 
@@ -9016,15 +9042,17 @@ $pagetitle='Purchase Order';
 
     public function ReconcileReport()
     {
-        session::put('menu', 'GeneralLedger');
+        session::put('menu', 'Bank Reconcilation');
         $pagetitle = 'General Ledger';
         $chartofaccount = DB::table('chartofaccount')
-            ->whereIn('Category', ['CARD','CASH','BANK'])
+            ->whereIn('Category', ['CARD','BANK'])
             ->get();
         return view('reconcile_report', compact('pagetitle', 'chartofaccount'));
     }
     public function ReconcileReport1(request $request)
     {
+
+        
         ///////////////////////USER RIGHT & CONTROL ///////////////////////////////////////////
         $allow = check_role(session::get('UserID'), 'General Ledger', 'View');
         if ($allow == 0) {
@@ -9033,51 +9061,37 @@ $pagetitle='Purchase Order';
         ////////////////////////////END SCRIPT ////////////////////////////////////////////////
         // dd($request->all());
 
-        session::put('menu', 'GeneralLedger');
-        $pagetitle = 'General Ledger';
+        session::put('menu', 'Bank Reconcilation');
+        $pagetitle = 'Bank Reconciliation';
 
+        $BankAccountIDs = DB::table('chartofaccount')
+            ->whereIn('Category', ['CARD','BANK'])
+            ->pluck('ChartOfAccountID');
 
+        
+        $ChartOfAccountIDs = $request->ChartOfAccountID != 0 
+        ? [$request->ChartOfAccountID]
+        : $BankAccountIDs;
+   
 
+         $sql = DB::table('journal')
+            ->select(DB::raw('sum(if(ISNULL(Dr),0,Dr)-if(ISNULL(Cr),0,Cr)) as Balance'))
+            ->whereIn('ChartOfAccountID',$ChartOfAccountIDs)
+            ->where('Date', '<', $request->StartDate)
+            ->get();
 
-        if ($request->ChartOfAccountID > 0) {
-            $sql = DB::table('journal')
-                ->select(DB::raw('sum(if(ISNULL(Dr),0,Dr)-if(ISNULL(Cr),0,Cr)) as Balance'))
-                // ->where('SupplierID',$request->SupplierID)
-                ->whereIn('ChartOfAccountID', array($request->ChartOfAccountID, $request->ChartOfAccountID1))
-                ->where('Date', '<', $request->StartDate)
-                // ->whereBetween('date',array($request->StartDate,$request->EndDate))
-                ->get();
-            $journal = DB::table('v_journal')
-                // ->where('SupplierID',$request->SupplierID)
-                ->whereBetween('Date', array($request->StartDate, $request->EndDate))
-                ->whereIn('ChartOfAccountID', array($request->ChartOfAccountID, $request->ChartOfAccountID1))
-                ->orderBy('Date', 'asc')
-                ->get();
-            $journal_summary = DB::table('journal')
-                ->select(DB::raw('sum(if(ISNULL(Dr),0,Dr)) as Dr'), DB::raw('sum(if(ISNULL(Cr),0,Cr)) as Cr'))
-                ->whereBetween('Date', array($request->StartDate, $request->EndDate))
-                ->whereIn('ChartOfAccountID', array($request->ChartOfAccountID, $request->ChartOfAccountID1))
-                ->get();
-        } else {
-            $sql = DB::table('journal')
-                ->select(DB::raw('sum(if(ISNULL(Dr),0,Dr)-if(ISNULL(Cr),0,Cr)) as Balance'))
-                // ->where('SupplierID',$request->SupplierID)
-                // ->whereIn('ChartOfAccountID',[110101,110250,110201,110101])
-                ->where('Date', '<', $request->StartDate)
-                // ->whereBetween('date',array($request->StartDate,$request->EndDate))
-                ->get();
-            $journal = DB::table('v_journal')
-                // ->where('SupplierID',$request->SupplierID)
-                ->whereBetween('Date', array($request->StartDate, $request->EndDate))
-                // ->whereIn('ChartOfAccountID',[110101,110250,110201,110101])
-                ->orderBy('Date', 'asc')
-                ->get();
-            $journal_summary = DB::table('journal')
-                ->select(DB::raw('sum(if(ISNULL(Dr),0,Dr)) as Dr'), DB::raw('sum(if(ISNULL(Cr),0,Cr)) as Cr'))
-                ->whereBetween('Date', array($request->StartDate, $request->EndDate))
-                // ->whereIn('ChartOfAccountID',[110101,110250,110201,110101])
-                ->get();
-        }
+         $journal = DB::table('v_journal')
+            ->whereBetween('Date', array($request->StartDate, $request->EndDate))
+            ->whereIn('ChartOfAccountID',$ChartOfAccountIDs)
+            ->orderBy('Date', 'asc')
+            ->get();
+        
+        $journal_summary = DB::table('journal')
+            ->select(DB::raw('sum(if(ISNULL(Dr),0,Dr)) as Dr'), DB::raw('sum(if(ISNULL(Cr),0,Cr)) as Cr'))
+            ->whereBetween('Date', array($request->StartDate, $request->EndDate))
+            ->whereIn('ChartOfAccountID',$ChartOfAccountIDs)
+            ->get();
+
 
         $sql[0]->Balance = ($sql[0]->Balance == null) ? '0' :  $sql[0]->Balance;
 
@@ -9095,9 +9109,9 @@ $pagetitle='Purchase Order';
 
 
         $id = DB::table('journal')->where('JournalID', $id)->update($data);
+         return back()->with('success', 'Updated successfully!');
 
 
-        return 'Update Done';
     }
 
 

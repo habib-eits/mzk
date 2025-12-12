@@ -598,7 +598,7 @@ Route::get('/JobCompletionReport/{jobid}',[JobController::class,'JobCompletionRe
     Route::get('/kupload/', [Accounts::class, 'kupload']);
 
     Route::get('/ReconcileReport/', [Accounts::class, 'ReconcileReport']);
-    Route::post('/ReconcileReport1/', [Accounts::class, 'ReconcileReport1']);
+    Route::get('/ReconcileReport1/', [Accounts::class, 'ReconcileReport1']);
 
 
     Route::get('/ReconcileUpdate/{status}/{id}', [Accounts::class, 'ReconcileUpdate']);

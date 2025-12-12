@@ -41,7 +41,7 @@
 
             
             <?php 
-            $SubTotal=0;
+            $Total=0;
             $Tax=0;
             $GrandTotal=0;
              ?>
@@ -74,7 +74,7 @@
     </tr>
    @foreach ($invoice_master as $key => $value)
     
-   <?php  $SubTotal = $SubTotal + $value->SubTotal;
+   <?php  $Total = $Total + $value->Total;
     $Tax = $Tax + $value->Tax;
     $GrandTotal = $GrandTotal + $value->GrandTotal;
 
@@ -85,7 +85,7 @@
       <td><div align="center">{{$value->InvoiceNo}}</div></td>
       <td><div align="center">{{$value->ReferenceNo}}</div></td>
       <td>{{$value->SupplierName}}</td>
-       <td><div align="center">{{number_format($value->SubTotal,2)}}</div></td>
+       <td><div align="center">{{number_format($value->Total,2)}}</div></td>
       <td><div align="right">{{number_format($value->Tax,2)}}</div></td>
       <td><div align="right">{{number_format($value->GrandTotal,2)}}</div></td>
       
@@ -96,7 +96,7 @@
       <td></td>
       <td><strong> </strong></td>
       <td><strong>Total</strong></td>
-      <td><div align="center"><strong>{{number_format($SubTotal,2)}}</strong></div></td>
+      <td><div align="center"><strong>{{number_format($Total,2)}}</strong></div></td>
       <td><div align="right"><strong>{{number_format($Tax,2)}}</strong></div></td>
       <td><div align="right"><strong>{{number_format($GrandTotal,2)}}</strong></div></td>
       

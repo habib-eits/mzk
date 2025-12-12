@@ -44,6 +44,7 @@
                 ?>
                 <div class="card">
                     <div class="card-body">
+                       
                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td colspan="2">
@@ -67,203 +68,121 @@
                         </table>
                         <br>
                         <h5>VAT on Sales</h5>
-                        <table class="table table-bordered table-sm">
-                            <tr class="bg-light">
-                                <td width="10%" bgcolor="#CCCCCC">
-                                    <div align="center"><strong>DATE</strong></div>
-                                </td>
-                                <td width="10%" bgcolor="#CCCCCC">
-                                    <div align="center"><strong>INVOICE#</strong></div>
-                                </td>
-                                <td width="8%" bgcolor="#CCCCCC">
-                                    <div align="center"><strong>REF # </strong></div>
-                                </td>
-                                <td width="30%" bgcolor="#CCCCCC">
-                                    <div align="center"><strong>CUSTOMER/SUPPLIER</strong></div>
-                                </td>
-
-                                <td width="8%" bgcolor="#CCCCCC">
-                                    <div align="center"><strong>SUBTOTAL</strong></div>
-                                </td>
-                                <td width="9%" bgcolor="#CCCCCC">
-                                    <div align="right"><strong>TAX </strong></div>
-                                </td>
-                                <td width="9%" bgcolor="#CCCCCC">
-                                    <div align="right"><strong>GRAND TOTAL </strong></div>
-                                </td>
-
-                            </tr>
-                            @foreach ($output_vat as $key => $value)
-                                <?php $SubTotal = $SubTotal + $value->SubTotal;
-                                $Tax = $Tax + $value->Tax;
-                                $GrandTotal = $GrandTotal + $value->GrandTotal;
-                                
-                                ?>
-
-                                <tr class="{{ $value->PartyID != null ? 'text-success' : 'text-danger' }}">
-                                    <td>
-                                        <div align="center">{{ dateformatman($value->Date) }}</div>
-                                    </td>
-                                    <td>
-                                        <div align="center">{{ $value->InvoiceNo }}</div>
-                                    </td>
-                                    <td>
-                                        <div align="center">{{ $value->ReferenceNo }}</div>
-                                    </td>
-                                    <td>{{ $value->PartyID != null ? $value->PartyName : $value->SupplierName }}</td>
-                                    <td>
-                                        <div align="center">{{ number_format($value->SubTotal, 2) }}</div>
-                                    </td>
-                                    <td>
-                                        <div align="right">{{ number_format($value->Tax, 2) }}</div>
-                                    </td>
-                                    <td>
-                                        <div align="right">{{ number_format($value->GrandTotal, 2) }}</div>
-                                    </td>
-
+                         <table  class="table table-bordered table-sm">
+                            <thead>
+                                <tr style="background-color:#CCCCCC">
+                                    <th>Date</th>
+                                    <th>Invoice</th>
+                                    <th>Ref#</th>
+                                    <th>Customer</th>
+                                    <th class="text-end">Amount</th>
+                                    <th class="text-end">Tax</th>
+                                    <th class="text-end">Grand Total</th>
                                 </tr>
-                            @endforeach
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td><strong></strong></td>
-                                <td><strong>Total</strong></td>
-                                <td>
-                                    <div align="center">{{ number_format($SubTotal, 2) }}</div>
-                                </td>
-                                <td><span class="badge bg-info  " style="float: left;"> A1 </span>
-                                    <div align="right">{{ number_format($Tax, 2) }}</div>
-                                </td>
-                                <td>
-                                    <div align="right">{{ number_format($GrandTotal, 2) }}</div>
-                                </td>
-
-                            </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($invoices as $value)
+                                <tr>
+                                    <td>{{ dateformatman($value->Date) }}</td>
+                                    <td>{{ $value->InvoiceNo }}</td>
+                                    <td>{{ $value->ReferenceNo }}</td>
+                                    <td>{{ $value->PartyName }}</td>
+                                    <td class="text-end">{{ $value->Total }}</td>
+                                    <td class="text-end">{{ $value->Tax }}</td>
+                                    <td class="text-end">{{ $value->GrandTotal }}</td>
+                                    
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <th colspan="4">Total</th>
+                                    <th class="text-end">{{ $data['invoice']['Total'] }}</th>
+                                    <th class="text-end">{{ $data['invoice']['Tax'] }}</th>
+                                    <th class="text-end">{{ $data['invoice']['GrandTotal'] }}</th>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
 
-
-                <?php
-                $inputSubTotal = 0;
-                $inputTax = 0;
-                $inputGrandTotal = 0;
-                ?>
                 <div class="card">
                     <div class="card-body">
-
-                        <br>
-                        <h5>VAT on Expenses</h5>
-                        <table class="table table-bordered table-sm">
-                            <tr class="bg-light">
-                                <td width="10%" bgcolor="#CCCCCC">
-                                    <div align="center"><strong>DATE</strong></div>
-                                </td>
-                                <td width="10%" bgcolor="#CCCCCC">
-                                    <div align="center"><strong>INVOICE#</strong></div>
-                                </td>
-                                <td width="8%" bgcolor="#CCCCCC">
-                                    <div align="center"><strong>REF # </strong></div>
-                                </td>
-                                <td width="30%" bgcolor="#CCCCCC">
-                                    <div align="center"><strong>CUSTOMER/SUPPLIER</strong></div>
-                                </td>
-
-                                <td width="8%" bgcolor="#CCCCCC">
-                                    <div align="center"><strong>SUBTOTAL</strong></div>
-                                </td>
-                                <td width="9%" bgcolor="#CCCCCC">
-                                    <div align="right"><strong>TAX </strong></div>
-                                </td>
-                                <td width="9%" bgcolor="#CCCCCC">
-                                    <div align="right"><strong>GRAND TOTAL </strong></div>
-                                </td>
-
-                            </tr>
-                            @foreach ($input_vat as $key => $value)
-                                <?php $inputSubTotal = $inputSubTotal + $value->Total;
-                                $inputTax = $inputTax + $value->Tax;
-                                $inputGrandTotal = $inputGrandTotal + $value->GrandTotal;
-                                
-                                ?>
-
-                                <tr class="{{ $value->PartyID != null ? 'text-success' : 'text-danger' }}">
-                                    <td>
-                                        <div align="center">{{ dateformatman($value->Date) }}</div>
-                                    </td>
-                                    <td>
-                                        <div align="center">{{ $value->InvoiceNo }}</div>
-                                    </td>
-                                    <td>
-                                        <div align="center">{{ $value->ReferenceNo }}</div>
-                                    </td>
-                                    <td>{{ $value->PartyID != null ? $value->PartyName : $value->SupplierName }}</td>
-                                    <td>
-                                        <div align="center">{{ number_format($value->Total, 2) }}</div>
-                                    </td>
-                                    <td>
-                                        <div align="right">{{ number_format($value->Tax, 2) }}</div>
-                                    </td>
-                                    <td>
-                                        <div align="right">{{ number_format($value->GrandTotal, 2) }}</div>
-                                    </td>
-
+                        <h5>VAT on Purchases</h5>
+                         <table  class="table table-bordered table-sm">
+                            <thead>
+                                <tr style="background-color:#CCCCCC">
+                                    <th>Date</th>
+                                    <th>Purchase</th>
+                                    <th>Ref#</th>
+                                    <th>Supplier</th>
+                                    <th class="text-end">Amount</th>
+                                    <th class="text-end">Tax</th>
+                                    <th class="text-end">Grand Total</th>
                                 </tr>
-                            @endforeach
-
-                            @foreach ($expense_vat as $key => $value)
-                                <?php $inputSubTotal = $inputSubTotal + $value->Amount;
-                                $inputTax = $inputTax + $value->Tax;
-                                $inputGrandTotal = $inputGrandTotal + $value->Amount;
-                                
-                                ?>
-
-                                <tr class="text-danger">
-                                    <td>
-                                        <div align="center">{{ dateformatman($value->Date) }}</div>
-                                    </td>
-                                    <td>
-                                        <div align="center">{{ $value->ExpenseNo }}</div>
-                                    </td>
-                                    <td>
-                                        <div align="center">{{ $value->ChartOfAccountName }}</div>
-                                    </td>
-                                    <td>{{ $value->SupplierName }}</td>
-                                    <td>
-                                        <div align="center">{{ number_format($value->Amount, 2) }}</div>
-                                    </td>
-                                    <td>
-                                        <div align="right">{{ number_format($value->Tax, 2) }}</div>
-                                    </td>
-                                    <td>
-                                        <div align="right">{{ number_format($value->Amount, 2) }}</div>
-                                    </td>
-
+                            </thead>
+                            <tbody>
+                                @foreach ($purchases as $value)
+                                <tr>
+                                    <td>{{ dateformatman($value->Date) }}</td>
+                                    <td>{{ $value->InvoiceNo }}</td>
+                                    <td>{{ $value->ReferenceNo }}</td>
+                                    <td>{{ $value->PartyName }}</td>
+                                    <td class="text-end">{{ $value->Total }}</td>
+                                    <td class="text-end">{{ $value->Tax }}</td>
+                                    <td class="text-end">{{ $value->GrandTotal }}</td>
+                                    
                                 </tr>
-                            @endforeach
-
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td><strong></strong></td>
-                                <td><strong>Total</strong></td>
-                                <td>
-                                    <div align="center">{{ number_format($inputSubTotal, 2) }}</div>
-                                </td>
-                                <td><span class="badge bg-info  " style="float: left;"> A2 </span>
-                                    <div align="right">{{ number_format($inputTax, 2) }}</div>
-                                </td>
-                                <td>
-                                    <div align="right">{{ number_format($inputGrandTotal, 2) }}</div>
-                                </td>
-
-                            </tr>
+                                @endforeach
+                                 <tr>
+                                    <th colspan="4">Total</th>
+                                    <th class="text-end">{{ $data['purchase']['Total'] }}</th>
+                                    <th class="text-end">{{ $data['purchase']['Tax'] }}</th>
+                                    <th class="text-end">{{ $data['purchase']['GrandTotal'] }}</th>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
 
 
-
+                <div class="card">
+                    <div class="card-body">
+                        <h5>VAT on Expenses</h5>
+                         <table  class="table table-bordered table-sm">
+                            <thead>
+                                <tr style="background-color:#CCCCCC">
+                                    <th>Date</th>
+                                    <th>Expense</th>
+                                    <th>Account</th>
+                                    <th>Supplier</th>
+                                    <th class="text-end">Amount</th>
+                                    <th class="text-end">Tax</th>
+                                    <th class="text-end">Grand Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($expenses as $value)
+                                <tr>
+                                    <td>{{ dateformatman($value->Date) }}</td>
+                                    <td>{{ $value->ExpenseNo }}</td>
+                                    <td>{{ $value->ChartOfAccountName }}</td>
+                                    <td>{{ $value->SupplierName }}</td>
+                                    <td class="text-end">{{ $value->Amount - $value->Tax }}</td>
+                                    <td class="text-end">{{ $value->Tax }}</td>
+                                    <td class="text-end">{{ $value->Amount }}</td>
+                                    
+                                </tr>
+                                @endforeach
+                                 <tr>
+                                    <th colspan="4">Total</th>
+                                    <th class="text-end">{{ $data['expense']['Total'] }}</th>
+                                    <th class="text-end">{{ $data['expense']['Tax'] }}</th>
+                                    <th class="text-end">{{ $data['expense']['GrandTotal'] }}</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
                 <div class="card">
                     <div class="card-body">
 
@@ -282,14 +201,14 @@
                             <tr>
                                 <td>1.</td>
                                 <td>Total value of due tax for the period <span class="badge bg-info  "> A1 </span></td>
-                                <td>{{ number_format($Tax, 2) }}</td>
+                                <td>{{ number_format($summary['output'], 2) }}</td>
                             </tr>
 
                             <tr>
                                 <td>2.</td>
                                 <td>Total value of recoverable tax for the period <span class="badge bg-info  "> A2 </span>
                                 </td>
-                                <td>{{ number_format($inputTax, 2) }}</td>
+                                <td>{{ number_format($summary['input'], 2) }}</td>
                             </tr>
 
 
@@ -298,7 +217,7 @@
                                 <td>Net VAT payable (or reclaimable) for the period <span class="badge bg-info  "> A3
                                     </span> = <span class="badge bg-info  "> A1 </span> - <span class="badge bg-info  ">
                                         A2 </span></td>
-                                <td>{{ number_format($Tax - $inputTax, 2) }}</td>
+                                <td>{{ number_format($summary['payable'], 2) }}</td>
                             </tr>
                         </table>
 
