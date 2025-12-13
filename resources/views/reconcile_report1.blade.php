@@ -148,7 +148,7 @@
                                                         $hasDate = !empty($value->ReconcileDate);
                                                     @endphp
 
-                                                    <td class="text-center">
+                                                    <td class="text-end">
                                                         <form method="POST"
                                                             action="{{ url('/ReconcileUpdate') }}"
                                                             style="display:inline-flex; align-items:center; gap:4px;">
@@ -161,11 +161,12 @@
                                                                 name="ReconcileDate"
                                                                 value="{{ $hasDate ? date('Y-m-d', strtotime($value->ReconcileDate)) : '' }}"
                                                                 style="width:130px;"
+                                                                class="text-end {{ $hasDate ? 'd-none' : '' }}"
                                                                 {{ $hasDate ? 'disabled' : 'required' }}>
 
                                                             <!-- YES Button -->
                                                             <button type="submit"
-                                                                    class="btn btn-primary btn-sm "
+                                                                    class="btn btn-primary btn-sm text-end"
                                                                     name="status"
                                                                     value="YES"
                                                                     {{ $hasDate ? 'disabled' : '' }}>
