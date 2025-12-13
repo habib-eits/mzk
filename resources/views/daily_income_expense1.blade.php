@@ -14,9 +14,9 @@
     <table width="100%" border="1" cellspacing="0" cellpadding="0">
     <tr>
       <td width="25" bgcolor="#CCCCCC"><strong>CH OF ACCOUNT </strong></td>
+      <td width="25" bgcolor="#CCCCCC"><strong>SUPPLIER</strong></td>
       <td width="25" bgcolor="#CCCCCC"><strong>DESCRIPTION</strong></td>
       <td width="25" bgcolor="#CCCCCC"><strong>INVOICE/REF</strong></td>
-      <td width="25" bgcolor="#CCCCCC"><strong>SUPPLIER</strong></td>
       <td width="25" bgcolor="#CCCCCC"><strong>DEBIT</strong></td>
     </tr>
 
@@ -28,17 +28,18 @@ $total_income = 0;
  ?>
 
     @foreach($journal_expense as $value )
-
+    
 <?php 
 
 $total_expense = $total_expense + $value->Cr;
-
+$supplierName = DB::table('party')->where('PartyID',$value->SupplierID)->pluck('PartyName')->first();
  ?>
     <tr>
       <td width="25">{{$value->ChartOfAccountName}}</td>
+      <td width="25">{{ $supplierName}}</td>
       <td width="25">{{$value->Narration}}</td>
       <td width="25">{{$value->VHNO}}</td>
-      <td width="25">{{$value->SupplierID}}</td>
+
       <td width="25"><div align="right">{{number_format($value->Cr,2)}}</div></td>
       
       
@@ -59,9 +60,9 @@ $total_expense = $total_expense + $value->Cr;
    
     <tr>
       <td width="25" bgcolor="#CCCCCC"><strong>CH OF ACCOUNT </strong></td>
+      <td width="25" bgcolor="#CCCCCC"><strong>PARTY</strong></td>
       <td width="25" bgcolor="#CCCCCC"><strong>DESCRIPTION</strong></td>
       <td width="25" bgcolor="#CCCCCC"><strong>INVOICE/REF</strong></td>
-      <td width="25" bgcolor="#CCCCCC"><strong>PARTY</strong></td>
       <td width="25" bgcolor="#CCCCCC"><strong>CREDIT</strong></td>
     </tr>
 
@@ -70,14 +71,17 @@ $total_expense = $total_expense + $value->Cr;
 <?php 
 
 $total_income = $total_income + $value->Dr;
+        $partyName = DB::table('party')->where('PartyID',$value->PartyID)->pluck('PartyName')->first();
 
  ?>
 
     <tr>
       <td width="25">{{$value->ChartOfAccountName}}</td>
+      <td width="25">{{$partyName}}</td>
       <td width="25">{{$value->Narration}}</td>
       <td width="25"> </td>
-      <td width="25">{{$value->PartyID}}</td>
+       @php
+      @endphp
       <td width="25"><div align="right">{{number_format($value->Dr,2)}}</div></td>
     </tr>
     @endforeach
