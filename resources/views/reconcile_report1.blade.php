@@ -144,11 +144,48 @@
 
                                                     </td>
                                                     <td class="text-center">{{ $value->ReconcileDate ? date('d-m-Y', strtotime($value->ReconcileDate)) : ''}}</td>
-                                                    <td class="text-center"><a 
-                                                            href="{{ URL('/ReconcileUpdate/YES') }}/{{ $value->JournalID }}">YES</a>
-                                                        / <a 
-                                                            href="{{ URL('/ReconcileUpdate/NO') }}/{{ $value->JournalID }}">NOT</a>
+                                                    @php
+                                                        $hasDate = !empty($value->ReconcileDate);
+                                                    @endphp
+
+                                                    <td class="text-center">
+                                                        <form method="POST"
+                                                            action="{{ url('/ReconcileUpdate') }}"
+                                                            style="display:inline-flex; align-items:center; gap:4px;">
+                                                            @csrf
+
+                                                            <input type="hidden" name="JournalID" value="{{ $value->JournalID }}">
+
+                                                            <!-- Reconcile Date -->
+                                                            <input type="date"
+                                                                name="ReconcileDate"
+                                                                value="{{ $hasDate ? date('Y-m-d', strtotime($value->ReconcileDate)) : '' }}"
+                                                                style="width:130px;"
+                                                                {{ $hasDate ? 'disabled' : 'required' }}>
+
+                                                            <!-- YES Button -->
+                                                            <button type="submit"
+                                                                    class="btn btn-primary btn-sm "
+                                                                    name="status"
+                                                                    value="YES"
+                                                                    {{ $hasDate ? 'disabled' : '' }}>
+                                                                YES
+                                                            </button>
+
+                                                            <!-- Separator -->
+                                                            <span>/</span>
+
+                                                            <!-- NO Button -->
+                                                            <button type="submit"
+                                                                    class="btn btn-warning btn-sm"
+                                                                    name="status"
+                                                                    value="NO"
+                                                                     {{ $hasDate ? '' : 'disabled' }}>
+                                                                NO
+                                                            </button>
+                                                        </form>
                                                     </td>
+
                                                 </tr>
                                             @endforeach
                                             <tr class="table-active">

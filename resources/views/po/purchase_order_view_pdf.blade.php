@@ -421,26 +421,26 @@
                     <td>
                         {{ $value->ItemName . ' ' . $value->Description }}
                     </td>
-                       
 
-                   
+
+
 
                     <td
                         style="border-right: 1px solid black; border-left: 1px solid black; text-align: center; line-height:0.1%; padding-top: 25px; padding-bottom: 25px;">
                         @if ($value->ItemName != 'Heading')
-                            {{ $value->LS == 'NO' ? number_format($value->Qty, 0) . ' ' . $value->UnitName : 'L/S' }}
+                            {{ $value->LS == 'NO' ? number_format($value->Qty, 2) . ' ' . $value->UnitName : 'L/S' }}
                         @endif
                     </td>
                     <td
                         style="line-height:0.1%;border-right: 1px solid black; border-left: 1px solid black; text-align: center; padding-top: 25px; padding-bottom: 25px;">
                         @if ($value->ItemName != 'Heading')
-                            {{ number_format($value->Rate) }}
+                            {{ number_format($value->Rate, 2) }}
                         @endif
                     </td>
                     <td
                         style="line-height:0.1%;border-right: 1px solid black; border-left: 1px solid black;text-align: center; padding-top: 25px; padding-bottom: 25px;">
                         @if ($value->ItemName != 'Heading')
-                            {{ number_format($value->Total) }}
+                            {{ number_format($value->Total, 2) }}
                         @endif
                     </td>
                 </tr>
@@ -453,76 +453,112 @@
             <tr class="no-borders" style="height:30px">
                 <td colspan="5" style="border: 1px solid black;">
                     <div style="padding-top: 10px;"><strong>In words </strong>:
-                        <em>{{ ucwords(convert_number_to_words($invoice_master[0]->GrandTotal)) }} only/-</em>
+                        <em>{{ ucwords(convert_number_to_words($invoice_master[0]->GrandTotal, 2)) }} only/-</em>
                     </div>
                 </td>
             </tr>
         </tfoot>
     </table>
 
-    <table width="100%">
-
-
+    <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse; table-layout:fixed;">
         <tbody>
-            <tr class="no-borders">
-                  <td colspan="3" class="no-borders">
-                  <div class="customer-notes"><strong>Customer Notes: </strong>{{$invoice_master[0]->CustomerNotes}}. </div>                    
-                  <div class="customer-notes"><strong>Description Notes: </strong>{{$invoice_master[0]->DescriptionNotes}}. </div>
+            <tr>
 
-                  <div style="padding-top: 10px;"><strong>In words </strong>: <em>{{ucwords(convert_number_to_words($invoice_master[0]->GrandTotal))}} only/-</em></div>
+                <!-- LEFT COLUMN -->
+                <td width="65%" valign="top" style="border:none; padding:6px; box-sizing:border-box;">
+                    <div style="margin-bottom:6px;">
+                        <strong>Customer Notes:</strong>
+                      
+                        {!! nl2br(e($invoice_master[0]->CustomerNotes)) !!}
+ 
+                    </div>
 
-                        </td>
-                <td class="no-borders" colspan="3">
-                    <table class="totals">
-                        <tfoot>
-                          <tr class="cart_subtotal">
-                              <td class="no-borders"></td>
-                              <th class="description">Subtotal</th>
-                              <td class="price"><span class="totals-price"><span class="amount"> {{number_format($invoice_master[0]->SubTotal)}}</span></span></td>
-                          </tr>
-                           @if($invoice_master[0]->DiscountAmount > 0)
-                          <tr class="order_total">
-                              <td class="no-borders"></td>
-                              <th class="description">Discount</th>
-                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->DiscountAmount,2)}}</span></span></td>
-                          </tr>
+                    @if ($invoice_master[0]->DescriptionNotes)
+                        <div style="margin-bottom:6px;">
+                            <strong>Description Notes:</strong>
+                            {!! nl2br(e($invoice_master[0]->DescriptionNotes)) !!}
+                        </div>
+                    @endif
 
-                            <tr class="order_total">
-                              <td class="no-borders"></td>
-                              <th class="description">Total</th>
-                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->Total,2)}}</span></span></td>
-                          </tr>
-                          
-                          @endif
-
-                          
-                          <tr class="order_total">
-                              <td class="no-borders"></td>
-                              <th class="description">Tax @ {{$invoice_master[0]->TaxPer}} %</th>
-                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->Tax,2)}}</span></span></td>
-                          </tr>
-                        
-                         
-                          @if($invoice_master[0]->Shipping > 0)
-                          <tr class="order_total">
-                              <td class="no-borders"></td>
-                              <th class="description">Shipping</th>
-                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->Shipping,2)}}</span></span></td>
-                          </tr>
-                          @endif
-                       
-                          <tr class="order_total">
-                              <td class="no-borders"></td>
-                              <th class="description">Grand Total</th>
-                              <td class="price"><span class="totals-price"><span class="amount">{{number_format($invoice_master[0]->GrandTotal,2)}}</span></span></td>
-                          </tr>  
-                        
-                        </tfoot>
-                    </table>    
+                    <div style="padding-top:10px;">
+                        <strong>In words:</strong>
+                        <em>{{ ucwords(convert_number_to_words($invoice_master[0]->GrandTotal)) }} only/-</em>
+                    </div>
                 </td>
+
+                <!-- RIGHT COLUMN -->
+                <td width="35%" valign="top" style="border:none; padding:6px; box-sizing:border-box;">
+                    <table width="100%" cellspacing="0" cellpadding="0"
+                        style="border-collapse:collapse; table-layout:fixed;">
+                        <tbody>
+
+                            <tr>
+                                <th width="60%" align="left" style="font-weight:normal; padding:4px 6px;">
+                                    Subtotal
+                                </th>
+                                <td width="40%" align="right" style="padding:4px 6px; white-space:nowrap;">
+                                    {{ number_format($invoice_master[0]->SubTotal, 2) }}
+                                </td>
+                            </tr>
+
+                            @if ($invoice_master[0]->DiscountAmount > 0)
+                                <tr>
+                                    <th align="left" style="font-weight:normal; padding:4px 6px;">
+                                        Discount
+                                    </th>
+                                    <td align="right" style="padding:4px 6px; white-space:nowrap;">
+                                        {{ number_format($invoice_master[0]->DiscountAmount, 2) }}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th align="left" style="font-weight:normal; padding:4px 6px;">
+                                        Total
+                                    </th>
+                                    <td align="right" style="padding:4px 6px; white-space:nowrap;">
+                                        {{ number_format($invoice_master[0]->Total, 2) }}
+                                    </td>
+                                </tr>
+                            @endif
+
+                            <tr>
+                                <th align="left" style="font-weight:normal; padding:4px 6px;">
+                                    Tax @ {{ $invoice_master[0]->TaxPer }} %
+                                </th>
+                                <td align="right" style="padding:4px 6px; white-space:nowrap;">
+                                    {{ number_format($invoice_master[0]->Tax, 2) }}
+                                </td>
+                            </tr>
+
+                            @if ($invoice_master[0]->Shipping > 0)
+                                <tr>
+                                    <th align="left" style="font-weight:normal; padding:4px 6px;">
+                                        Shipping
+                                    </th>
+                                    <td align="right" style="padding:4px 6px; white-space:nowrap;">
+                                        {{ number_format($invoice_master[0]->Shipping, 2) }}
+                                    </td>
+                                </tr>
+                            @endif
+
+                            <tr>
+                                <th align="left" style="padding:6px; font-weight:bold; border-top:1px solid #000;">
+                                    Grand Total
+                                </th>
+                                <td align="right"
+                                    style="padding:6px; font-weight:bold; white-space:nowrap; border-top:1px solid #000;">
+                                    {{ number_format($invoice_master[0]->GrandTotal, 2) }}
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </td>
+
             </tr>
         </tbody>
     </table>
+
 
 
 

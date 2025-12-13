@@ -9119,17 +9119,17 @@ $pagetitle='Purchase Order';
     }
 
 
-    public function ReconcileUpdate($status, $id)
+    public function ReconcileUpdate(Request $request)
     {
 
-        if($status == 'YES'){
-             DB::table('journal')->where('JournalID', $id)->update([
-            'BankReconcile' => $status,
-            'ReconcileDate' => date('Y-m-d'),
+        if($request->status == 'YES'){
+             DB::table('journal')->where('JournalID',  $request->JournalID)->update([
+            'BankReconcile' => $request->status,
+            'ReconcileDate' =>  $request->ReconcileDate,
         ]);
         }else{
-             DB::table('journal')->where('JournalID', $id)->update([
-            'BankReconcile' => $status,
+             DB::table('journal')->where('JournalID',  $request->JournalID)->update([
+            'BankReconcile' => $request->status,
             'ReconcileDate' => null,
         ]);
 
