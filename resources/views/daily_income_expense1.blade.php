@@ -32,7 +32,7 @@ $total_income = 0;
 <?php 
 
 $total_expense = $total_expense + $value->Cr;
-$supplierName = DB::table('party')->where('PartyID',$value->SupplierID)->pluck('PartyName')->first();
+$supplierName = DB::table('supplier')->where('SupplierID',$value->SupplierID)->pluck('SupplierName')->first();
  ?>
     <tr>
       <td width="25">{{$value->ChartOfAccountName}}</td>
