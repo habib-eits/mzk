@@ -302,6 +302,7 @@
             margin-left: -500px;
             z-index: 1000;
         }
+
         #bg_logo {
             width: 100%;
             height: 100%;
@@ -346,6 +347,7 @@
             /** Extra personal styles **/
             background-image: url('{{ public_path('images/footer.png') }}');
         }
+
         #seal {
             width: 200px;
             height: 200px;
@@ -374,7 +376,8 @@
             top: 0.3cm;
             left: 0.3cm;
         }
-        #SignTable{
+
+        #SignTable {
             position: fixed;
             bottom: 2.5cm;
             /* left: 0.3cm; */
@@ -383,14 +386,14 @@
 </head>
 
 <body class="invoice">
-    <header></header>
-    <div id="qrCode">
+    {{-- <header></header> --}}
+    {{-- <div id="qrCode">
         <img src="{{ public_path('images/QRcode.png') }}" alt="" width="100%">
     </div>
     <div id="topLogo">
         <img src="{{ public_path('images/logo.png') }}" alt="" width="100%">
-    </div>
-    <div id="bg_logo"> </div>
+    </div> --}}
+    {{-- <div id="bg_logo"> </div> --}}
     <table width="100%" border="0" id="SignTable">
         <tr>
             <td>
@@ -411,12 +414,12 @@
         </tr>
     </table>
     <div id="seal">
-        <img src="{{ public_path('images/seal.png')  }}" alt="" width="50%">
+        {{-- <img src="{{ public_path('images/seal.png')  }}" alt="" width="50%"> --}}
     </div>
     <footer></footer>
-    @if ($invoice_master[0]->GrandTotal - $invoice_master[0]->Paid == 0)
+    {{-- @if ($invoice_master[0]->GrandTotal - $invoice_master[0]->Paid == 0)
         <div id="xyz_main"><img src="{{ public_path('images/paid.png') }}" alt=""></div>
-    @endif
+    @endif --}}
     <table class="head container">
         <tr>
             <td colspan="2" class="header">
@@ -518,9 +521,20 @@
                         </strong>{{ $invoice_master[0]->DescriptionNotes }}. </div>
 
                     <div style="padding-top: 10px;"><strong>In words </strong>:
-                        <em>{{ ucwords(convert_number_to_words($invoice_master[0]->GrandTotal)) }} only/-</em></div>
+                        <em>{{ ucwords(convert_number_to_words($invoice_master[0]->GrandTotal)) }} only/-</em>
+                    </div>
 
-                    {{-- <img src="{{ URL('/documents/' . $company[0]->Signature) }}" width="200" /> --}}
+                    <br><br>
+                    <strong>{{ $company[0]->Name }} </strong><br>
+                    {{ $company[0]->Address }}<br>
+
+                    Telephone: {{ $company[0]->Contact }}<br>
+
+                    Cell: {{ $company[0]->Mobile }}<br>
+
+                    Email: {{ $company[0]->Email }}, Web: {{ $company[0]->Website }}<br>
+
+
                 </td>
                 <td class="no-borders" colspan="2">
                     <table class="totals">
@@ -531,21 +545,25 @@
                                 <td class="price"><span class="totals-price"><span class="amount">
                                             {{ number_format($invoice_master[0]->SubTotal, 2) }}</span></span></td>
                             </tr>
-                            <tr class="order_total">
-                                <td class="no-borders"></td>
-                                <th class="description">Dis {{ $invoice_master[0]->DiscountPer }}%</th>
-                                <td class="price"><span class="totals-price"><span
-                                            class="amount">{{ number_format($invoice_master[0]->DiscountAmount, 2) }}</span></span>
-                                </td>
-                            </tr>
 
-                            <tr class="order_total">
-                                <td class="no-borders"></td>
-                                <th class="description">Total</th>
-                                <td class="price"><span class="totals-price"><span
-                                            class="amount">{{ number_format($invoice_master[0]->Total, 2) }}</span></span>
-                                </td>
-                            </tr>
+                            @if ($invoice_master[0]->DiscountAmount > 0)
+                                <tr class="order_total">
+                                    <td class="no-borders"></td>
+                                    <th class="description">Dis {{ $invoice_master[0]->DiscountPer }}%</th>
+                                    <td class="price"><span class="totals-price"><span
+                                                class="amount">{{ number_format($invoice_master[0]->DiscountAmount, 2) }}</span></span>
+                                    </td>
+                                </tr>
+
+
+                                <tr class="order_total">
+                                    <td class="no-borders"></td>
+                                    <th class="description">Total</th>
+                                    <td class="price"><span class="totals-price"><span
+                                                class="amount">{{ number_format($invoice_master[0]->Total, 2) }}</span></span>
+                                    </td>
+                                </tr>
+                            @endif
                             <tr class="order_total">
                                 <td class="no-borders"></td>
                                 <th class="description">Tax @ {{ $invoice_master[0]->TaxPer }} %</th>
@@ -554,13 +572,15 @@
                                 </td>
                             </tr>
 
-                            <tr class="order_total">
-                                <td class="no-borders"></td>
-                                <th class="description">Shipping</th>
-                                <td class="price"><span class="totals-price"><span
-                                            class="amount">{{ number_format($invoice_master[0]->Shipping, 2) }}</span></span>
-                                </td>
-                            </tr>
+                            @if ($invoice_master[0]->Shipping > 0)
+                                <tr class="order_total">
+                                    <td class="no-borders"></td>
+                                    <th class="description">Shipping</th>
+                                    <td class="price"><span class="totals-price"><span
+                                                class="amount">{{ number_format($invoice_master[0]->Shipping, 2) }}</span></span>
+                                    </td>
+                                </tr>
+                            @endif
                             <tr class="order_total">
                                 <td class="no-borders"></td>
                                 <th class="description">Grand Total</th>
@@ -568,20 +588,22 @@
                                             class="amount">{{ number_format($invoice_master[0]->GrandTotal, 2) }}</span></span>
                                 </td>
                             </tr>
-                            <tr class="order_total">
-                                <td class="no-borders"></td>
-                                <th class="description">Paid</th>
-                                <td class="price"><span class="totals-price"><span
-                                            class="amount">{{ number_format($invoice_master[0]->Paid, 2) }}</span></span>
-                                </td>
-                            </tr>
-                            <tr class="order_total" style="background: #eee;">
-                                <td class="no-borders"></td>
-                                <th class="description">Due </th>
-                                <td class="price"><span class="totals-price"><span class="amount">
-                                            {{ number_format($invoice_master[0]->GrandTotal - $invoice_master[0]->Paid, 2) }}</span></span>
-                                </td>
-                            </tr>
+                            @if ($invoice_master[0]->Paid > 0)
+                                <tr class="order_total">
+                                    <td class="no-borders"></td>
+                                    <th class="description">Paid</th>
+                                    <td class="price"><span class="totals-price"><span
+                                                class="amount">{{ number_format($invoice_master[0]->Paid, 2) }}</span></span>
+                                    </td>
+                                </tr>
+                                <tr class="order_total" style="background: #eee;">
+                                    <td class="no-borders"></td>
+                                    <th class="description">Due </th>
+                                    <td class="price"><span class="totals-price"><span class="amount">
+                                                {{ number_format($invoice_master[0]->GrandTotal - $invoice_master[0]->Paid, 2) }}</span></span>
+                                    </td>
+                                </tr>
+                            @endif
                         </tfoot>
                     </table>
                 </td>

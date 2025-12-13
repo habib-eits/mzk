@@ -108,7 +108,7 @@ else
            <td  ><div align="right">{{number_format($DrTotal,2)}}</div></td>
            <td  ><div align="right">{{number_format($CrTotal,2)}}</div></td>
             
-            <td  > <div align="right"></div></td>
+            <td  > <div align="right">{{number_format($balance,2) }} {{ ($balance>0) ? "DR" : "CR" }}</div></td>
           </tr>
            </tbody>
 </table>

@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-print-block d-sm-flex align-items-center justify-content-between">
-                            <h4 class="mb-sm-0 font-size-18">Sale Invoice</h4>
+                            <h4 class="mb-sm-0 font-size-18"></h4>
 
 
                         </div>
@@ -318,7 +318,7 @@
 
                                             <tr class="pcs-balance">
                                                 <td width="474" height="25" align="right" valign="middle">
-                                                    [Exclusive Tax] <b>SubTotal</b></td>
+                                                    <b>SubTotal</b></td>
                                                 <td width="289" height="25" align="right" valign="middle"
                                                     id="tmp_total" style="width:120px;;padding: 10px 10px 10px 5px;">
                                                     <div align="right"><b>{{ $invoice_master[0]->Total }}</b></div>
@@ -342,13 +342,14 @@
                                             </tr>
 
                                             <tr class="pcs-balance">
-                                                <td height="25" align="right" valign="middle">[Inclusive Tax]<b>Total
+                                                <td height="25" align="right" valign="middle"><b>Total
                                                     </b></td>
                                                 <td height="25" align="right" valign="middle" id="tmp_total"
                                                     style="width:120px;;padding: 10px 10px 10px 5px;">
                                                     <div align="right"><b>{{ $invoice_master[0]->Total }}</b></div>
                                                 </td>
                                             </tr>
+                                            @if($invoice_master[0]->DiscountAmount> 0)
 
                                             <tr class="pcs-balance">
                                                 <td height="25" align="right" valign="middle"><b>Discount %</b></td>
@@ -365,6 +366,9 @@
                                                     </div>
                                                 </td>
                                             </tr>
+                                            @endif
+
+                                             @if($invoice_master[0]->Shipping > 0)
 
                                             <tr class="pcs-balance">
                                                 <td height="25" align="right" valign="middle"><b>Shipping</b></td>
@@ -373,7 +377,7 @@
                                                     <div align="right"><b>{{ $invoice_master[0]->Shipping }}</b></div>
                                                 </td>
                                             </tr>
-
+                                            @endif
                                             <tr class="pcs-balance">
                                                 <td height="25" align="right" valign="middle"><b>Grand Total</b></td>
                                                 <td height="25" align="right" valign="middle" id="tmp_total"

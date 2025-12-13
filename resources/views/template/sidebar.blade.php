@@ -232,7 +232,7 @@
                                 <li><a href="{{ URL('/JobTitle') }}" key="t-products">Job Title</a></li>
                                 {{-- <li><a href="{{ URL('/Letter') }}" key="t-products">Letter Templates</a></li> --}}
                                 {{-- <li><a href="{{ URL('/Team') }}" key="t-products">Team Structure</a></li> --}}
-                                <li><a href="{{ URL('/Users') }}" key="t-products">Users</a></li>
+                                <li><a href="{{ URL('/User') }}" key="t-products">Users</a></li>
                                 <!-- <li><a href="{{ URL('/Role') }}" key="t-products">User Rights & Control</a></li>  -->
 
 
@@ -274,12 +274,12 @@
                         <span key="t-calendar">PettyCash</span>
                     </a>
                 </li> --}}
-                <li>
+                {{-- <li>
                     <a href="{{ URL('/AdjustmentBalance') }}" class="waves-effect">
                         <i class="mdi mdi-scale-balance"></i>
                         <span key="t-calendar">Adjustment Balance</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li>
                     <a href="{{ URL('/ChartOfAcc') }}" class="waves-effect">

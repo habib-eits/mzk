@@ -8013,7 +8013,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
     public function DebitNoteView($id)
     {
-        $pagetitle = 'Bill Invoice';
+        $pagetitle = 'Debit Note';
 
         session::put('menu', 'SalesInvoice');
         $invoice_type = DB::table('invoice_type')->get();
@@ -8041,7 +8041,7 @@ return redirect('Payment')->with('error','Updated Successfully')->with('class','
 
     public  function DebitNoteViewPDF($id)
     {
-        $pagetitle = 'Sales Invoice';
+        $pagetitle = 'Debit Note';
 
 
         session::put('menu', 'SalesInvoice');
