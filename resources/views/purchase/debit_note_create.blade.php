@@ -277,7 +277,7 @@
                                     <textarea class="form-control" rows='5' name="DescriptionNotes" id="note"
                                         placeholder="Description notes if any."></textarea>
 
-                                    <iframe src="{{ URL('/Attachment') }}" width="100%" height="40%" border="0"
+                                    <iframe class="d-none" src="{{ URL('/Attachment') }}" width="100%" height="40%" border="0"
                                         scrolling="yes" style="overflow: hidden;"></iframe>
 
                                     <div class="mt-2"><button type="submit"
