@@ -387,7 +387,7 @@
                           <tr class="cart_subtotal">
                               <td class="no-borders"></td>
                               <th class="description">Subtotal</th>
-                              <td class="price"><span class="totals-price"><span class="amount"> {{number_format($invoice_master[0]->SubTotal)}}</span></span></td>
+                              <td class="price"><span class="totals-price"><span class="amount"> {{number_format($invoice_master[0]->SubTotal,2)}}</span></span></td>
                           </tr>
                            @if($invoice_master[0]->DiscountAmount > 0)
                           <tr class="order_total">
