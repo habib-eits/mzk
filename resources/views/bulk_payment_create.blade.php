@@ -14,6 +14,23 @@
             
   <div class="card shadow-sm">
       <div class="card-body">
+        @if (count($errors) > 0)
+                                 
+                            <div >
+                <div class="alert alert-danger p-1   border-3">
+                   <p class="font-weight-bold"> There were some problems with your input.</p>
+                    <ul>
+                        
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+
+                        @endforeach
+                    </ul>
+                </div>
+                </div>
+ 
+            @endif
+
           <!-- enctype="multipart/form-data" -->
           <form action="{{URL('/BulkPaymentSearch')}}" method="post" name="form1" id="form1"> {{csrf_field()}} 
 

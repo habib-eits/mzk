@@ -9717,6 +9717,12 @@ $pagetitle='Purchase Order';
 
     public function BulkPaymentSearch(request $request)
     {
+        $request->validate([
+            'PartyID' =>  'required'
+        ]);
+        
+        
+
         $pagetitle = 'Bulk Payment Search';
         $party = DB::table('party')->where('PartyID', $request->PartyID)->get();
         $invoice_master = DB::table('v_invoice_master')
@@ -9749,7 +9755,8 @@ $pagetitle='Purchase Order';
 
     public function BulkPaymentSave(request $request)
     {
-
+         
+        
 
         // dd($request->all());
         // $employee = DB::table('employee')->get();

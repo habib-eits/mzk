@@ -203,24 +203,22 @@ TRN # {{$saleorder[0]->TRN}},<br>
 
 
           <tr class="pcs-balance">
-            <td width="474" height="25" align="right" valign="middle"  >[Exclusive Tax] <b>SubTotal</b></td>  
+            <td width="474" height="25" align="right" valign="middle"  > <b>SubTotal</b></td>  
             <td width="289" height="25" align="right" valign="middle" id="tmp_total" style="width:120px;;padding: 10px 10px 10px 5px;"><div align="right"><b>{{$saleorder[0]->SubTotal}}</b></div></td> 
           </tr>
 
-                <tr   class="pcs-balance">
-            <td height="25" align="right" valign="middle"  ><b>Tax %</b></td>  
-            <td height="25" align="right" valign="middle" id="tmp_total" style="width:120px;;padding: 10px 10px 10px 5px;"><div align="right"><b>{{$saleorder[0]->TaxPer}}</b></div></td> 
-                </tr> 
+               
 
   <tr   class="pcs-balance">
             <td height="25" align="right" valign="middle"  ><b>Tax </b></td>  
             <td height="25" align="right" valign="middle" id="tmp_total" style="width:120px;;padding: 10px 10px 10px 5px;"><div align="right"><b>{{$saleorder[0]->Tax}}</b></div></td> 
   </tr> 
-
+@if($saleorder[0]->Discount > 0)
   <tr   class="pcs-balance">
-            <td height="25" align="right" valign="middle"  >[Inclusive Tax]<b>Total </b></td>  
+            <td height="25" align="right" valign="middle"  ><b>Total </b></td>  
             <td height="25" align="right" valign="middle" id="tmp_total" style="width:120px;;padding: 10px 10px 10px 5px;"><div align="right"><b>{{$saleorder[0]->Total}}</b></div></td> 
   </tr> 
+    
 
               <tr   class="pcs-balance">
             <td height="25" align="right" valign="middle"  ><b>Discount %</b></td>  
@@ -230,11 +228,13 @@ TRN # {{$saleorder[0]->TRN}},<br>
             <td height="25" align="right" valign="middle"  ><b>Discount</b></td>  
             <td height="25" align="right" valign="middle" id="tmp_total" style="width:120px;;padding: 10px 10px 10px 5px;"><div align="right"><b>{{$saleorder[0]->Discount}}</b></div></td> 
   </tr> 
-
+  @endif
+  @if($saleorder[0]->Shipping > 0)
   <tr   class="pcs-balance">
             <td height="25" align="right" valign="middle"  ><b>Shipping</b></td>  
             <td height="25" align="right" valign="middle" id="tmp_total" style="width:120px;;padding: 10px 10px 10px 5px;"><div align="right"><b>{{$saleorder[0]->Shipping}}</b></div></td> 
   </tr> 
+  @endif
 
   <tr   class="pcs-balance">
             <td height="25" align="right" valign="middle"  ><b>Grand Total</b></td>  
@@ -255,15 +255,7 @@ TRN # {{$saleorder[0]->TRN}},<br>
                   </tr>
                 </tbody>
               </table>
-              <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td width="50%">&nbsp;</td>
-                  <td width="50%" rowspan="2" valign="top">@include('signature.signature') </td>
-                </tr>
-                <tr>
-                  <td width="50%">&nbsp;</td>
-                </tr>
-              </table>
+              
               <div style="clear: both;"></div>
             </div>
 
@@ -272,11 +264,7 @@ TRN # {{$saleorder[0]->TRN}},<br>
           </div>
       </div>
 
-    </div>  <div class="card">
-      <div class="card-body">
-         @include('attachment_view')
-      </div>
-  </div>
+   
   </div>
 
 </div>
