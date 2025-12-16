@@ -315,7 +315,8 @@
         <tr>
             <td valign="bottom" width="70%">
                 <div style="width: 200px;"> <strong>{{ $invoice_master[0]->SupplierName }}</strong> <br>
-                    {{ $invoice_master[0]->Address }}<br><br>
+                    {{ $invoice_master[0]->Address }}<br>
+                    {{ $invoice_master[0]->TRN }}<br><br>
                 </div>
                 <table align="right" border="1">
                     <tr class="order-number">
