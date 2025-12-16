@@ -421,12 +421,9 @@
             <td valign="bottom" class="address billing-address">
                 <strong>Buyer</strong><br>
                 <span>Client: {{ $saleorder[0]->PartyName }}
-                    {{ $saleorder[0]->WalkinCustomerName == 1 ? ' -' . $saleorder[0]->WalkinCustomerName : '' }}</span><br />
-                @if ($saleorder[0]->PartyID != 1)
                     Contact: {{ $saleorder[0]->Phone }}<br />
-                    Email: {{ $saleorder[0]->Email }}<br />
-                    TRN: {{ $saleorder[0]->TRN }}<br />
-                @endif
+                    @if($saleorder[0]->Email)Email: {{ $saleorder[0]->Email }}<br />@endif
+                    @if($saleorder[0]->TRN)TRN: {{ $saleorder[0]->TRN }}<br />@endif
 
                 <br />
             </td>
