@@ -103,7 +103,7 @@
                                             <td>By Balance Brought Forward</td>
                                             <td></td>
                                             <td></td>
-                                            <td class="text-danger text-end">{{ $sql[0]->Balance }}</td>
+                                            <td class="text-danger text-end">{{ number_format($sql[0]->Balance,2) }}</td>
                                             <td></td>
                                             <td></td>
                                             @foreach ($journal as $key => $value)
@@ -129,7 +129,7 @@
                                                             $balance = $sql[0]->Balance + ($value->Dr - $value->Cr);
                                                             $DrTotal = $DrTotal + $value->Dr;
                                                             $CrTotal = $CrTotal + $value->Cr;
-                                                            echo number_format(round($balance, 2));
+                                                            echo number_format($balance, 2);
                                                         } else {
                                                             $balance = $balance + ($value->Dr - $value->Cr);
                                                             $DrTotal = $DrTotal + $value->Dr;
@@ -198,7 +198,7 @@
                                                 <td class="text-end fw-bolder">{{ number_format($DrTotal, 2) }}</td>
                                                 <td class="text-end fw-bolder">{{ number_format($CrTotal, 2) }}</td>
 
-                                                <td class="text-end fw-bolder"> {{ number_format(round($balance, 2)) }}
+                                                <td class="text-end fw-bolder"> {{ number_format($balance, 2) }}
                                                     {{ $balance > 0 ? 'DR' : 'CR' }}</td>
                                                 <td class="text-end"></td>
                                             </tr>
