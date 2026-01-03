@@ -5,3 +5,17 @@ ALTER TABLE `invoice_master` ADD `is_locked` INT NULL DEFAULT '0' AFTER `referen
 
 
 CREATE OR REPLACE VIEW `v_journal`  AS SELECT `journal`.`VHNO` AS `VHNO`, `journal`.`JournalType` AS `JournalType`, `journal`.`ChartOfAccountID` AS `ChartOfAccountID`, `chartofaccount`.`ChartOfAccountName` AS `ChartOfAccountName`, `journal`.`SupplierID` AS `SupplierID`, `journal`.`VoucherMstID` AS `VoucherMstID`, `journal`.`PettyMstID` AS `PettyMstID`, `journal`.`InvoiceMasterID` AS `InvoiceMasterID`, `journal`.`Date` AS `Date`, `journal`.`Dr` AS `Dr`, `journal`.`Cr` AS `Cr`, `journal`.`PartyID` AS `PartyID`, `journal`.`Narration` AS `Narration`, `chartofaccount`.`L1` AS `L1`, `chartofaccount`.`L2` AS `L2`, `chartofaccount`.`L3` AS `L3`, `chartofaccount`.`CODE` AS `CODE`, `journal`.`Trace` AS `Trace`, `journal`.`BankReconcile` AS `BankReconcile`, `journal`.`ReconcileDate` AS `ReconcileDate`, `journal`.`JournalID` AS `JournalID`, `chartofaccount`.`Category` AS `Category`, `journal`.`ExpenseMasterID` AS `ExpenseMasterID`, `journal`.`PaymentMasterID` AS `PaymentMasterID`, `journal`.`PurchasePaymentMasterID` AS `PurchasePaymentMasterID`, `journal`.`EmployeeID` AS `EmployeeID` FROM (`chartofaccount` join `journal` on(`chartofaccount`.`ChartOfAccountID` = `journal`.`ChartOfAccountID`)) ORDER BY `journal`.`JournalID` ASC ;
+-----------------------------
+
+
+ALTER TABLE `expense_master` ADD `Amount` DECIMAL(15,2) NULL DEFAULT NULL AFTER `ReferenceNo`;
+ALTER TABLE `expense_master` ADD `TaxType` VARCHAR(50) NULL AFTER `Amount`;
+
+ALTER TABLE `expense_detail` ADD `TaxType` VARCHAR(50) NULL AFTER `Notes`;
+ALTER TABLE `expense_detail` ADD `Total` DECIMAL(15,2) NULL AFTER `Amount`;
+
+replaced Accounts > Expense function cemcon
+replaced views folder expense cemcon
+
+add Input Tax in Current Assets
+112325 - Input Tax
