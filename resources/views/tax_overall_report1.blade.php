@@ -166,9 +166,9 @@
                                     <td>{{ $value->ExpenseNo }}</td>
                                     <td>{{ $value->ChartOfAccountName }}</td>
                                     <td>{{ $value->SupplierName }}</td>
-                                    <td class="text-end">{{ $value->Amount - $value->Tax }}</td>
+                                    <td class="text-end">{{ $value->Total }}</td>
                                     <td class="text-end">{{ $value->Tax }}</td>
-                                    <td class="text-end">{{ $value->Amount }}</td>
+                                    <td class="text-end">{{ $value->Total + $value->Tax }}</td>
                                     
                                 </tr>
                                 @endforeach

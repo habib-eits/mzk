@@ -4066,7 +4066,6 @@ class Accounts extends Controller
                 ->orderBy('Date')
                 ->get();
 
-
         $data = [
             'invoice' => [
                 'Total' => $invoices->sum('Total'),
@@ -4079,9 +4078,9 @@ class Accounts extends Controller
                 'GrandTotal' => $purchases->sum('GrandTotal'),
             ],
             'expense' => [
-                'Total' => $expenses->sum('Amount') - $expenses->sum('Tax'),
+                'Total' => $expenses->sum('Total'),
                 'Tax' => $expenses->sum('Tax'),
-                'GrandTotal' => $expenses->sum('Amount'),
+                'GrandTotal' => $expenses->sum('Total') + $expenses->sum('Tax'),
             ],
         ]; 
 
