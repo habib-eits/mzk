@@ -649,9 +649,9 @@ class Accounts extends Controller
         $invoice_year = date('Y', strtotime($invoice_mst->Date)); // Assuming 'date' is the invoice date field
          $current_year = date('Y');
 
-        if ($invoice_year < $current_year) {
-            return redirect()->back()->with('error', 'You cannot edit an invoice from a previous year.')->with('class', 'danger');
-        }
+        // if ($invoice_year < $current_year) {
+        //     return redirect()->back()->with('error', 'You cannot edit an invoice from a previous year.')->with('class', 'danger');
+        // }
 
 
 
