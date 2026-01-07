@@ -9270,8 +9270,7 @@ $pagetitle='Purchase Order';
         $pagetitle = 'Expense';
         if ($request->ajax()) {
             $data = DB::table('v_expense')->orderBy('Date', 'desc')
-                ->orderBy('ExpenseMasterID')
-                ->take(10)
+                ->orderBy('Date','desc')
                 ->get();
 
             return Datatables::of($data)
